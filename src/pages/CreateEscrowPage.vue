@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useWalletStore } from '../stores/WalletStore';
+import SelectTokenDropdown from 'components/dropdowns/SelectTokenDropdown.vue';
+import InputAndCheckPubkey from 'components/inputs/InputAndCheckPubkey.vue';
+import CreateEscrowButton from 'components/actions/CreateEscrowButton.vue';
 
 const accounts_list = ref(['SOL', 'USDC', 'ATLAS', 'POLIS', 'Puri']);
 const token_provided = ref();
@@ -9,24 +13,19 @@ const token_provided_amount = ref(0);
 const token_requested_amount = ref(0);
 
 const only_wallet = ref(false);
-const allow_partial_fill = ref(false);
+const allow_partial_fill = ref(true);
 const only_members = ref(false);
 
 const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
 </script>
 
 <template>
-  <q-page class="q-pa-md">
-    <q-card flat class="q-pa-sm q-gutter-y-sm">
-      <p class="text-center text-h6">Create an Escrow</p>
-      <q-card class="row bg-secondary q-px-sm">
-        <q-select
-          class="col-6"
-          square
-          borderless
-          v-model="token_provided"
-          :options="accounts_list"
-          label="Provided Token"
+  <q-page class="row items-center justify-evenly">
+    <div class="bg-dark q-pa-md q-gutter-y-sm">
+      <div class="row bg-secondary q-px-sm">
+        <SelectTokenDropdown
+          class="col-8"
+          @mint_selected="(data) => (token_provided = data)"
         />
         <q-space />
         <q-input
@@ -35,16 +34,13 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
           v-model="token_provided_amount"
           label="amount"
         />
-      </q-card>
-      <q-card class="row bg-secondary q-px-sm">
-        <q-select
-          class="col-6"
-          square
-          borderless
-          v-model="token_requested"
-          :options="accounts_list"
-          label="Requested Token"
+      </div>
+      <div class="row bg-secondary q-px-sm">
+        <SelectTokenDropdown
+          class="col-8"
+          @mint_selected="(data) => (token_requested = data)"
         />
+
         <q-space />
         <q-input
           borderless
@@ -52,9 +48,8 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
           v-model="token_requested_amount"
           label="amount"
         />
-      </q-card>
-
-      <q-card class="bg-secondary">
+      </div>
+      <div class="bg-secondary">
         <q-item tag="label" v-ripple>
           <div class="col">
             <div class="row">
@@ -68,14 +63,7 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
                 <q-toggle color="primary" v-model="only_wallet" val="friend" />
               </q-item-section>
             </div>
-            <q-input
-              v-if="only_wallet"
-              borderless
-              class="col-2"
-              v-model="recipient_address"
-              label="Recipient address"
-              type="text"
-            />
+            <InputAndCheckPubkey v-if="only_wallet" />
           </div>
         </q-item>
 
@@ -106,10 +94,9 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
             </q-item-section>
           </q-item>
         </q-list>
-      </q-card>
-
-      <q-btn label="Create" class="full-width" color="primary" />
-    </q-card>
+      </div>
+      <CreateEscrowButton />
+    </div>
   </q-page>
 </template>
 
