@@ -95,7 +95,10 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
           </q-item>
         </q-list>
       </div>
-      <CreateEscrowButton />
+      <CreateEscrowButton
+        :deposit_mint="token_provided?.mint.toString()"
+        :request_mint="token_requested?.mint.toString()"
+      />
     </div>
   </q-page>
 </template>

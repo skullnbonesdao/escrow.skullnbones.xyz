@@ -16,7 +16,9 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/p2p',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/P2PEscrowPage.vue') }],
+    children: [
+      { path: '', component: () => import('pages/P2PEscrowPage.vue') },
+    ],
   },
 
   {
@@ -28,7 +30,15 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/create',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/CreateEscrowPage.vue') }],
+    children: [
+      { path: '', component: () => import('pages/CreateEscrowPage.vue') },
+    ],
+  },
+
+  {
+    path: '/settings',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/SettingsPage.vue') }],
   },
   // Always leave this as last one,
   // but you can also remove it

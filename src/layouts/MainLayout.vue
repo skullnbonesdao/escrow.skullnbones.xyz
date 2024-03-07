@@ -13,6 +13,7 @@
           <q-route-tab name="tab_p2p" label="P2P" to="/p2p" />
           <q-route-tab name="tab_deals" label="Deals" to="/deals" />
           <q-route-tab name="tab_create" icon="add" to="/create" />
+          <q-route-tab name="tab_settings" icon="settings" to="/settings" />
         </q-tabs>
         <q-space />
 

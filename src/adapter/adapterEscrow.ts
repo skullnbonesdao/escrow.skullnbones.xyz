@@ -1,27 +1,35 @@
 import { computed } from 'vue';
-import { AnchorWallet, useAnchorWallet, useWallet } from 'solana-wallets-vue';
-import { Connection, clusterApiUrl, PublicKey } from '@solana/web3.js';
-import { AnchorProvider, Program } from '@project-serum/anchor';
+import { useAnchorWallet } from 'solana-wallets-vue';
+import { Connection, PublicKey } from '@solana/web3.js';
 import idl from './escrow_service.json';
+import { useGlobalStore } from 'stores/GlobalStore';
+import { AnchorProvider, Program, Idl } from '@coral-xyz/anchor';
 
 const preflightCommitment = 'processed';
 const commitment = 'confirmed';
-const programID = new PublicKey('Bb5KCWjK8YuNb5uhvVfPizDfXFX1JTqWbxQZJPUqMJeo');
+export const programID = new PublicKey(
+  'Bb5KCWjK8YuNb5uhvVfPizDfXFX1JTqWbxQZJPUqMJeo',
+);
 
-const workspace = null;
+let workspace: any = null;
 export const useWorkspace = () => workspace;
 
 export const initWorkspace = () => {
-  const wallet = useAnchorWallet();
-  const connection = new Connection(clusterApiUrl('devnet'), commitment);
+  const wallet = useAnchorWallet().value;
+
+  const connection = useGlobalStore().connection as Connection;
   const provider = computed(
     () =>
-      new AnchorProvider(connection, wallet.value as AnchorWallet, {
+      new AnchorProvider(connection, wallet!, {
         preflightCommitment,
         commitment,
       }),
   );
-  const program = computed(() => new Program(idl, programID, provider.value));
+  const program = computed(
+    () => new Program(idl as Idl, programID, provider.value),
+  );
+
+  console.info('Workspace adapter initialized!');
 
   workspace = {
     wallet,

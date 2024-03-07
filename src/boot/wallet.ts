@@ -8,11 +8,15 @@ import {
   SolflareWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { boot } from 'quasar/wrappers';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 
 export default boot(({ app }) => {
   // something to do
   const walletOptions = {
-    wallets: [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
+    wallets: [
+      new PhantomWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+      new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+    ],
     autoConnect: true,
   };
 
