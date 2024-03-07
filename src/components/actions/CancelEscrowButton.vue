@@ -21,13 +21,7 @@ import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
 import { FEE_ACCOUNT } from 'stores/constants';
 
-const props = defineProps([
-  'deposit_mint',
-  'deposit_amount',
-
-  'request_mint',
-  'request_amount',
-]);
+const props = defineProps(['escrow_address']);
 
 const $q = useQuasar();
 
@@ -37,9 +31,13 @@ async function build_tx() {
   let notification_process: any;
 
   try {
-    const seed = new anchor.BN(
-      window.crypto.getRandomValues(new Uint8Array(8)),
+    const escrow_account = await pg_escrow.value.account.escrow.fetch(
+      props.escrow_address,
     );
+
+    console.log(escrow_account);
+
+    const seed = escrow_account.seed;
 
     const auth = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from('auth')],
@@ -61,39 +59,38 @@ async function build_tx() {
     )[0];
 
     const maker_ata = getAssociatedTokenAddressSync(
-      new PublicKey(props.deposit_mint),
+      new PublicKey(escrow_account.depositToken),
       useWallet().publicKey.value as PublicKey,
-      true,
+      undefined,
       TOKEN_PROGRAM_ID,
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
-    let signature = await pg_escrow.value.methods
-      .initialize(
-        seed,
-        new anchor.BN(props.deposit_amount),
-        new anchor.BN(props.request_amount),
-        false,
-        false,
-      )
-      .accounts({
-        maker: useWallet().publicKey!.value,
-        makerAta: maker_ata,
-        recipient: null,
-        depositToken: new PublicKey(props.deposit_mint),
-        requestToken: new PublicKey(props.request_mint),
-        auth: auth,
-        escrow: escrow,
-        vault: vault,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-        systemProgram: SystemProgram.programId,
-        fee: FEE_ACCOUNT,
-      });
+    const maker_ata_request = getAssociatedTokenAddressSync(
+      new PublicKey(escrow_account.requestToken),
+      useWallet().publicKey.value as PublicKey,
+      undefined,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID,
+    );
+
+    let signature = await pg_escrow.value.methods.cancel().accounts({
+      maker: useWallet().publicKey!.value,
+      makerAta: maker_ata,
+      depositToken: escrow_account.depositToken,
+      makerAtaRequest: maker_ata_request,
+      makerTokenReuest: escrow_account.requestToken,
+      auth: auth,
+      escrow: escrow,
+      vault: vault,
+      tokenProgram: TOKEN_PROGRAM_ID,
+      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      systemProgram: SystemProgram.programId,
+    });
 
     notification_process = $q.notify({
-      group: false,
-      timeout: 0,
+      group: false, // required to be updatable
+      timeout: 0, // we want to be in control when it gets dismissed
       spinner: true,
       message: 'Sending TX...',
     });
@@ -108,18 +105,18 @@ async function build_tx() {
 
     notification_process({
       type: 'positive',
-      icon: 'done',
-      spinner: false,
+      icon: 'done', // we add an icon
+      spinner: false, // we reset the spinner setting so the icon can be displayed
       message: 'Transaction confirmed!',
-      timeout: 2500,
+      timeout: 2500, // we will timeout it in 2.5s
     });
   } catch (err: any) {
     notification_process({
       type: 'negative',
-      icon: 'error',
-      spinner: false,
+      icon: 'error', // we add an icon
+      spinner: false, // we reset the spinner setting so the icon can be displayed
       message: err.toString(),
-      timeout: 5000,
+      timeout: 5000, // we will timeout it in 2.5s
     });
     console.error(err);
   }
@@ -128,23 +125,15 @@ async function build_tx() {
 
 <template>
   <q-btn
-    :disable="
-      !(
-        deposit_mint?.length &&
-        request_mint?.length &&
-        deposit_amount > 1 &&
-        request_amount > 1
-      )
-    "
-    label="Create"
-    class="full-width"
+    class="col"
     color="primary"
+    label="Cancel"
     @click="
       build_tx().then(() => {
         console.info('build_tx executed');
       })
     "
-  />
+  ></q-btn>
 </template>
 
 <style scoped lang="sass"></style>

@@ -19,10 +19,6 @@ export const RPC_NETWORKS = [
   },
 ];
 
-export const FEE_ACCOUNT = new PublicKey(
-  '9Q4ug2XNHsWXjS9MDRdsxwi7gmUmGCL3UqHSVmg6dt66',
-);
-
 export const useGlobalStore = defineStore('GlobalStore', {
   state: () => ({
     is_initialized: false,

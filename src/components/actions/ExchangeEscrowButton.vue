@@ -20,14 +20,10 @@ import { programID, useWorkspace } from 'src/adapter/adapterEscrow';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
 import { FEE_ACCOUNT } from 'stores/constants';
+import { exchange } from 'src/adapter/escrow_gen/instructions';
+import { ui2amount } from 'src/helper/tokenDecimalConversion';
 
-const props = defineProps([
-  'deposit_mint',
-  'deposit_amount',
-
-  'request_mint',
-  'request_amount',
-]);
+const props = defineProps(['escrow_address', 'exchange_amount']);
 
 const $q = useQuasar();
 
@@ -37,9 +33,13 @@ async function build_tx() {
   let notification_process: any;
 
   try {
-    const seed = new anchor.BN(
-      window.crypto.getRandomValues(new Uint8Array(8)),
+    const escrow_account = await pg_escrow.value.account.escrow.fetch(
+      props.escrow_address,
     );
+
+    console.log(escrow_account);
+
+    const seed = escrow_account.seed;
 
     const auth = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from('auth')],
@@ -60,28 +60,45 @@ async function build_tx() {
       pg_escrow.value.programId,
     )[0];
 
-    const maker_ata = getAssociatedTokenAddressSync(
-      new PublicKey(props.deposit_mint),
+    const maker_receive_ata = getAssociatedTokenAddressSync(
+      new PublicKey(escrow_account.requestToken),
+      escrow_account.maker,
+      undefined,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID,
+    );
+
+    const taker_request_ata = getAssociatedTokenAddressSync(
+      new PublicKey(escrow_account.depositToken),
       useWallet().publicKey.value as PublicKey,
-      true,
+      undefined,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID,
+    );
+
+    const taker_deposit_ata = getAssociatedTokenAddressSync(
+      new PublicKey(escrow_account.requestToken),
+      useWallet().publicKey.value as PublicKey,
+      undefined,
       TOKEN_PROGRAM_ID,
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
     let signature = await pg_escrow.value.methods
-      .initialize(
-        seed,
-        new anchor.BN(props.deposit_amount),
-        new anchor.BN(props.request_amount),
-        false,
-        false,
+      .exchange(
+        new anchor.BN(
+          ui2amount(escrow_account.requestToken, props.exchange_amount),
+        ),
       )
       .accounts({
-        maker: useWallet().publicKey!.value,
-        makerAta: maker_ata,
-        recipient: null,
-        depositToken: new PublicKey(props.deposit_mint),
-        requestToken: new PublicKey(props.request_mint),
+        taker: useWallet().publicKey!.value,
+
+        takerAta: taker_deposit_ata,
+        takerReceiveAta: taker_request_ata,
+        requestToken: escrow_account.requestToken,
+        maker: escrow_account.maker,
+        makerReceiveAta: maker_receive_ata,
+        depositToken: escrow_account.depositToken,
         auth: auth,
         escrow: escrow,
         vault: vault,
@@ -89,11 +106,14 @@ async function build_tx() {
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         systemProgram: SystemProgram.programId,
         fee: FEE_ACCOUNT,
+        whitelistProgram: null,
+        whitelist: null,
+        entry: null,
       });
 
     notification_process = $q.notify({
-      group: false,
-      timeout: 0,
+      group: false, // required to be updatable
+      timeout: 0, // we want to be in control when it gets dismissed
       spinner: true,
       message: 'Sending TX...',
     });
@@ -108,18 +128,18 @@ async function build_tx() {
 
     notification_process({
       type: 'positive',
-      icon: 'done',
-      spinner: false,
+      icon: 'done', // we add an icon
+      spinner: false, // we reset the spinner setting so the icon can be displayed
       message: 'Transaction confirmed!',
-      timeout: 2500,
+      timeout: 2500, // we will timeout it in 2.5s
     });
   } catch (err: any) {
     notification_process({
       type: 'negative',
-      icon: 'error',
-      spinner: false,
+      icon: 'error', // we add an icon
+      spinner: false, // we reset the spinner setting so the icon can be displayed
       message: err.toString(),
-      timeout: 5000,
+      timeout: 5000, // we will timeout it in 2.5s
     });
     console.error(err);
   }
@@ -128,23 +148,14 @@ async function build_tx() {
 
 <template>
   <q-btn
-    :disable="
-      !(
-        deposit_mint?.length &&
-        request_mint?.length &&
-        deposit_amount > 1 &&
-        request_amount > 1
-      )
-    "
-    label="Create"
-    class="full-width"
     color="primary"
+    icon="send"
     @click="
       build_tx().then(() => {
         console.info('build_tx executed');
       })
     "
-  />
+  ></q-btn>
 </template>
 
 <style scoped lang="sass"></style>

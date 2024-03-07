@@ -4,6 +4,7 @@ import { useWalletStore } from '../stores/WalletStore';
 import SelectTokenDropdown from 'components/dropdowns/SelectTokenDropdown.vue';
 import InputAndCheckPubkey from 'components/inputs/InputAndCheckPubkey.vue';
 import CreateEscrowButton from 'components/actions/CreateEscrowButton.vue';
+import { ui2amount } from 'src/helper/tokenDecimalConversion';
 
 const accounts_list = ref(['SOL', 'USDC', 'ATLAS', 'POLIS', 'Puri']);
 const token_provided = ref();
