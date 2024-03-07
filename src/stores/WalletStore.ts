@@ -23,6 +23,7 @@ interface AccountMap {
   mint: PublicKey;
   symbol: string;
   amount: string;
+  decimals: number;
   image: string;
 }
 
@@ -66,6 +67,7 @@ export const useWalletStore = defineStore('WalletStore', {
                 (item) => item.mint == account.account.data.parsed.info.mint,
               )?.media.thumbnailUrl ??
               '',
+            decimals: account.account.data.parsed.info.tokenAmount.decimals,
             amount: account.account.data.parsed.info.tokenAmount.amount,
           } as AccountMap;
         });

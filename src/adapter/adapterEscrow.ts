@@ -25,7 +25,7 @@ export const initWorkspace = () => {
         commitment,
       }),
   );
-  const program = computed(
+  const pg_escrow = computed(
     () => new Program(idl as Idl, programID, provider.value),
   );
 
@@ -35,6 +35,6 @@ export const initWorkspace = () => {
     wallet,
     connection,
     provider,
-    program,
+    pg_escrow,
   };
 };

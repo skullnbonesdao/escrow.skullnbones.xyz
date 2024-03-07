@@ -24,6 +24,7 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
     <div class="bg-dark q-pa-md q-gutter-y-sm">
       <div class="row bg-secondary q-px-sm">
         <SelectTokenDropdown
+          label="Token provided"
           class="col-8"
           @mint_selected="(data) => (token_provided = data)"
         />
@@ -37,6 +38,7 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
       </div>
       <div class="row bg-secondary q-px-sm">
         <SelectTokenDropdown
+          label="Token requested"
           class="col-8"
           @mint_selected="(data) => (token_requested = data)"
         />
@@ -97,7 +99,13 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
       </div>
       <CreateEscrowButton
         :deposit_mint="token_provided?.mint.toString()"
+        :deposit_amount="
+          token_provided_amount * Math.pow(10, token_provided?.decimals)
+        "
         :request_mint="token_requested?.mint.toString()"
+        :request_amount="
+          token_requested_amount * Math.pow(10, token_requested?.decimals)
+        "
       />
     </div>
   </q-page>

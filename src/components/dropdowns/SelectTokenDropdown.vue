@@ -2,7 +2,9 @@
 import { command } from 'execa';
 import { computed, ref, watch } from 'vue';
 import { useWalletStore } from 'stores/WalletStore';
+import { laBabyCarriageSolid } from '@quasar/extras/line-awesome';
 
+const props = defineProps(['label']);
 const emit = defineEmits(['mint_selected']);
 const selected = ref();
 
@@ -88,7 +90,7 @@ function abortFilterFn() {
     :option-label="
       (opt) => (opt.symbol == 'unknown' ? opt.mint.toString() : opt.symbol)
     "
-    label="Provided Token"
+    :label="label"
   >
     <template v-slot:option="scope">
       <q-item v-bind="scope.itemProps">
