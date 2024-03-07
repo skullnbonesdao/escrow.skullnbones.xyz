@@ -21,80 +21,95 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
 
 <template>
   <q-page class="row items-center justify-evenly">
-    <div class="bg-dark q-pa-md q-gutter-y-sm">
-      <div class="row bg-secondary q-px-sm">
-        <SelectTokenDropdown
-          label="Token provided"
-          class="col-8"
-          @mint_selected="(data) => (token_provided = data)"
-        />
-        <q-space />
-        <q-input
-          borderless
-          class="col-2"
-          v-model="token_provided_amount"
-          label="amount"
-        />
+    <q-card flat bordered class="bg-dark q-pa-md q-gutter-y-sm">
+      <div class="bg-secondary">
+        <q-card bordered flat class="row bg-secondary q-px-sm">
+          <SelectTokenDropdown
+            label="Token provided"
+            class="col-8"
+            @mint_selected="(data) => (token_provided = data)"
+          />
+          <q-space />
+          <q-input
+            borderless
+            class="col-2"
+            v-model="token_provided_amount"
+            label="amount"
+          />
+        </q-card>
       </div>
-      <div class="row bg-secondary q-px-sm">
-        <SelectTokenDropdown
-          label="Token requested"
-          class="col-8"
-          @mint_selected="(data) => (token_requested = data)"
-        />
+      <div>
+        <q-card bordered flat class="row bg-secondary q-px-sm">
+          <SelectTokenDropdown
+            label="Token requested"
+            class="col-8"
+            @mint_selected="(data) => (token_requested = data)"
+          />
 
-        <q-space />
-        <q-input
-          borderless
-          class="col-2"
-          v-model="token_requested_amount"
-          label="amount"
-        />
+          <q-space />
+          <q-input
+            borderless
+            class="col-2"
+            v-model="token_requested_amount"
+            label="amount"
+          />
+        </q-card>
       </div>
       <div class="bg-secondary">
-        <q-item tag="label" v-ripple>
-          <div class="col">
-            <div class="row">
-              <q-item-section>
-                <q-item-label>P2P</q-item-label>
-                <q-item-label caption
-                  >Only a single address can fill</q-item-label
-                >
-              </q-item-section>
-              <q-item-section avatar>
-                <q-toggle color="primary" v-model="only_wallet" val="friend" />
-              </q-item-section>
-            </div>
-            <InputAndCheckPubkey v-if="only_wallet" />
-          </div>
-        </q-item>
+        <q-list bordered class="rounded-borders">
+          <q-expansion-item
+            expand-separator
+            icon="settings"
+            label="Extra config"
+          >
+            <q-list>
+              <q-item tag="label" v-ripple>
+                <div class="col">
+                  <div class="row">
+                    <q-item-section>
+                      <q-item-label>P2P</q-item-label>
+                      <q-item-label caption
+                        >Only a single address can fill</q-item-label
+                      >
+                    </q-item-section>
+                    <q-item-section avatar>
+                      <q-toggle color="primary" v-model="only_wallet" />
+                    </q-item-section>
+                  </div>
+                  <InputAndCheckPubkey v-if="only_wallet" />
+                </div>
+              </q-item>
+              <q-item tag="label" v-ripple>
+                <q-item-section>
+                  <q-item-label>Partial-fill</q-item-label>
+                  <q-item-label caption
+                    >Allow exchange of partial amounts</q-item-label
+                  >
+                </q-item-section>
+                <q-item-section avatar>
+                  <q-toggle
+                    color="primary"
+                    v-model="allow_partial_fill"
+                    val="friend"
+                  />
+                </q-item-section>
+              </q-item>
 
-        <q-list>
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label>Partial-fill</q-item-label>
-              <q-item-label caption
-                >Allow exchange of partial amounts</q-item-label
-              >
-            </q-item-section>
-            <q-item-section avatar>
-              <q-toggle
-                color="primary"
-                v-model="allow_partial_fill"
-                val="friend"
-              />
-            </q-item-section>
-          </q-item>
-
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label>Deal</q-item-label>
-              <q-item-label caption>Only whitelisted can fill</q-item-label>
-            </q-item-section>
-            <q-item-section avatar>
-              <q-toggle color="primary" v-model="only_members" val="friend" />
-            </q-item-section>
-          </q-item>
+              <q-item tag="label" v-ripple>
+                <q-item-section>
+                  <q-item-label>Deal</q-item-label>
+                  <q-item-label caption>Only whitelisted can fill</q-item-label>
+                </q-item-section>
+                <q-item-section avatar>
+                  <q-toggle
+                    color="primary"
+                    v-model="only_members"
+                    val="friend"
+                  />
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-expansion-item>
         </q-list>
       </div>
       <CreateEscrowButton
@@ -107,7 +122,7 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
           token_requested_amount * Math.pow(10, token_requested?.decimals)
         "
       />
-    </div>
+    </q-card>
   </q-page>
 </template>
 

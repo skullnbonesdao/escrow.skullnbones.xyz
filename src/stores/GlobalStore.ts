@@ -25,7 +25,7 @@ export const FEE_ACCOUNT = new PublicKey(
 
 export const useGlobalStore = defineStore('GlobalStore', {
   state: () => ({
-    is_done: false,
+    is_initialized: false,
     rpc_selected: useLocalStorage('rpc_selected', RPC_NETWORKS[0]),
     token_list: [] as I_Token[],
     connection: {} as Connection,

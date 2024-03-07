@@ -18,7 +18,8 @@ function check_pubkey(pubkey: string) {
 
 <template>
   <q-input
-    borderless
+    standout
+    square
     class="col-2"
     v-model="recipient_address"
     label="Recipient address"

@@ -24,6 +24,7 @@ watch(
     console.log('triggerd');
     await useWalletStore().load_token_accounts();
     initWorkspace();
+    useGlobalStore().is_initialized = true;
   },
 );
 </script>
