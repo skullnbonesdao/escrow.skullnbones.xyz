@@ -37,8 +37,6 @@ async function build_tx() {
       props.escrow_address,
     );
 
-    console.log(escrow_account);
-
     const seed = escrow_account.seed;
 
     const auth = anchor.web3.PublicKey.findProgramAddressSync(
@@ -46,12 +44,9 @@ async function build_tx() {
       PROGRAM_ID,
     )[0];
 
+    const creator = escrow_account.maker;
     const escrow = anchor.web3.PublicKey.findProgramAddressSync(
-      [
-        Buffer.from('escrow'),
-        useWallet().publicKey.value!.toBytes(),
-        seed.toBuffer().reverse(),
-      ],
+      [Buffer.from('escrow'), creator.toBytes(), seed.toBuffer().reverse()],
       pg_escrow.value.programId,
     )[0];
 
@@ -84,15 +79,18 @@ async function build_tx() {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
+    console.log(`maker_receive_ata: ${maker_receive_ata}`);
+    console.log(`taker_request_ata: ${taker_request_ata}`);
+    console.log(`taker_deposit_ata: ${taker_deposit_ata}`);
+
     let signature = await pg_escrow.value.methods
       .exchange(
         new anchor.BN(
-          ui2amount(escrow_account.requestToken, props.exchange_amount),
+          await ui2amount(escrow_account.requestToken, props.exchange_amount),
         ),
       )
       .accounts({
         taker: useWallet().publicKey!.value,
-
         takerAta: taker_deposit_ata,
         takerReceiveAta: taker_request_ata,
         requestToken: escrow_account.requestToken,
@@ -110,6 +108,8 @@ async function build_tx() {
         whitelist: null,
         entry: null,
       });
+
+    console.log(signature);
 
     notification_process = $q.notify({
       group: false, // required to be updatable
@@ -134,13 +134,13 @@ async function build_tx() {
       timeout: 2500, // we will timeout it in 2.5s
     });
   } catch (err: any) {
-    notification_process({
-      type: 'negative',
-      icon: 'error', // we add an icon
-      spinner: false, // we reset the spinner setting so the icon can be displayed
-      message: err.toString(),
-      timeout: 5000, // we will timeout it in 2.5s
-    });
+    // notification_process({
+    //   type: 'negative',
+    //   icon: 'error',
+    //   spinner: false,
+    //   message: err.toString(),
+    //   timeout: 5000,
+    // });
     console.error(err);
   }
 }

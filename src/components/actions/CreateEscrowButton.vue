@@ -69,13 +69,7 @@ async function build_tx() {
     );
 
     let signature = await pg_escrow.value.methods
-      .initialize(
-        seed,
-        new anchor.BN(props.deposit_amount),
-        new anchor.BN(props.request_amount),
-        false,
-        false,
-      )
+      .initialize(seed, new anchor.BN(100), new anchor.BN(100), false, false)
       .accounts({
         maker: useWallet().publicKey!.value,
         makerAta: maker_ata,
@@ -139,11 +133,7 @@ async function build_tx() {
     label="Create"
     class="full-width"
     color="primary"
-    @click="
-      build_tx().then(() => {
-        console.info('build_tx executed');
-      })
-    "
+    @click="build_tx()"
   />
 </template>
 

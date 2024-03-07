@@ -9,6 +9,7 @@ import { useWallet } from 'solana-wallets-vue';
 import { NULL_ADDRESS } from 'stores/constants';
 import CancelEscrowButton from 'components/actions/CancelEscrowButton.vue';
 import ExchangeEscrowButton from 'components/actions/ExchangeEscrowButton.vue';
+import AsyncDecimalsComponent from 'components/asyncComponents/AsyncDecimalsComponent.vue';
 
 const props = defineProps(['title', 'escrow_filter']);
 
@@ -182,12 +183,12 @@ const rows = ref([
               </div>
               <div class="row">
                 <p class="col">Available:</p>
-                <strong>{{
-                  amount2ui(
-                    props.row.account.depositToken,
-                    props.row.account.tokensDepositRemaining.toNumber(),
-                  )
-                }}</strong>
+                <strong>
+                  <AsyncDecimalsComponent
+                    :mint="props.row.account.depositToken"
+                    :amount="props.row.account.tokensDepositRemaining"
+                  />
+                </strong>
               </div>
               <div class="row">
                 <p class="col">Partial Fill:</p>
