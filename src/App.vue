@@ -21,7 +21,6 @@ useWalletStore();
 watch(
   () => useWallet().publicKey.value,
   async () => {
-    console.log('triggerd');
     await useWalletStore().load_token_accounts();
     initWorkspace();
     useGlobalStore().is_initialized = true;

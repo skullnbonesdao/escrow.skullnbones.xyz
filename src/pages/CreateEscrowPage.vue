@@ -5,6 +5,7 @@ import SelectTokenDropdown from 'components/dropdowns/SelectTokenDropdown.vue';
 import InputAndCheckPubkey from 'components/inputs/InputAndCheckPubkey.vue';
 import CreateEscrowButton from 'components/actions/CreateEscrowButton.vue';
 import { ui2amount } from 'src/helper/tokenDecimalConversion';
+import { PublicKey } from '@solana/web3.js';
 
 const accounts_list = ref(['SOL', 'USDC', 'ATLAS', 'POLIS', 'Puri']);
 const token_provided = ref();
@@ -14,10 +15,12 @@ const token_provided_amount = ref(0);
 const token_requested_amount = ref(0);
 
 const only_wallet = ref(false);
+
 const allow_partial_fill = ref(true);
 const only_members = ref(false);
+const sa_list_enabled = ref(false);
 
-const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
+const recipient_address = ref<PublicKey>();
 </script>
 
 <template>
@@ -77,7 +80,10 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
                       <q-toggle color="primary" v-model="only_wallet" />
                     </q-item-section>
                   </div>
-                  <InputAndCheckPubkey v-if="only_wallet" />
+                  <InputAndCheckPubkey
+                    v-if="only_wallet"
+                    @wallet="(data) => (recipient_address = data)"
+                  />
                 </div>
               </q-item>
               <q-item tag="label" v-ripple>
@@ -109,6 +115,19 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
                   />
                 </q-item-section>
               </q-item>
+              <q-item tag="label" v-ripple>
+                <q-item-section>
+                  <q-item-label>Pre-build list</q-item-label>
+                  <q-item-label caption>Token list for StarAtlas</q-item-label>
+                </q-item-section>
+                <q-item-section avatar>
+                  <q-toggle
+                    color="primary"
+                    v-model="sa_list_enabled"
+                    val="friend"
+                  />
+                </q-item-section>
+              </q-item>
             </q-list>
           </q-expansion-item>
         </q-list>
@@ -122,6 +141,10 @@ const recipient_address = ref('aaaidu83hdyjkdh387gkabdk');
         :request_amount="
           token_requested_amount * Math.pow(10, token_requested?.decimals)
         "
+        :allow_partial_fill="allow_partial_fill"
+        :only_whitelist="only_members"
+        :only_wallet="only_wallet"
+        :recipient_address="recipient_address"
       />
     </q-card>
   </q-page>

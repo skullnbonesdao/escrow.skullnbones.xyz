@@ -14,9 +14,9 @@ import {
   getAssociatedTokenAddressSync,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
-import { PROGRAM_ID } from 'src/adapter/escrow_gen/programId';
+
 import { useAnchorWallet, useWallet } from 'solana-wallets-vue';
-import { programID, useWorkspace } from 'src/adapter/adapterEscrow';
+import { useWorkspace } from 'src/adapter/adapterEscrow';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
 import { FEE_ACCOUNT } from 'stores/constants';
@@ -24,9 +24,11 @@ import { FEE_ACCOUNT } from 'stores/constants';
 const props = defineProps([
   'deposit_mint',
   'deposit_amount',
-
   'request_mint',
   'request_amount',
+  'allow_partial_fill',
+  'only_whitelist',
+  'recipient_address',
 ]);
 
 const $q = useQuasar();
@@ -41,10 +43,12 @@ async function build_tx() {
       window.crypto.getRandomValues(new Uint8Array(8)),
     );
 
-    const auth = anchor.web3.PublicKey.findProgramAddressSync(
+    const [auth, auth_bump] = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from('auth')],
-      PROGRAM_ID,
-    )[0];
+      pg_escrow.value.programId,
+    );
+    console.log(auth);
+    console.log(auth_bump);
 
     const escrow = anchor.web3.PublicKey.findProgramAddressSync(
       [
@@ -68,12 +72,20 @@ async function build_tx() {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
+    const recipient = props.recipient_address ? props.recipient_address : null;
+
     let signature = await pg_escrow.value.methods
-      .initialize(seed, new anchor.BN(100), new anchor.BN(100), false, false)
+      .initialize(
+        seed,
+        new anchor.BN(props.deposit_amount),
+        new anchor.BN(props.request_amount),
+        props.allow_partial_fill,
+        props.only_whitelist,
+      )
       .accounts({
         maker: useWallet().publicKey!.value,
         makerAta: maker_ata,
-        recipient: null,
+        recipient: recipient,
         depositToken: new PublicKey(props.deposit_mint),
         requestToken: new PublicKey(props.request_mint),
         auth: auth,
@@ -83,6 +95,9 @@ async function build_tx() {
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         systemProgram: SystemProgram.programId,
         fee: FEE_ACCOUNT,
+        whitelistProgram: null,
+        whitelist: null,
+        entry: null,
       });
 
     notification_process = $q.notify({

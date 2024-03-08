@@ -4,3 +4,7 @@ export const NULL_ADDRESS = new PublicKey('11111111111111111111111111111111');
 export const FEE_ACCOUNT = new PublicKey(
   '9Q4ug2XNHsWXjS9MDRdsxwi7gmUmGCL3UqHSVmg6dt66',
 );
+
+export const ESCROW_PROGRAM_ID: PublicKey = new PublicKey(
+  'JCMWZ9FtXJ4AB2FnrAnwpYHt8zEqMPP1yL8giosFN9jq',
+);

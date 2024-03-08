@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  Connection,
-  PublicKey,
-  sendAndConfirmTransaction,
-  SystemProgram,
-  Transaction,
-} from '@solana/web3.js';
+import { Connection, PublicKey, SystemProgram } from '@solana/web3.js';
 import * as anchor from '@coral-xyz/anchor';
 
 import { useGlobalStore } from 'stores/GlobalStore';
@@ -14,13 +8,11 @@ import {
   getAssociatedTokenAddressSync,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
-import { PROGRAM_ID } from 'src/adapter/escrow_gen/programId';
-import { useAnchorWallet, useWallet } from 'solana-wallets-vue';
-import { programID, useWorkspace } from 'src/adapter/adapterEscrow';
+import { useWallet } from 'solana-wallets-vue';
+import { useWorkspace } from 'src/adapter/adapterEscrow';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
 import { FEE_ACCOUNT } from 'stores/constants';
-import { exchange } from 'src/adapter/escrow_gen/instructions';
 import { ui2amount } from 'src/helper/tokenDecimalConversion';
 
 const props = defineProps(['escrow_address', 'exchange_amount']);
@@ -41,7 +33,7 @@ async function build_tx() {
 
     const auth = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from('auth')],
-      PROGRAM_ID,
+      pg_escrow.value.programId,
     )[0];
 
     const creator = escrow_account.maker;
@@ -134,13 +126,13 @@ async function build_tx() {
       timeout: 2500, // we will timeout it in 2.5s
     });
   } catch (err: any) {
-    // notification_process({
-    //   type: 'negative',
-    //   icon: 'error',
-    //   spinner: false,
-    //   message: err.toString(),
-    //   timeout: 5000,
-    // });
+    notification_process({
+      type: 'negative',
+      icon: 'error',
+      spinner: false,
+      message: err.toString(),
+      timeout: 5000,
+    });
     console.error(err);
   }
 }

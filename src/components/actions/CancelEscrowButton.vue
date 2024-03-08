@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  Connection,
-  PublicKey,
-  sendAndConfirmTransaction,
-  SystemProgram,
-  Transaction,
-} from '@solana/web3.js';
+import { Connection, PublicKey, SystemProgram } from '@solana/web3.js';
 import * as anchor from '@coral-xyz/anchor';
 
 import { useGlobalStore } from 'stores/GlobalStore';
@@ -14,12 +8,10 @@ import {
   getAssociatedTokenAddressSync,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
-import { PROGRAM_ID } from 'src/adapter/escrow_gen/programId';
-import { useAnchorWallet, useWallet } from 'solana-wallets-vue';
-import { programID, useWorkspace } from 'src/adapter/adapterEscrow';
+import { useWallet } from 'solana-wallets-vue';
+import { useWorkspace } from 'src/adapter/adapterEscrow';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
-import { FEE_ACCOUNT } from 'stores/constants';
 
 const props = defineProps(['escrow_address']);
 
@@ -41,7 +33,7 @@ async function build_tx() {
 
     const auth = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from('auth')],
-      PROGRAM_ID,
+      pg_escrow.value.programId,
     )[0];
 
     const escrow = anchor.web3.PublicKey.findProgramAddressSync(

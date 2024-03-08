@@ -4,12 +4,10 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import idl from './escrow_service.json';
 import { useGlobalStore } from 'stores/GlobalStore';
 import { AnchorProvider, Program, Idl } from '@coral-xyz/anchor';
+import { ESCROW_PROGRAM_ID } from 'stores/constants';
 
 const preflightCommitment = 'processed';
 const commitment = 'confirmed';
-export const programID = new PublicKey(
-  'Bb5KCWjK8YuNb5uhvVfPizDfXFX1JTqWbxQZJPUqMJeo',
-);
 
 let workspace: any = null;
 export const useWorkspace = () => workspace;
@@ -26,7 +24,7 @@ export const initWorkspace = () => {
       }),
   );
   const pg_escrow = computed(
-    () => new Program(idl as Idl, programID, provider.value),
+    () => new Program(idl as Idl, ESCROW_PROGRAM_ID, provider.value),
   );
 
   console.info('Workspace adapter initialized!');

@@ -63,8 +63,26 @@
         },
         {
           "name": "fee",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
+        },
+        {
+          "name": "whitelistProgram",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "whitelist",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "entry",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
         }
       ],
       "args": [
@@ -221,7 +239,7 @@
         },
         {
           "name": "fee",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {

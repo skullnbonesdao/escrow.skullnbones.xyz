@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { PublicKey } from '@solana/web3.js';
 
+const emits = defineEmits(['wallet']);
 const recipient_address = ref();
+const is_valid = ref(false);
 
 function check_pubkey(pubkey: string) {
-  let is_valid;
+  is_valid.value = false;
   try {
     let key = new PublicKey(pubkey);
-    is_valid = true;
+    is_valid.value = true;
   } catch (err) {
-    is_valid = false;
+    is_valid.value = false;
   }
   return is_valid;
 }
+
+watch(
+  () => is_valid.value,
+  () => {
+    if (is_valid.value == true) {
+      emits('wallet', recipient_address);
+    }
+  },
+);
 </script>
 
 <template>
