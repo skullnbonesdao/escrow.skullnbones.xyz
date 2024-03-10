@@ -11,26 +11,18 @@ function check_pubkey(pubkey: string) {
   try {
     let key = new PublicKey(pubkey);
     is_valid.value = true;
+
+    emits('wallet', key);
   } catch (err) {
     is_valid.value = false;
   }
   return is_valid;
 }
-
-watch(
-  () => is_valid.value,
-  () => {
-    if (is_valid.value == true) {
-      emits('wallet', recipient_address);
-    }
-  },
-);
 </script>
 
 <template>
   <q-input
     standout
-    square
     class="col-2"
     v-model="recipient_address"
     label="Recipient address"

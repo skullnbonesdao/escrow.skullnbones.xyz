@@ -79,7 +79,7 @@ function abortFilterFn() {
 <template>
   <q-select
     square
-    borderless
+    standout
     clearable
     use-input
     hide-selected

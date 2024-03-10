@@ -99,6 +99,10 @@
           "type": "u64"
         },
         {
+          "name": "expireTimestamp",
+          "type": "i64"
+        },
+        {
           "name": "allowPartialFill",
           "type": "bool"
         },
@@ -316,6 +320,10 @@
             "type": "u8"
           },
           {
+            "name": "expireTimestamp",
+            "type": "i64"
+          },
+          {
             "name": "recipient",
             "type": "publicKey"
           },
@@ -375,6 +383,11 @@
       "code": 6007,
       "name": "EscrowPartialFillNotAllowed",
       "msg": "Partial fill is not allowed"
+    },
+    {
+      "code": 6008,
+      "name": "EscrowTimestampExpired",
+      "msg": "Timestamp expired"
     }
   ]
 }

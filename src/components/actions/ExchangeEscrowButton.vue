@@ -126,6 +126,7 @@ async function build_tx() {
       timeout: 2500, // we will timeout it in 2.5s
     });
   } catch (err: any) {
+    console.error(err);
     notification_process({
       type: 'negative',
       icon: 'error',
@@ -133,7 +134,6 @@ async function build_tx() {
       message: err.toString(),
       timeout: 5000,
     });
-    console.error(err);
   }
 }
 </script>

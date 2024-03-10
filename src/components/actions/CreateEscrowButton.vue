@@ -28,6 +28,7 @@ const props = defineProps([
   'request_amount',
   'allow_partial_fill',
   'only_whitelist',
+  'closing_timestamp',
   'recipient_address',
 ]);
 
@@ -64,6 +65,8 @@ async function build_tx() {
       pg_escrow.value.programId,
     )[0];
 
+    console.log(`vault: ${vault.toString()}`);
+
     const maker_ata = getAssociatedTokenAddressSync(
       new PublicKey(props.deposit_mint),
       useWallet().publicKey.value as PublicKey,
@@ -72,6 +75,8 @@ async function build_tx() {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
+    console.log(`maker_ata: ${maker_ata.toString()}`);
+
     const recipient = props.recipient_address ? props.recipient_address : null;
 
     let signature = await pg_escrow.value.methods
@@ -79,6 +84,7 @@ async function build_tx() {
         seed,
         new anchor.BN(props.deposit_amount),
         new anchor.BN(props.request_amount),
+        new anchor.BN(props.closing_timestamp),
         props.allow_partial_fill,
         props.only_whitelist,
       )

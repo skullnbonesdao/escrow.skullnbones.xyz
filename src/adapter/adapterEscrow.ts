@@ -5,9 +5,15 @@ import idl from './escrow_service.json';
 import { useGlobalStore } from 'stores/GlobalStore';
 import { AnchorProvider, Program, Idl } from '@coral-xyz/anchor';
 import { ESCROW_PROGRAM_ID } from 'stores/constants';
+import { Escrow } from 'src/adapter/escrow_gen/accounts';
 
 const preflightCommitment = 'processed';
 const commitment = 'confirmed';
+
+export interface EscrowAccounts {
+  publicKey: PublicKey;
+  account: Escrow;
+}
 
 let workspace: any = null;
 export const useWorkspace = () => workspace;

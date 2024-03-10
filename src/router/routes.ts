@@ -31,7 +31,7 @@ const routes: RouteRecordRaw[] = [
     path: '/create',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/CreateEscrowPage.vue') },
+      { path: '', component: () => import('pages/EditEscrowPage.vue') },
     ],
   },
 

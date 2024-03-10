@@ -12,8 +12,10 @@ import { useWallet } from 'solana-wallets-vue';
 import { useWorkspace } from 'src/adapter/adapterEscrow';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
+import { FEE_ACCOUNT } from 'stores/constants';
+import { ui2amount } from 'src/helper/tokenDecimalConversion';
 
-const props = defineProps(['escrow_address', 'label']);
+const props = defineProps(['escrow_address']);
 
 const $q = useQuasar();
 
@@ -21,13 +23,6 @@ async function build_tx() {
   const { pg_escrow } = useWorkspace();
 
   let notification_process: any;
-
-  notification_process = $q.notify({
-    group: false, // required to be updatable
-    timeout: 0, // we want to be in control when it gets dismissed
-    spinner: true,
-    message: 'Sending TX...',
-  });
 
   try {
     const escrow_account = await pg_escrow.value.account.escrow.fetch(
@@ -41,12 +36,9 @@ async function build_tx() {
       pg_escrow.value.programId,
     )[0];
 
+    const creator = escrow_account.maker;
     const escrow = anchor.web3.PublicKey.findProgramAddressSync(
-      [
-        Buffer.from('escrow'),
-        useWallet().publicKey.value!.toBytes(),
-        seed.toBuffer().reverse(),
-      ],
+      [Buffer.from('escrow'), creator.toBytes(), seed.toBuffer().reverse()],
       pg_escrow.value.programId,
     )[0];
 
@@ -55,7 +47,15 @@ async function build_tx() {
       pg_escrow.value.programId,
     )[0];
 
-    const maker_ata = getAssociatedTokenAddressSync(
+    const maker_receive_ata = getAssociatedTokenAddressSync(
+      new PublicKey(escrow_account.requestToken),
+      escrow_account.maker,
+      undefined,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID,
+    );
+
+    const taker_request_ata = getAssociatedTokenAddressSync(
       new PublicKey(escrow_account.depositToken),
       useWallet().publicKey.value as PublicKey,
       undefined,
@@ -63,7 +63,7 @@ async function build_tx() {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
-    const maker_ata_request = getAssociatedTokenAddressSync(
+    const taker_deposit_ata = getAssociatedTokenAddressSync(
       new PublicKey(escrow_account.requestToken),
       useWallet().publicKey.value as PublicKey,
       undefined,
@@ -71,20 +71,47 @@ async function build_tx() {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
-    let signature = await pg_escrow.value.methods.cancel().accounts({
-      maker: useWallet().publicKey!.value,
-      makerAta: maker_ata,
-      depositToken: escrow_account.depositToken,
-      makerAtaRequest: maker_ata_request,
-      makerTokenReuest: escrow_account.requestToken,
-      auth: auth,
-      escrow: escrow,
-      vault: vault,
-      tokenProgram: TOKEN_PROGRAM_ID,
-      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-      systemProgram: SystemProgram.programId,
-    });
+    console.log(`maker_receive_ata: ${maker_receive_ata}`);
+    console.log(`taker_request_ata: ${taker_request_ata}`);
+    console.log(`taker_deposit_ata: ${taker_deposit_ata}`);
 
+    console.log(escrow_account);
+
+    let signature = await pg_escrow.value.methods
+      .exchange(
+        new anchor.BN(
+          escrow_account.tokensDepositRemaining.toNumber() *
+            escrow_account.price,
+        ),
+      )
+      .accounts({
+        taker: useWallet().publicKey!.value,
+        takerAta: taker_deposit_ata,
+        takerReceiveAta: taker_request_ata,
+        requestToken: escrow_account.requestToken,
+        maker: escrow_account.maker,
+        makerReceiveAta: maker_receive_ata,
+        depositToken: escrow_account.depositToken,
+        auth: auth,
+        escrow: escrow,
+        vault: vault,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
+        fee: FEE_ACCOUNT,
+        whitelistProgram: null,
+        whitelist: null,
+        entry: null,
+      });
+
+    console.log(signature);
+
+    notification_process = $q.notify({
+      group: false, // required to be updatable
+      timeout: 0, // we want to be in control when it gets dismissed
+      spinner: true,
+      message: 'Sending TX...',
+    });
     signature = await signature.rpc();
 
     console.log(`TX_Signature = ${signature}`);
@@ -104,10 +131,10 @@ async function build_tx() {
   } catch (err: any) {
     notification_process({
       type: 'negative',
-      icon: 'error', // we add an icon
-      spinner: false, // we reset the spinner setting so the icon can be displayed
+      icon: 'error',
+      spinner: false,
       message: err.toString(),
-      timeout: 5000, // we will timeout it in 2.5s
+      timeout: 5000,
     });
     console.error(err);
   }
@@ -116,9 +143,9 @@ async function build_tx() {
 
 <template>
   <q-btn
-    class="col"
     color="primary"
-    :label="label"
+    icon="send"
+    label="Fill"
     @click="
       build_tx().then(() => {
         console.info('build_tx executed');

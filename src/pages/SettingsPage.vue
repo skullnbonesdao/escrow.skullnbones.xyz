@@ -13,15 +13,16 @@ watch(
 </script>
 
 <template>
-  <q-page class="row items-center justify-evenly">
-    <div class="bg-dark q-pa-md q-gutter-y-sm">
+  <q-page class="row items-center justify-evenly q-pa-md">
+    <q-card flat class="bg-dark full-width q-pa-md q-gutter-y-sm">
+      <h5 class="text-center">Config</h5>
       <q-select
         v-model="useGlobalStore().rpc_selected"
         :options="RPC_NETWORKS"
         :option-label="(opt) => opt.name"
         label="RPC"
       />
-    </div>
+    </q-card>
   </q-page>
 </template>
 
