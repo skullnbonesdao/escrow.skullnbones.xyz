@@ -6,6 +6,7 @@ import AsyncDecimalsComponent from 'components/asyncComponents/AsyncDecimalsComp
 import EscrowDetails from 'components/details/EscrowDetails.vue';
 import ExchangeEscrowButtonFill from 'components/actions/ExchangeEscrowButtonFill.vue';
 import ExchangeEscrowButton from 'components/actions/ExchangeEscrowButton.vue';
+import AsyncTokenAmountSlider from 'components/asyncComponents/AsyncTokenAmountSlider.vue';
 
 const props = defineProps(['escrow']);
 
@@ -51,7 +52,7 @@ const amount_to_buy = ref(0);
         <div class="col text-weight-light">- Remaining -</div>
         <div class="col">
           <AsyncDecimalsComponent
-            :mint="escrow_account?.depositToken"
+            :mint="escrow_account?.requestToken"
             :amount="
               escrow_account.tokensDepositRemaining * escrow_account.price
             "
@@ -60,53 +61,61 @@ const amount_to_buy = ref(0);
       </div>
     </q-card-section>
 
-    <q-card-section class="q-mx-sm">
-      <p class="text-weight-light">Remaining:</p>
-      <q-linear-progress
-        size="25px"
-        :value="
-          1 -
-          (escrow_account.tokensDepositInit.toNumber() -
-            escrow_account.tokensDepositRemaining.toNumber()) /
-            escrow_account.tokensDepositInit.toNumber()
-        "
-        color="blue"
-      >
-        <div class="absolute-full flex flex-center">
-          <q-badge
-            color="white"
-            text-color="secondary"
-            :label="
-              (1 -
-                (escrow_account.tokensDepositInit.toNumber() -
-                  escrow_account.tokensDepositRemaining.toNumber()) /
-                  escrow_account.tokensDepositInit.toNumber()) *
-                100 +
-              '%'
-            "
-          />
-        </div>
-      </q-linear-progress>
-    </q-card-section>
-    <q-separator />
+    <!--    <q-card-section class="q-mx-sm">-->
+    <!--      <p class="text-weight-light">Remaining:</p>-->
+    <!--      <q-linear-progress-->
+    <!--        size="25px"-->
+    <!--        :value="-->
+    <!--          1 - -->
+    <!--          (escrow_account.tokensDepositInit.toNumber() - -->
+    <!--            escrow_account.tokensDepositRemaining.toNumber()) /-->
+    <!--            escrow_account.tokensDepositInit.toNumber()-->
+    <!--        "-->
+    <!--        color="blue"-->
+    <!--      >-->
+    <!--        <div class="absolute-full flex flex-center">-->
+    <!--          <q-badge-->
+    <!--            color="white"-->
+    <!--            text-color="secondary"-->
+    <!--            :label="-->
+    <!--              (1 - -->
+    <!--                (escrow_account.tokensDepositInit.toNumber() - -->
+    <!--                  escrow_account.tokensDepositRemaining.toNumber()) /-->
+    <!--                  escrow_account.tokensDepositInit.toNumber()) *-->
+    <!--                100 +-->
+    <!--              '%'-->
+    <!--            "-->
+    <!--          />-->
+    <!--        </div>-->
+    <!--      </q-linear-progress>-->
+    <!--    </q-card-section>-->
+    <!--    <q-separator />-->
 
     <q-card-section class="q-gutter-y-sm">
       <div class="row" v-if="!escrow_account.allowPartialFill">
         <ExchangeEscrowButtonFill class="col" :escrow_address="publickey" />
       </div>
 
-      <div class="row" v-else>
-        <q-input
-          class="col"
-          standout
-          square
-          v-model="amount_to_buy"
-          label="Amount to buy"
-          type="number"
-        />
-        <ExchangeEscrowButton
-          :escrow_address="publickey"
-          :exchange_amount="amount_to_buy"
+      <div class="col" v-else>
+        <div class="row">
+          <q-input
+            class="col"
+            standout
+            square
+            v-model="amount_to_buy"
+            label="Buy"
+            type="number"
+          />
+          <ExchangeEscrowButton
+            :escrow_address="publickey"
+            :exchange_amount="amount_to_buy"
+          />
+        </div>
+
+        <AsyncTokenAmountSlider
+          :tokensDepositRemaining="escrow_account.tokensDepositRemaining"
+          :mint="escrow_account.depositToken"
+          @slider-change="(data) => (amount_to_buy = data)"
         />
       </div>
 

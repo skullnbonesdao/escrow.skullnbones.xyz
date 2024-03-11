@@ -2,6 +2,7 @@
 import { Escrow } from 'src/adapter/escrow_gen/accounts';
 import { ref } from 'vue';
 import AsyncDecimalsComponent from 'components/asyncComponents/AsyncDecimalsComponent.vue';
+import { format_address } from '../../functions/format_address';
 
 const props = defineProps(['escrow']);
 
@@ -12,26 +13,34 @@ const escrow = ref<Escrow>(props.escrow?.account);
 <template>
   <div class="row">
     <div class="col">Escrow:</div>
-    <strong class="col-9 text-right">{{ publickey }}</strong>
+    <strong class="col-9 text-right">{{
+      format_address(publickey.toString())
+    }}</strong>
   </div>
 
   <div class="row">
     <div class="col">Maker:</div>
-    <strong class="col-9 text-right">{{ escrow.maker }}</strong>
+    <strong class="col-9 text-right">{{
+      format_address(escrow.maker.toString())
+    }}</strong>
   </div>
 
   <div class="row">
-    <div class="col">Deposit Token:</div>
-    <strong class="col-9 text-right">{{ escrow.depositToken }}</strong>
+    <div class="col">DepositedMint:</div>
+    <strong class="col-9 text-right">{{
+      format_address(escrow.depositToken.toString())
+    }}</strong>
   </div>
 
   <div class="row">
-    <div class="col">Request Token:</div>
-    <strong class="col-9 text-right">{{ escrow.requestToken }}</strong>
+    <div class="col">RequestMint:</div>
+    <strong class="col-9 text-right">{{
+      format_address(escrow.requestToken.toString())
+    }}</strong>
   </div>
 
   <div class="row">
-    <div class="col">Deposit amount:</div>
+    <div class="col">DepositAmount:</div>
     <strong class="col-9 text-right"
       ><AsyncDecimalsComponent
         :mint="escrow.depositToken"
@@ -40,7 +49,7 @@ const escrow = ref<Escrow>(props.escrow?.account);
   </div>
 
   <div class="row">
-    <div class="col">Remaining amount:</div>
+    <div class="col nowrap">RemainingAmount:</div>
     <strong class="col-9 text-right"
       ><AsyncDecimalsComponent
         :mint="escrow.depositToken"
@@ -50,19 +59,23 @@ const escrow = ref<Escrow>(props.escrow?.account);
 
   <div class="row">
     <div class="col">Price:</div>
-    <strong class="col-9 text-right">{{ escrow.price }}</strong>
+    <strong class="col-9 text-right">{{ escrow.price.toString() }}</strong>
   </div>
 
   <div class="row">
     <div class="col">Recipient:</div>
     <strong class="col-9 text-right">{{
-      !escrow.onlyRecipient ? escrow.onlyRecipient : escrow.recipient.toString()
+      !escrow.onlyRecipient
+        ? 'any'
+        : format_address(escrow.recipient.toString())
     }}</strong>
   </div>
 
   <div class="row">
     <div class="col">Allow Partial fill:</div>
-    <strong class="col-9 text-right">{{ escrow.allowPartialFill }}</strong>
+    <strong class="col-9 text-right">{{
+      escrow.allowPartialFill.toString()
+    }}</strong>
   </div>
 
   <div class="row">

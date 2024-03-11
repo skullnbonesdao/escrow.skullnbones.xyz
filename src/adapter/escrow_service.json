@@ -136,7 +136,7 @@
           "isSigner": false
         },
         {
-          "name": "makerTokenReuest",
+          "name": "makerTokenRequest",
           "isMut": false,
           "isSigner": false
         },

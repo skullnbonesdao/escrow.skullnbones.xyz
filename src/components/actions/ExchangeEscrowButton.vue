@@ -14,6 +14,7 @@ import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
 import { FEE_ACCOUNT } from 'stores/constants';
 import { ui2amount } from 'src/helper/tokenDecimalConversion';
+import { amount } from '@metaplex-foundation/js';
 
 const props = defineProps(['escrow_address', 'exchange_amount']);
 
@@ -74,13 +75,14 @@ async function build_tx() {
     console.log(`maker_receive_ata: ${maker_receive_ata}`);
     console.log(`taker_request_ata: ${taker_request_ata}`);
     console.log(`taker_deposit_ata: ${taker_deposit_ata}`);
+    const exchange_amount = await ui2amount(
+      escrow_account.depositToken,
+      props.exchange_amount,
+    );
+    console.log(`exchange_amount: ${exchange_amount}`);
 
     let signature = await pg_escrow.value.methods
-      .exchange(
-        new anchor.BN(
-          await ui2amount(escrow_account.requestToken, props.exchange_amount),
-        ),
-      )
+      .exchange(new anchor.BN(exchange_amount))
       .accounts({
         taker: useWallet().publicKey!.value,
         takerAta: taker_deposit_ata,
@@ -104,8 +106,8 @@ async function build_tx() {
     console.log(signature);
 
     notification_process = $q.notify({
-      group: false, // required to be updatable
-      timeout: 0, // we want to be in control when it gets dismissed
+      group: false,
+      timeout: 0,
       spinner: true,
       message: 'Sending TX...',
     });
@@ -120,10 +122,10 @@ async function build_tx() {
 
     notification_process({
       type: 'positive',
-      icon: 'done', // we add an icon
-      spinner: false, // we reset the spinner setting so the icon can be displayed
+      icon: 'done',
+      spinner: false,
       message: 'Transaction confirmed!',
-      timeout: 2500, // we will timeout it in 2.5s
+      timeout: 2500,
     });
   } catch (err: any) {
     console.error(err);

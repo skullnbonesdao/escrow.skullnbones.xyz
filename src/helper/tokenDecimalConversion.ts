@@ -10,7 +10,7 @@ export async function ui2amount(mint: PublicKey, amount: number) {
   return amount * Math.pow(10, await getDecimals(mint));
 }
 
-async function getDecimals(mint: PublicKey) {
+export async function getDecimals(mint: PublicKey) {
   let decimals =
     useGlobalStore().token_list.find(
       (token) => token.address == mint.toString(),

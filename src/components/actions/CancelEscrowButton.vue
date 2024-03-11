@@ -76,7 +76,7 @@ async function build_tx() {
       makerAta: maker_ata,
       depositToken: escrow_account.depositToken,
       makerAtaRequest: maker_ata_request,
-      makerTokenReuest: escrow_account.requestToken,
+      makerTokenRequest: escrow_account.requestToken,
       auth: auth,
       escrow: escrow,
       vault: vault,
