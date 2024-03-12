@@ -12,7 +12,7 @@ const escrow = ref<Escrow>(props.escrow?.account);
 
 <template>
   <div class="row">
-    <div class="col">Escrow:</div>
+    <div class="co text-no-wrap">Escrow:</div>
     <strong class="col-9 text-right">{{
       format_address(publickey.toString())
     }}</strong>
@@ -26,35 +26,31 @@ const escrow = ref<Escrow>(props.escrow?.account);
   </div>
 
   <div class="row">
-    <div class="col">DepositedMint:</div>
+    <div class="col text-no-wrap">Deposited mint:</div>
     <strong class="col-9 text-right">{{
       format_address(escrow.depositToken.toString())
     }}</strong>
   </div>
 
   <div class="row">
-    <div class="col">RequestMint:</div>
+    <div class="col text-no-wrap">Request mint:</div>
     <strong class="col-9 text-right">{{
       format_address(escrow.requestToken.toString())
     }}</strong>
   </div>
 
   <div class="row">
-    <div class="col">DepositAmount:</div>
-    <strong class="col-9 text-right"
-      ><AsyncDecimalsComponent
-        :mint="escrow.depositToken"
-        :amount="escrow.tokensDepositInit"
-    /></strong>
+    <div class="col text-no-wrap">Deposit amount:</div>
+    <strong class="col-9 text-right">
+      {{ escrow.tokensDepositInit }}
+    </strong>
   </div>
 
   <div class="row">
-    <div class="col nowrap">RemainingAmount:</div>
-    <strong class="col-9 text-right"
-      ><AsyncDecimalsComponent
-        :mint="escrow.depositToken"
-        :amount="escrow.tokensDepositRemaining"
-    /></strong>
+    <div class="col text-no-wrap">Remaining amount:</div>
+    <strong class="col-9 text-right">
+      {{ escrow.tokensDepositRemaining }}
+    </strong>
   </div>
 
   <div class="row">
@@ -72,18 +68,18 @@ const escrow = ref<Escrow>(props.escrow?.account);
   </div>
 
   <div class="row">
-    <div class="col">Allow Partial fill:</div>
+    <div class="col text-no-wrap">Allow Partial fill:</div>
     <strong class="col-9 text-right">{{
       escrow.allowPartialFill.toString()
     }}</strong>
   </div>
 
   <div class="row">
-    <div class="col">Deal:</div>
+    <div class="col text-no-wrap">Deal:</div>
     <strong class="col-9 text-right">{{ escrow.onlyWhitelist }}</strong>
   </div>
   <div class="row">
-    <div class="col">Expire Timestamp:</div>
+    <div class="col text-no-wrap">Expire timestamp:</div>
     <strong class="col-9 text-right">{{
       escrow.expireTimestamp != 0 ? escrow.expireTimestamp : 'never'
     }}</strong>
