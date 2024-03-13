@@ -15,6 +15,7 @@ useQuasar().dark.set(true);
 
 useGlobalStore().update_connection();
 useGlobalStore().load_token_list();
+
 useStaratlasAPIStore().update();
 useWalletStore();
 
@@ -24,6 +25,7 @@ watch(
     await useWalletStore().load_token_accounts();
     initWorkspace();
     useGlobalStore().is_initialized = true;
+    console.log(useGlobalStore().token_list);
   },
 );
 </script>

@@ -7,6 +7,9 @@ import { ref } from 'vue';
 import { PublicKey } from '@solana/web3.js';
 
 import InputTimestamp from 'components/inputs/InputTimestamp.vue';
+import { useGlobalStore } from '../../stores/GlobalStore';
+import { useWallet } from 'solana-wallets-vue';
+import { useWalletStore } from '../../stores/WalletStore';
 
 const token_provided = ref();
 const token_requested = ref();
@@ -51,7 +54,6 @@ const recipient_address = ref<PublicKey>();
           class="col"
           @mint_selected="(data) => (token_requested = data)"
         />
-
         <q-space />
         <q-input
           square
@@ -146,11 +148,11 @@ const recipient_address = ref<PublicKey>();
     </div>
 
     <CreateEscrowButton
-      :deposit_mint="token_provided?.mint.toString()"
+      :deposit_mint="token_provided?.mint"
       :deposit_amount="
         token_provided_amount * Math.pow(10, token_provided?.decimals)
       "
-      :request_mint="token_requested?.mint.toString()"
+      :request_mint="token_requested?.mint"
       :request_amount="
         token_requested_amount * Math.pow(10, token_requested?.decimals)
       "
