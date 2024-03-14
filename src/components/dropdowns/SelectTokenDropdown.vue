@@ -96,7 +96,7 @@ watch(
     <template v-slot:option="scope">
       <q-item v-bind="scope.itemProps">
         <q-item-section avatar>
-          <q-img v-if="scope.opt.logoURI" :src="scope.opt.logoURI" />
+          <q-img v-if="scope.opt.image" :src="scope.opt.image" />
           <q-img v-else src="unknown.png" />
         </q-item-section>
         <q-item-section>

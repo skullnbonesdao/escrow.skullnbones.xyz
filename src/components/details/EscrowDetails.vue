@@ -12,7 +12,7 @@ const escrow = ref<Escrow>(props.escrow?.account);
 
 <template>
   <div class="row">
-    <div class="co text-no-wrap">Escrow:</div>
+    <div class="col text-no-wrap">Escrow:</div>
     <strong class="col-9 text-right">{{
       format_address(publickey.toString())
     }}</strong>

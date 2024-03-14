@@ -11,7 +11,9 @@ import { useWallet } from 'solana-wallets-vue';
 import { useWalletStore } from 'stores/WalletStore';
 import { initWorkspace, useWorkspace } from 'src/adapter/adapterEscrow';
 
-useQuasar().dark.set(true);
+const $q = useQuasar();
+$q.dark.set(true);
+$q.loading.show({ message: 'Loading data...' });
 
 useGlobalStore().update_connection();
 useGlobalStore().load_token_list();
@@ -26,6 +28,7 @@ watch(
     initWorkspace();
     useGlobalStore().is_initialized = true;
     console.log(useGlobalStore().token_list);
+    $q.loading.hide();
   },
 );
 </script>

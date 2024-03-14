@@ -9,6 +9,7 @@ import ExchangeEscrowButton from 'components/actions/ExchangeEscrowButton.vue';
 import AsyncTokenAmountSlider from 'components/asyncComponents/AsyncTokenAmountSlider.vue';
 
 import { amount2ui } from 'src/helper/tokenDecimalConversion';
+import { useGlobalStore } from '../../stores/GlobalStore';
 
 const props = defineProps(['escrow']);
 
@@ -45,18 +46,29 @@ onMounted(async () => {
         <q-card bordered flat class="bg-secondary">
           <q-card-section class="row items-center">
             <q-avatar>
-              <img src="unknown.png" />
+              <img
+                :src="
+                  useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address == escrow_account?.depositToken.toString(),
+                  )?.logoURI ?? 'unknown.png'
+                "
+              />
             </q-avatar>
             <p class="col q-mx-sm">
-              {{ format_address(escrow_account?.depositToken?.toString(), 2) }}
+              {{
+                useGlobalStore().token_list.find(
+                  (token) =>
+                    token.address == escrow_account?.depositToken.toString(),
+                )?.symbol
+              }}
             </p>
-            <q-separator vertical class="q-mr-sm" />
             <div>
               <div class="col">
                 <div class="row items-center justify-end q-gutter-x-xs">
-                  <b class="text-right" style="width: 100px">{{
-                    depositTokenAmountUI.toFixed(2)
-                  }}</b>
+                  <b class="text-right" style="width: 100px">
+                    {{ depositTokenAmountUI.toFixed(2) }}</b
+                  >
                   <p class="text-right" style="font-size: smaller; width: 37px">
                     Available
                   </p>
@@ -80,14 +92,24 @@ onMounted(async () => {
         <q-card bordered flat class="bg-secondary">
           <q-card-section class="row items-center">
             <q-avatar>
-              <img src="unknown.png" />
+              <img
+                :src="
+                  useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address == escrow_account?.requestToken.toString(),
+                  )?.logoURI ?? 'unknown.png'
+                "
+              />
             </q-avatar>
 
             <p class="col q-mx-sm">
-              {{ format_address(escrow_account?.depositToken?.toString(), 2) }}
+              {{
+                useGlobalStore().token_list.find(
+                  (token) =>
+                    token.address == escrow_account?.depositToken.toString(),
+                )?.symbol
+              }}
             </p>
-
-            <q-separator vertical class="q-mr-sm" />
             <div>
               <div class="col">
                 <div class="row items-center justify-end q-gutter-x-xs">
