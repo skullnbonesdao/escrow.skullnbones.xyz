@@ -12,6 +12,7 @@ const tab = ref('tab_create');
       <q-tab name="tab_create" label="Create" />
       <q-tab name="tab_open" label="Open" />
       <q-tab name="tab_close" label="Close" />
+      <q-space />
     </q-tabs>
 
     <q-tab-panels v-model="tab" animated class="bg-">
