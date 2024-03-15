@@ -3,7 +3,10 @@
     <q-header class="bg-black">
       <q-toolbar class="q-ma-none q-pa-none">
         <q-tabs v-model="tab" shrink stretch>
-          <q-route-tab to="/">
+          <q-route-tab
+            to="/"
+            :class="useWalletStore().is_whitelisted ? 'bg-primary' : ''"
+          >
             <q-img src="logo.png" width="50px" />
           </q-route-tab>
           <q-route-tab
@@ -39,6 +42,7 @@
 <script setup lang="ts">
 import { WalletMultiButton } from 'solana-wallets-vue';
 import { ref } from 'vue';
+import { useWalletStore } from 'stores/WalletStore';
 
 const tab = ref();
 </script>

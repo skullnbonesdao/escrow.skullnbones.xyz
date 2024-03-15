@@ -168,7 +168,8 @@ const recipient_address = ref<PublicKey>();
 
     <div>
       <p class="text-right text-weight-thin">
-        Accounts + Fee = {{ ACCOUNT_COST_ESCROW }} + 0.01sol
+        Accounts + Fee = {{ ACCOUNT_COST_ESCROW }} +
+        {{ useWalletStore().is_whitelisted ? 0.01 / 2 : 0.01 }}sol
       </p>
     </div>
   </q-card>

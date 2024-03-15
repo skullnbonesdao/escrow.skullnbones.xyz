@@ -37,7 +37,7 @@ export const useWalletStore = defineStore('WalletStore', {
     accounts_mapped: [] as AccountMap[],
     whitelist_account: {} as PublicKey | undefined,
     entry_account: {} as any,
-    is_whitelisted: true || false,
+    is_whitelisted: false || true,
   }),
 
   getters: {},
