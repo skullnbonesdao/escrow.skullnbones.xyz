@@ -17,13 +17,15 @@ $q.loading.show({ message: 'Loading data...' });
 
 useGlobalStore().update_connection();
 useGlobalStore().load_token_list();
-
 useStaratlasAPIStore().update();
 useWalletStore();
+
+$q.loading.hide();
 
 watch(
   () => useWallet().publicKey.value,
   async () => {
+    $q.loading.show({ message: 'Loading data...' });
     await useWalletStore().load_token_accounts();
     initWorkspace();
     useGlobalStore().is_initialized = true;
