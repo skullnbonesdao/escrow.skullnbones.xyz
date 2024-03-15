@@ -39,11 +39,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <q-card flat bordered>
+  <q-card bordered>
     <q-card-section class="q-gutter-y-md">
       <div>
         <p class="text-weight-light text-green-9">You are buying</p>
-        <q-card bordered flat class="bg-secondary">
+        <q-card flat class="bg-secondary">
           <q-card-section class="row items-center">
             <q-avatar>
               <img
@@ -89,7 +89,7 @@ onMounted(async () => {
 
       <div>
         <p class="text-weight-light text-red-9">You are selling</p>
-        <q-card bordered flat class="bg-secondary">
+        <q-card flat class="bg-secondary">
           <q-card-section class="row items-center">
             <q-avatar>
               <img
@@ -164,7 +164,7 @@ onMounted(async () => {
         class="full-width"
         :escrow_address="publickey"
       />
-      <q-card bordered class="col bg-secondary q-pa-sm" flat v-else>
+      <q-card bordered class="col q-pa-sm" flat v-else>
         <div class="row q-gutter-x-sm">
           <div class="col">
             <q-input
@@ -196,7 +196,7 @@ onMounted(async () => {
       </q-card>
     </q-card-section>
     <q-card-section class="q-gutter-y-sm">
-      <q-list bordered class="rounded-borders">
+      <q-list class="rounded-borders">
         <q-expansion-item icon="info" label="Details">
           <q-card-section>
             <EscrowDetails :escrow="escrow_child" />

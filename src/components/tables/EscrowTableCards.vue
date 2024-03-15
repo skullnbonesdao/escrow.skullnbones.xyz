@@ -85,7 +85,6 @@ const columns = ref([
     <q-table
       grid
       flat
-      bordered
       :title="props.title"
       :rows="escrows"
       :columns="columns"
