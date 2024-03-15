@@ -23,7 +23,12 @@ const q = useQuasar();
 async function build_tx() {
   const { pg_escrow } = useWorkspace();
 
-  let notification_process: any;
+  let notification_process = q.notify({
+    group: false,
+    timeout: 0,
+    spinner: true,
+    message: 'Sending TX...',
+  });
 
   try {
     const escrow_account = await pg_escrow.value.account.escrow.fetch(
@@ -81,13 +86,6 @@ async function build_tx() {
       props.exchange_amount,
     );
     console.log(`exchange_amount: ${exchange_amount}`);
-
-    notification_process = q.notify({
-      group: false,
-      timeout: 0,
-      spinner: true,
-      message: 'Sending TX...',
-    });
 
     let signature = await pg_escrow.value.methods
       .exchange(new anchor.BN(exchange_amount))
