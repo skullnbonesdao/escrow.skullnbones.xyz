@@ -37,7 +37,10 @@ async function load_escrows() {
     (await pg_escrow.value.account.escrow.all()) as EscrowAccounts[];
   console.log(escrows_list);
   escrows.value = escrows.value = escrows_list.filter(
-    (escrow) => escrow.account.tokensDepositRemaining.toNumber() == 0,
+    (escrow) =>
+      escrow.account.tokensDepositRemaining.toNumber() == 0 &&
+      escrow.account.maker.toString() ==
+        useWallet().publicKey.value?.toString(),
   );
 }
 </script>
@@ -59,7 +62,7 @@ async function load_escrows() {
           </div>
           <CancelEscrowButton
             :escrow_address="escrow.publicKey"
-            label="close"
+            label="close (+0.0042sol)"
           />
         </q-item-section>
       </q-item>

@@ -104,7 +104,7 @@ async function load_escrows() {
 
           <CancelEscrowButton
             :escrow_address="escrow.publicKey"
-            label="cancel"
+            label="cancel (+0.0042sol)"
           />
         </q-item-section>
       </q-item>
