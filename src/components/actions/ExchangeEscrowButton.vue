@@ -44,7 +44,11 @@ async function build_tx() {
 
     const creator = escrow_account.maker;
     const escrow = anchor.web3.PublicKey.findProgramAddressSync(
-      [Buffer.from('escrow'), creator.toBytes(), seed.toBuffer().reverse()],
+      [
+        Buffer.from('escrow'),
+        creator.toBytes(),
+        seed.toArrayLike(Buffer).reverse(),
+      ],
       pg_escrow.value.programId,
     )[0];
 

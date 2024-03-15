@@ -11,6 +11,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build",
+    "serve": "quasar help",
     "gh-pages-deploy": "node scripts/gh-pages-deploy.js",
     "copy_idl_whitelist": "cp ../anchor/whitelist/target/idl/whitelist.json src/idls/",
     "gen_client": "anchor-client-gen src/adapter/escrow_service.json src/adapter/escrow_gen"
@@ -42,7 +43,8 @@
     "vue": "^3.0.0",
     "vue-konva": "^3.0.2",
     "vue-router": "^4.0.0",
-    "webhook-discord": "^3.7.8"
+    "webhook-discord": "^3.7.8",
+    "bn.js": "^5.2.1"
   },
   "devDependencies": {
     "@coral-xyz/anchor": "^0.29.0",
@@ -59,7 +61,8 @@
     "node-emoji": "^1.10.0",
     "prettier": "3.0.3",
     "quasar-app-extension-gh-pages-auto-deploy": "^0.4.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "http-server": "14.1.1"
   },
   "engines": {
     "node": "^18 || ^16 || ^14.19",

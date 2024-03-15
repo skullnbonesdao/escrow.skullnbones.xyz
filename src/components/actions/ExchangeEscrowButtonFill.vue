@@ -13,7 +13,6 @@ import { useWorkspace } from 'src/adapter/adapterEscrow';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
 import { FEE_ACCOUNT } from 'stores/constants';
-import { ui2amount } from 'src/helper/tokenDecimalConversion';
 
 const props = defineProps(['escrow_address']);
 
@@ -45,7 +44,11 @@ async function build_tx() {
 
     const creator = escrow_account.maker;
     const escrow = anchor.web3.PublicKey.findProgramAddressSync(
-      [Buffer.from('escrow'), creator.toBytes(), seed.toBuffer().reverse()],
+      [
+        Buffer.from('escrow'),
+        creator.toBytes(),
+        seed.toArrayLike(Buffer).reverse(),
+      ],
       pg_escrow.value.programId,
     )[0];
 
