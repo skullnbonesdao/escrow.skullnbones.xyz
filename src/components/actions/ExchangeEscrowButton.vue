@@ -12,15 +12,12 @@ import { useWallet } from 'solana-wallets-vue';
 import { useWorkspace } from 'src/adapter/adapterPrograms';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
-import { FEE_ACCOUNT } from 'stores/constants';
+import { FEE_ACCOUNT, WHITELIST_PROGRAM_ID } from 'stores/constants';
 import { ui2amount } from 'src/helper/tokenDecimalConversion';
 import { amount } from '@metaplex-foundation/js';
+import { useWalletStore } from 'stores/WalletStore';
 
-const props = defineProps([
-  'escrow_address',
-  'exchange_amount',
-  'is_whitelist',
-]);
+const props = defineProps(['escrow_address', 'exchange_amount']);
 
 const q = useQuasar();
 
@@ -95,7 +92,14 @@ async function build_tx() {
     );
     console.log(`exchange_amount: ${exchange_amount}`);
 
-    if (props.is_whitelist) {
+    let whitelistProgram = null;
+    let whitelist = null;
+    let entry = null;
+
+    if (useWalletStore().is_whitelisted) {
+      whitelistProgram = WHITELIST_PROGRAM_ID;
+      whitelist = useWalletStore().whitelist_account;
+      entry = useWalletStore().entry_account;
     }
 
     let signature = await pg_escrow.value.methods
@@ -115,9 +119,9 @@ async function build_tx() {
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         systemProgram: SystemProgram.programId,
         fee: FEE_ACCOUNT,
-        whitelistProgram: null,
-        whitelist: null,
-        entry: null,
+        whitelistProgram,
+        whitelist,
+        entry,
       });
 
     console.log(signature);

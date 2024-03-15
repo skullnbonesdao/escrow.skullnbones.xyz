@@ -19,7 +19,9 @@ import { useAnchorWallet, useWallet } from 'solana-wallets-vue';
 import { useWorkspace } from 'src/adapter/adapterPrograms';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
-import { FEE_ACCOUNT } from 'stores/constants';
+import { FEE_ACCOUNT, WHITELIST_PROGRAM_ID } from 'stores/constants';
+import { computed } from 'vue';
+import { useWalletStore } from 'stores/WalletStore';
 
 const props = defineProps([
   'deposit_mint',
@@ -79,6 +81,16 @@ async function build_tx() {
 
     const recipient = props.recipient_address ? props.recipient_address : null;
 
+    let whitelistProgram = null;
+    let whitelist = null;
+    let entry = null;
+
+    if (useWalletStore().is_whitelisted) {
+      whitelistProgram = WHITELIST_PROGRAM_ID;
+      whitelist = useWalletStore().whitelist_account;
+      entry = useWalletStore().entry_account;
+    }
+
     let signature = await pg_escrow.value.methods
       .initialize(
         seed,
@@ -101,9 +113,9 @@ async function build_tx() {
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         systemProgram: SystemProgram.programId,
         fee: FEE_ACCOUNT,
-        whitelistProgram: null,
-        whitelist: null,
-        entry: null,
+        whitelistProgram,
+        whitelist,
+        entry,
       });
 
     notification_process = $q.notify({
@@ -151,7 +163,7 @@ async function build_tx() {
         request_amount > 1
       )
     "
-    label="Create"
+    :label="useWalletStore().is_whitelisted ? 'Create as Member' : `Create`"
     class="full-width"
     color="primary"
     @click="build_tx()"

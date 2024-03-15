@@ -141,7 +141,7 @@ const recipient_address = ref<PublicKey>();
               <q-toggle
                 color="accent"
                 v-model="only_members"
-                :disable="only_wallet"
+                :disable="only_wallet || !useWalletStore().is_whitelisted"
                 val="friend"
               />
             </q-item-section>

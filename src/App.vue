@@ -10,6 +10,8 @@ import { watch } from 'vue';
 import { useWallet } from 'solana-wallets-vue';
 import { useWalletStore } from 'stores/WalletStore';
 import { initWorkspace, useWorkspace } from 'src/adapter/adapterPrograms';
+import * as anchor from '@coral-xyz/anchor';
+import { WHITELISTS } from 'stores/constants';
 
 const $q = useQuasar();
 $q.dark.set(true);
@@ -27,9 +29,10 @@ watch(
   async () => {
     $q.loading.show({ message: 'Loading data...' });
     await useWalletStore().load_token_accounts();
+
     initWorkspace();
     useGlobalStore().is_initialized = true;
-    console.log(useGlobalStore().token_list);
+    await useWalletStore().prepare_whitelisted();
 
     $q.loading.hide();
   },

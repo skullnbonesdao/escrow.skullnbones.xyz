@@ -12,6 +12,8 @@ import {
 } from '@solana/web3.js';
 import { useStaratlasAPIStore } from 'stores/StaratlasAPIStore';
 import { I_Token } from 'stores/interfaces/I_TokenList';
+import { useWorkspace } from 'src/adapter/adapterPrograms';
+import { WHITELIST_PROGRAM_ID, WHITELISTS } from 'stores/constants';
 
 export const STARATLASAPI_URL = 'https://galaxy.staratlas.com/nfts';
 
@@ -33,10 +35,43 @@ export const useWalletStore = defineStore('WalletStore', {
   state: () => ({
     accounts: [] as I_Account[],
     accounts_mapped: [] as AccountMap[],
+    whitelist_account: {} as PublicKey | undefined,
+    entry_account: {} as any,
+    is_whitelisted: true || false,
   }),
 
   getters: {},
   actions: {
+    async prepare_whitelisted() {
+      try {
+        const whitelists =
+          await useWorkspace()?.pg_whitelist.value.account.whitelist.all();
+
+        this.whitelist_account = whitelists?.find(
+          (w) => w.account.name == WHITELISTS[0],
+        )?.publicKey;
+
+        const [whitelistEntry, entryBump] = PublicKey.findProgramAddressSync(
+          [
+            useWallet().publicKey.value!.toBytes(),
+            this.whitelist_account!.toBytes(),
+          ],
+          WHITELIST_PROGRAM_ID,
+        );
+
+        this.entry_account = whitelistEntry;
+
+        const entry =
+          await useWorkspace()?.pg_whitelist.value.account.whitelistEntry.fetch(
+            whitelistEntry,
+          );
+
+        if (entry) this.is_whitelisted = true;
+      } catch (err) {
+        this.is_whitelisted = false;
+      }
+    },
+
     async load_token_accounts() {
       if (useWallet().publicKey.value) {
         this.accounts = (

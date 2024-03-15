@@ -18,7 +18,7 @@ const props = defineProps(['escrow_address', 'label']);
 const $q = useQuasar();
 
 async function build_tx() {
-  const { pg_escrow } = useWorkspace();
+  const pg_escrow = useWorkspace()!.pg_escrow;
 
   let notification_process: any;
 

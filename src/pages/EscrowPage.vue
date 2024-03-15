@@ -15,9 +15,11 @@ const tab = ref('open');
       <q-tab name="p2g" label="P2G" />
       <q-space />
       <q-btn-toggle
+        rounded
         class="q-mr-sm"
         v-model="show_as_cards"
         toggle-color="primary"
+        color="black"
         :options="[
           { label: 'Cards', value: true },
           { label: 'Table', value: false },

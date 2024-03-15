@@ -12,7 +12,8 @@ import { useWallet } from 'solana-wallets-vue';
 import { useWorkspace } from 'src/adapter/adapterPrograms';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
-import { FEE_ACCOUNT } from 'stores/constants';
+import { FEE_ACCOUNT, WHITELIST_PROGRAM_ID } from 'stores/constants';
+import { useWalletStore } from 'stores/WalletStore';
 
 const props = defineProps(['escrow_address']);
 
@@ -81,11 +82,15 @@ async function build_tx() {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
-    console.log(`maker_receive_ata: ${maker_receive_ata}`);
-    console.log(`taker_request_ata: ${taker_request_ata}`);
-    console.log(`taker_deposit_ata: ${taker_deposit_ata}`);
+    let whitelistProgram = null;
+    let whitelist = null;
+    let entry = null;
 
-    console.log(escrow_account);
+    if (useWalletStore().is_whitelisted) {
+      whitelistProgram = WHITELIST_PROGRAM_ID;
+      whitelist = useWalletStore().whitelist_account;
+      entry = useWalletStore().entry_account;
+    }
 
     let signature = await pg_escrow.value.methods
       .exchange(
@@ -109,9 +114,9 @@ async function build_tx() {
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         systemProgram: SystemProgram.programId,
         fee: FEE_ACCOUNT,
-        whitelistProgram: null,
-        whitelist: null,
-        entry: null,
+        whitelistProgram,
+        whitelist,
+        entry,
       });
 
     console.log(signature);
