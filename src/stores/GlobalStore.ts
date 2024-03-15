@@ -7,15 +7,15 @@ import * as token_list_local from './tokenlist.json';
 export const RPC_NETWORKS = [
   {
     name: 'devent',
-    url: import.meta.env.VITE_RPC_ALCHEMY_1,
+    url: import.meta.env.VITE_RPC_1,
   },
   {
     name: 'alchemy2',
-    url: import.meta.env.VITE_RPC_ALCHEMY_2,
+    url: import.meta.env.VITE_RPC_2,
   },
   {
     name: 'alchemy3',
-    url: import.meta.env.VITE_RPC_ALCHEMY_3,
+    url: import.meta.env.VITE_RPC_3,
   },
 ];
 
