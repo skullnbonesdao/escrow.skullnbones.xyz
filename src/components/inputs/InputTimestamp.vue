@@ -14,7 +14,7 @@ watch(
 </script>
 
 <template>
-  <div class="row q-gutter-x-sm">
+  <div class="row q-gutter-x-sm" style="max-width: 800px">
     <q-date
       flat
       class="col"

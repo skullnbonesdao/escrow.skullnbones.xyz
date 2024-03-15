@@ -3,7 +3,7 @@ import SelectTokenDropdown from 'components/dropdowns/SelectTokenDropdown.vue';
 import CreateEscrowButton from 'components/actions/CreateEscrowButton.vue';
 import InputAndCheckPubkey from 'components/inputs/InputAndCheckPubkey.vue';
 
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { PublicKey } from '@solana/web3.js';
 
 import InputTimestamp from 'components/inputs/InputTimestamp.vue';
@@ -80,7 +80,11 @@ const recipient_address = ref<PublicKey>();
                   >
                 </q-item-section>
                 <q-item-section avatar>
-                  <q-toggle color="accent" v-model="only_wallet" />
+                  <q-toggle
+                    color="accent"
+                    v-model="only_wallet"
+                    :disable="only_members"
+                  />
                 </q-item-section>
               </div>
               <InputAndCheckPubkey
@@ -95,7 +99,9 @@ const recipient_address = ref<PublicKey>();
               <div class="row">
                 <q-item-section>
                   <q-item-label>Expire</q-item-label>
-                  <q-item-label caption>Set an expire timestamp</q-item-label>
+                  <q-item-label caption
+                    >Set an expire timestamp in UTC</q-item-label
+                  >
                 </q-item-section>
                 <q-item-section avatar>
                   <q-toggle color="accent" v-model="expire_toggle" />
@@ -131,19 +137,15 @@ const recipient_address = ref<PublicKey>();
               <q-item-label caption>Only whitelisted can fill</q-item-label>
             </q-item-section>
             <q-item-section avatar>
-              <q-toggle color="accent" v-model="only_members" val="friend" />
+              <q-toggle
+                color="accent"
+                v-model="only_members"
+                :disable="only_wallet"
+                val="friend"
+              />
             </q-item-section>
           </q-item>
           <q-separator />
-          <q-item>
-            <q-item-section>
-              <q-item-label>Pre-build list</q-item-label>
-              <q-item-label caption>Token list for StarAtlas</q-item-label>
-            </q-item-section>
-            <q-item-section avatar>
-              <q-toggle color="accent" v-model="sa_list_enabled" val="friend" />
-            </q-item-section>
-          </q-item>
         </q-expansion-item>
       </q-card>
     </div>
