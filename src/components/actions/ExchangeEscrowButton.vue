@@ -18,7 +18,7 @@ import { amount } from '@metaplex-foundation/js';
 
 const props = defineProps(['escrow_address', 'exchange_amount']);
 
-const $q = useQuasar();
+const q = useQuasar();
 
 async function build_tx() {
   const { pg_escrow } = useWorkspace();
@@ -82,7 +82,7 @@ async function build_tx() {
     );
     console.log(`exchange_amount: ${exchange_amount}`);
 
-    notification_process = $q.notify({
+    notification_process = q.notify({
       group: false,
       timeout: 0,
       spinner: true,

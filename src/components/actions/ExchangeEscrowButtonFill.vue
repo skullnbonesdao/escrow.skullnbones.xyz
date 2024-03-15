@@ -17,7 +17,7 @@ import { ui2amount } from 'src/helper/tokenDecimalConversion';
 
 const props = defineProps(['escrow_address']);
 
-const $q = useQuasar();
+const q = useQuasar();
 
 async function build_tx() {
   const { pg_escrow } = useWorkspace();
@@ -77,7 +77,7 @@ async function build_tx() {
 
     console.log(escrow_account);
 
-    notification_process = $q.notify({
+    notification_process = q.notify({
       group: false, // required to be updatable
       timeout: 0, // we want to be in control when it gets dismissed
       spinner: true,
