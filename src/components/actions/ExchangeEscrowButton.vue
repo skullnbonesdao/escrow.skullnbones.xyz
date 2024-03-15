@@ -82,6 +82,13 @@ async function build_tx() {
     );
     console.log(`exchange_amount: ${exchange_amount}`);
 
+    notification_process = $q.notify({
+      group: false,
+      timeout: 0,
+      spinner: true,
+      message: 'Sending TX...',
+    });
+
     let signature = await pg_escrow.value.methods
       .exchange(new anchor.BN(exchange_amount))
       .accounts({
@@ -106,12 +113,6 @@ async function build_tx() {
 
     console.log(signature);
 
-    notification_process = $q.notify({
-      group: false,
-      timeout: 0,
-      spinner: true,
-      message: 'Sending TX...',
-    });
     signature = await signature.rpc();
 
     console.log(`TX_Signature = ${signature}`);

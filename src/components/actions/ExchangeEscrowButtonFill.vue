@@ -77,6 +77,13 @@ async function build_tx() {
 
     console.log(escrow_account);
 
+    notification_process = $q.notify({
+      group: false, // required to be updatable
+      timeout: 0, // we want to be in control when it gets dismissed
+      spinner: true,
+      message: 'Sending TX...',
+    });
+
     let signature = await pg_escrow.value.methods
       .exchange(
         new anchor.BN(
@@ -106,12 +113,6 @@ async function build_tx() {
 
     console.log(signature);
 
-    notification_process = $q.notify({
-      group: false, // required to be updatable
-      timeout: 0, // we want to be in control when it gets dismissed
-      spinner: true,
-      message: 'Sending TX...',
-    });
     signature = await signature.rpc();
 
     console.log(`TX_Signature = ${signature}`);
