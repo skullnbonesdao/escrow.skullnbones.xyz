@@ -9,7 +9,7 @@ import { useStaratlasAPIStore } from 'stores/StaratlasAPIStore';
 import { watch } from 'vue';
 import { useWallet } from 'solana-wallets-vue';
 import { useWalletStore } from 'stores/WalletStore';
-import { initWorkspace, useWorkspace } from 'src/adapter/adapterEscrow';
+import { initWorkspace, useWorkspace } from 'src/adapter/adapterPrograms';
 
 const $q = useQuasar();
 $q.dark.set(true);
@@ -30,6 +30,7 @@ watch(
     initWorkspace();
     useGlobalStore().is_initialized = true;
     console.log(useGlobalStore().token_list);
+
     $q.loading.hide();
   },
 );

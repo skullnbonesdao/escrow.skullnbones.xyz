@@ -9,7 +9,7 @@ import {
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { useWallet } from 'solana-wallets-vue';
-import { useWorkspace } from 'src/adapter/adapterEscrow';
+import { useWorkspace } from 'src/adapter/adapterPrograms';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
 import { FEE_ACCOUNT } from 'stores/constants';

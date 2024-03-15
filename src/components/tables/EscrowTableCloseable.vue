@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EscrowAccounts, useWorkspace } from 'src/adapter/adapterEscrow';
+import { EscrowAccounts, useWorkspace } from 'src/adapter/adapterPrograms';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useGlobalStore } from 'stores/GlobalStore';
 import { useQuasar } from 'quasar';
