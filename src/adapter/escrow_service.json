@@ -336,6 +336,10 @@
             "type": "bool"
           },
           {
+            "name": "whitelist",
+            "type": "publicKey"
+          },
+          {
             "name": "allowPartialFill",
             "type": "bool"
           }
@@ -388,6 +392,11 @@
       "code": 6008,
       "name": "EscrowTimestampExpired",
       "msg": "Timestamp expired"
+    },
+    {
+      "code": 6009,
+      "name": "WrongWhitelistProvided",
+      "msg": "Wrong whitelist is provided"
     }
   ]
 }

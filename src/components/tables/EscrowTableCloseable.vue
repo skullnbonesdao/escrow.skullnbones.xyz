@@ -6,7 +6,7 @@ import { useQuasar } from 'quasar';
 import { Escrow } from 'src/adapter/escrow_gen/accounts';
 import { amount2ui } from 'src/helper/tokenDecimalConversion';
 import { useWallet } from 'solana-wallets-vue';
-import { NULL_ADDRESS } from 'stores/constants';
+import { ACCOUNT_COST_ESCROW, NULL_ADDRESS } from 'stores/constants';
 import CancelEscrowButton from 'components/actions/CancelEscrowButton.vue';
 import ExchangeEscrowButton from 'components/actions/ExchangeEscrowButton.vue';
 import AsyncDecimalsComponent from 'components/asyncComponents/AsyncDecimalsComponent.vue';
@@ -62,7 +62,7 @@ async function load_escrows() {
           </div>
           <CancelEscrowButton
             :escrow_address="escrow.publicKey"
-            label="close (+0.0042sol)"
+            :label="`close (+${ACCOUNT_COST_ESCROW}sol)`"
           />
         </q-item-section>
       </q-item>

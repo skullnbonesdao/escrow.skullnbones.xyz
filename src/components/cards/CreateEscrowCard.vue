@@ -11,6 +11,7 @@ import { useGlobalStore } from '../../stores/GlobalStore';
 import { useWallet } from 'solana-wallets-vue';
 import { useWalletStore } from '../../stores/WalletStore';
 import CancelEscrowButton from 'components/actions/CancelEscrowButton.vue';
+import { ACCOUNT_COST_ESCROW } from 'stores/constants';
 
 const token_provided = ref();
 const token_requested = ref();
@@ -167,7 +168,7 @@ const recipient_address = ref<PublicKey>();
 
     <div>
       <p class="text-right text-weight-thin">
-        Accounts + Fee = 0.0042 + 0.01sol
+        Accounts + Fee = {{ ACCOUNT_COST_ESCROW }} + 0.01sol
       </p>
     </div>
   </q-card>
