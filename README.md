@@ -1,7 +1,6 @@
-# dApp (dapp-web)
+# escrow
 
-dApp SnB Dev
-
+SnB Escrow service UI
 ## Install the dependencies
 ```bash
 yarn
