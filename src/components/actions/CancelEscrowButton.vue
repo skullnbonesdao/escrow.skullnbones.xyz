@@ -45,7 +45,8 @@ async function build_tx() {
       [
         Buffer.from('escrow'),
         useWallet().publicKey.value!.toBytes(),
-        seed.toBuffer().reverse(),
+        seed.toArrayLike(Buffer).reverse(),
+        ,
       ],
       pg_escrow.value.programId,
     )[0];
