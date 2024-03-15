@@ -13,9 +13,9 @@ watch(
 </script>
 
 <template>
-  <q-page class="row items-center justify-evenly q-pa-md">
+  <q-page class="">
     <q-card flat class="bg-dark full-width q-pa-md q-gutter-y-sm">
-      <h5 class="text-center">Config</h5>
+      <h5 class="text-center">Settings</h5>
       <q-select
         v-model="useGlobalStore().rpc_selected"
         :options="RPC_NETWORKS"

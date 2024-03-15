@@ -1,19 +1,29 @@
 <template>
   <q-layout view="hHh Lpr lff">
     <q-header class="bg-black">
-      <q-toolbar class="q-ma-none q-pa-none q-pl-md">
-        <q-avatar>
-          <img src="logo.png" />
-        </q-avatar>
-
-        <q-space />
-
+      <q-toolbar class="q-ma-none q-pa-none">
         <q-tabs v-model="tab" shrink stretch>
-          <q-route-tab name="tab_escrow" label="Escrow" to="/escrow" />
-          <q-route-tab name="tab_p2p" label="P2P" to="/p2p" />
-          <q-route-tab name="tab_deals" label="Deals" to="/deals" />
-          <q-route-tab name="tab_create" icon="edit" to="/create" />
-          <q-route-tab name="tab_settings" icon="settings" to="/settings" />
+          <q-route-tab to="/">
+            <q-img src="logo.png" width="50px" />
+          </q-route-tab>
+          <q-route-tab
+            name="tab_escrow"
+            label="Offers"
+            icon="countertops"
+            to="/escrow"
+          />
+          <q-route-tab
+            name="tab_create"
+            icon="handyman"
+            label="Make"
+            to="/create"
+          />
+          <q-route-tab
+            name="tab_settings"
+            icon="settings"
+            label="Settings"
+            to="/settings"
+          />
         </q-tabs>
         <q-space />
 

@@ -34,7 +34,7 @@ onMounted(async () => {
 async function load_escrows() {
   const { pg_escrow } = useWorkspace();
   const escrows_list =
-    (await pg_escrow.value.account.escrow_account.all()) as EscrowAccounts[];
+    (await pg_escrow.value.account.escrow.all()) as EscrowAccounts[];
   console.log(escrows_list);
   escrows.value = escrows.value = escrows_list.filter(
     (escrow) => escrow.account.tokensDepositRemaining.toNumber() == 0,

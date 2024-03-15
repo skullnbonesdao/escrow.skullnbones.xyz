@@ -73,6 +73,7 @@ async function load_escrows() {
 
           <div class="q-mx-sm row items-center">
             <p class="col-2">Available:</p>
+            <div class="col"></div>
             <q-linear-progress
               class="col"
               size="25px"

@@ -14,20 +14,6 @@ const routes: RouteRecordRaw[] = [
   },
 
   {
-    path: '/p2p',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/P2PEscrowPage.vue') },
-    ],
-  },
-
-  {
-    path: '/deals',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/DealsPage.vue') }],
-  },
-
-  {
     path: '/create',
     component: () => import('layouts/MainLayout.vue'),
     children: [

@@ -56,7 +56,7 @@ async function load_escrows() {
           escrow.account.recipient.toString() != NULL_ADDRESS.toString(),
       );
       break;
-    case 'deals':
+    case 'p2g':
       escrows.value = escrows_list.filter(
         (escrow) => escrow.account.onlyWhitelist == true,
       );
