@@ -16,7 +16,11 @@ import { FEE_ACCOUNT } from 'stores/constants';
 import { ui2amount } from 'src/helper/tokenDecimalConversion';
 import { amount } from '@metaplex-foundation/js';
 
-const props = defineProps(['escrow_address', 'exchange_amount']);
+const props = defineProps([
+  'escrow_address',
+  'exchange_amount',
+  'is_whitelist',
+]);
 
 const q = useQuasar();
 
@@ -90,6 +94,9 @@ async function build_tx() {
       props.exchange_amount,
     );
     console.log(`exchange_amount: ${exchange_amount}`);
+
+    if (props.is_whitelist) {
+    }
 
     let signature = await pg_escrow.value.methods
       .exchange(new anchor.BN(exchange_amount))

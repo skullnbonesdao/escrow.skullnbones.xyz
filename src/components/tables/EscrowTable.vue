@@ -80,10 +80,11 @@ const pagination = ref({
 });
 
 const columns = ref([
-  { name: 'buying', label: 'Buying', align: 'left' },
+  { name: 'price', label: 'Price' },
+  { name: 'buying', label: 'Buying', align: 'right' },
   { name: 'between', label: '', align: 'left' },
   { name: 'selling', label: 'Selling' },
-  { name: 'price', label: 'Price' },
+
   { name: 'take', label: '' },
 ]);
 </script>
@@ -92,7 +93,6 @@ const columns = ref([
   <div class="q-pa-md">
     <q-table
       flat
-      bordered
       :title="props.title"
       :rows="escrows"
       :columns="columns"
@@ -115,7 +115,10 @@ const columns = ref([
       </template>
 
       <template v-slot:body="props">
-        <q-tr :props="props">
+        <q-tr :props="props" class="bg-secondary" ŝ>
+          <q-td key="price" :props="props">
+            {{ props.row.account.price }}
+          </q-td>
           <q-td key="buying" :props="props" class="text-right">
             <div class="row items-center">
               <b class="col text-right">
@@ -204,9 +207,7 @@ const columns = ref([
               }}
             </b>
           </q-td>
-          <q-td key="price" :props="props">
-            {{ props.row.account.price }}
-          </q-td>
+
           <q-td key="take" :props="props">
             <q-btn
               flat
@@ -227,7 +228,11 @@ const columns = ref([
             />
           </q-td>
         </q-tr>
-        <q-tr v-show="expanded_take[props.rowIndex]" :props="props">
+        <q-tr
+          v-show="expanded_take[props.rowIndex]"
+          :props="props"
+          class="bg-secondary"
+        >
           <q-td colspan="100%">
             <ExchangeEscrowButtonFill
               v-if="!props.row.account.allowPartialFill"
@@ -276,7 +281,11 @@ const columns = ref([
             </q-card>
           </q-td>
         </q-tr>
-        <q-tr v-show="expanded_details[props.rowIndex]" :props="props">
+        <q-tr
+          v-show="expanded_details[props.rowIndex]"
+          :props="props"
+          class="bg-secondary"
+        >
           <q-td colspan="100%">
             <EscrowDetails :escrow="props.row" />
           </q-td>

@@ -3,12 +3,13 @@ import { ref } from 'vue';
 import EscrowTableCloseable from 'components/tables/EscrowTableCloseable.vue';
 import CreateEscrowCard from 'components/cards/CreateEscrowCard.vue';
 import EscrowTableOpen from 'components/tables/EscrowTableOpen.vue';
+import { useWallet, WalletMultiButton } from 'solana-wallets-vue';
 const tab = ref('tab_create');
 </script>
 
 <template>
   <q-page>
-    <q-tabs v-model="tab" shrink stretch class="bg-secondary">
+    <q-tabs v-model="tab" shrink stretch>
       <q-tab name="tab_create" label="Create" />
       <q-tab name="tab_open" label="Open" />
       <q-tab name="tab_close" label="Close" />
@@ -17,15 +18,30 @@ const tab = ref('tab_create');
 
     <q-tab-panels v-model="tab" animated class="bg-">
       <q-tab-panel name="tab_create">
-        <CreateEscrowCard />
+        <div v-if="!useWallet().publicKey.value" class="row q-ma-md">
+          <q-space />
+          <WalletMultiButton dark />
+          <q-space />
+        </div>
+        <CreateEscrowCard v-else />
       </q-tab-panel>
 
       <q-tab-panel name="tab_open">
-        <EscrowTableOpen />
+        <div v-if="!useWallet().publicKey.value" class="row q-ma-md">
+          <q-space />
+          <WalletMultiButton dark />
+          <q-space />
+        </div>
+        <EscrowTableOpen v-else />
       </q-tab-panel>
 
       <q-tab-panel name="tab_close">
-        <EscrowTableCloseable />
+        <div v-if="!useWallet().publicKey.value" class="row q-ma-md">
+          <q-space />
+          <WalletMultiButton dark />
+          <q-space />
+        </div>
+        <EscrowTableCloseable v-else />
       </q-tab-panel>
     </q-tab-panels>
   </q-page>

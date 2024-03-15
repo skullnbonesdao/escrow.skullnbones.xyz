@@ -3,7 +3,7 @@ import EscrowTableCards from 'components/tables/EscrowTableCards.vue';
 import { ref } from 'vue';
 import EscrowTable from 'components/tables/EscrowTable.vue';
 import EscrowViews from 'components/EscrowViews.vue';
-const show_as_cards = ref(true);
+const show_as_cards = ref(false);
 const tab = ref('open');
 </script>
 

@@ -21,7 +21,7 @@ const timestamp = ref(0);
 
 const only_wallet = ref(false);
 const expire_toggle = ref(false);
-const allow_partial_fill = ref(true);
+const allow_partial_fill = ref(false);
 const only_members = ref(false);
 const sa_list_enabled = ref(false);
 

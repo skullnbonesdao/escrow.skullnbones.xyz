@@ -128,36 +128,6 @@ onMounted(async () => {
       </div>
     </q-card-section>
 
-    <!--    <q-card-section class="q-mx-sm">-->
-    <!--      <p class="text-weight-light">Remaining:</p>-->
-    <!--      <q-linear-progress-->
-    <!--        size="25px"-->
-    <!--        :value="-->
-    <!--          1 - -->
-    <!--          (escrow_account.tokensDepositInit.toNumber() - -->
-    <!--            escrow_account.tokensDepositRemaining.toNumber()) /-->
-    <!--            escrow_account.tokensDepositInit.toNumber()-->
-    <!--        "-->
-    <!--        color="blue"-->
-    <!--      >-->
-    <!--        <div class="absolute-full flex flex-center">-->
-    <!--          <q-badge-->
-    <!--            color="white"-->
-    <!--            text-color="secondary"-->
-    <!--            :label="-->
-    <!--              (1 - -->
-    <!--                (escrow_account.tokensDepositInit.toNumber() - -->
-    <!--                  escrow_account.tokensDepositRemaining.toNumber()) /-->
-    <!--                  escrow_account.tokensDepositInit.toNumber()) *-->
-    <!--                100 +-->
-    <!--              '%'-->
-    <!--            "-->
-    <!--          />-->
-    <!--        </div>-->
-    <!--      </q-linear-progress>-->
-    <!--    </q-card-section>-->
-    <!--    <q-separator />-->
-
     <q-card-section class="q-gutter-y-sm items-center" style="height: 120px">
       <ExchangeEscrowButtonFill
         v-if="!escrow_account.allowPartialFill"
