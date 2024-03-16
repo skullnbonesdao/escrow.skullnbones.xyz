@@ -40,6 +40,7 @@ interface EscrowAccounts {
 
 async function load_escrows() {
   const { pg_escrow } = useWorkspace();
+
   const escrows_list = (
     (await pg_escrow.value.account.escrow.all()) as EscrowAccounts[]
   ).filter((escrow) => escrow.account.tokensDepositRemaining.toNumber() > 0);

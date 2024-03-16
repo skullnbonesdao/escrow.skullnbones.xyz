@@ -235,9 +235,7 @@ const columns = ref([
               flat
               color="primary"
               :icon="expanded_take[props.rowIndex] ? 'remove' : 'send'"
-              @click="
-                expanded_take[props.rowIndex] = !expanded_take[props.rowIndex]
-              "
+              @click="useGlobalStore().escrow_selected = props.row"
             />
           </q-td>
         </q-tr>

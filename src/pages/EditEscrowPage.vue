@@ -23,7 +23,11 @@ const tab = ref('tab_create');
           <WalletMultiButton dark />
           <q-space />
         </div>
-        <CreateEscrowCard v-else />
+        <div v-else class="row">
+          <q-space />
+          <CreateEscrowCard style="max-width: 500px" />
+          <q-space />
+        </div>
       </q-tab-panel>
 
       <q-tab-panel name="tab_open">

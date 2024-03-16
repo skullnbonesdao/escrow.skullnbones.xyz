@@ -4,6 +4,7 @@ import { useLocalStorage } from '@vueuse/core';
 import { I_Token, I_TokenList } from './interfaces/I_TokenList';
 import axios from 'axios';
 import * as token_list_local from './tokenlist.json';
+import { Escrow } from 'src/adapter/escrow_gen/accounts';
 export const RPC_NETWORKS = [
   {
     name: 'devent',
@@ -25,6 +26,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     rpc_selected: useLocalStorage('rpc_selected', RPC_NETWORKS[0]),
     token_list: [] as I_Token[],
     connection: {} as Connection,
+    escrow_selected: {} as Escrow,
   }),
   getters: {},
   actions: {
