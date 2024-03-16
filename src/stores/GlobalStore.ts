@@ -5,6 +5,7 @@ import { I_Token, I_TokenList } from './interfaces/I_TokenList';
 import axios from 'axios';
 import * as token_list_local from './tokenlist.json';
 import { Escrow } from 'src/adapter/escrow_gen/accounts';
+import { EscrowAccounts, useWorkspace } from 'src/adapter/adapterPrograms';
 export const RPC_NETWORKS = [
   {
     name: 'devent',
@@ -26,10 +27,20 @@ export const useGlobalStore = defineStore('GlobalStore', {
     rpc_selected: useLocalStorage('rpc_selected', RPC_NETWORKS[0]),
     token_list: [] as I_Token[],
     connection: {} as Connection,
-    escrow_selected: {} as Escrow,
+    showRightDrawer: false,
+    escrow_selected: undefined as
+      | {
+          publicKey: PublicKey;
+          account: Escrow;
+        }
+      | undefined,
   }),
   getters: {},
   actions: {
+    async init() {
+      this.update_connection();
+      await this.load_token_list();
+    },
     update_connection() {
       console.log('RPC is set to: ' + this.rpc_selected.url);
       this.connection = new Connection(this.rpc_selected.url, {
@@ -46,6 +57,15 @@ export const useGlobalStore = defineStore('GlobalStore', {
       //     const data: I_TokenList = response.data;
       //     this.token_list = data.tokens;
       //   });
+    },
+    async load_escrow(address: PublicKey) {
+      console.log('load_escrow()');
+      this.escrow_selected = {
+        publicKey: address,
+        account: (await useWorkspace()?.pg_escrow.value.account.escrow.fetch(
+          address,
+        )) as any,
+      };
     },
   },
 });

@@ -42,6 +42,11 @@ interface EscrowAccounts {
   account: Escrow;
 }
 
+function handle_buy(escrow: any) {
+  useGlobalStore().escrow_selected = escrow;
+  useGlobalStore().showRightDrawer = true;
+}
+
 async function load_escrows() {
   const { pg_escrow } = useWorkspace();
   const escrows_list = (
@@ -171,7 +176,9 @@ const columns = ref([
           </q-td>
 
           <q-td key="price" :props="props">
-            <p class="text-subtitle1">x{{ props.row.account.price }}</p>
+            <p class="text-subtitle1">
+              {{ props.row.account.price.toFixed(2) }}
+            </p>
           </q-td>
 
           <q-td key="icon_2" :props="props">
@@ -225,80 +232,10 @@ const columns = ref([
             <q-btn
               flat
               color="primary"
-              icon="info"
-              @click="
-                expanded_details[props.rowIndex] =
-                  !expanded_details[props.rowIndex]
-              "
-            />
-            <q-btn
-              flat
-              color="primary"
               :icon="expanded_take[props.rowIndex] ? 'remove' : 'send'"
-              @click="useGlobalStore().escrow_selected = props.row"
+              v-c
+              @click="handle_buy(props.row)"
             />
-          </q-td>
-        </q-tr>
-        <q-tr
-          v-show="expanded_take[props.rowIndex]"
-          :props="props"
-          class="bg-secondary"
-        >
-          <q-td colspan="100%">
-            <ExchangeEscrowButtonFill
-              v-if="!props.row.account.allowPartialFill"
-              class="full-width"
-              :escrow_address="props.row.publicKey"
-            />
-            <q-card bordered class="col bg-secondary q-pa-sm" flat v-else>
-              <div class="row q-gutter-x-sm">
-                <div class="col">
-                  <q-input
-                    dense
-                    class="col"
-                    standout
-                    square
-                    v-model="amount_to_buy"
-                    label="Amount"
-                    type="number"
-                  />
-                  <q-slider
-                    class="q-px-sm q-pt-sm"
-                    dense
-                    v-model="amount_to_buy"
-                    :min="0"
-                    :max="
-                      props.row.account.tokensDepositRemaining *
-                      Math.pow(
-                        10,
-                        -useGlobalStore().token_list.find(
-                          (token) =>
-                            token.address ==
-                            props.row.account.depositToken.toString(),
-                        )?.decimals,
-                      )
-                    "
-                    color="blue"
-                    track-size="10px"
-                    thumb-color="black"
-                    markers
-                  />
-                </div>
-                <ExchangeEscrowButton
-                  :escrow_address="props.row.publicKey"
-                  :exchange_amount="amount_to_buy"
-                />
-              </div>
-            </q-card>
-          </q-td>
-        </q-tr>
-        <q-tr
-          v-show="expanded_details[props.rowIndex]"
-          :props="props"
-          class="bg-secondary"
-        >
-          <q-td colspan="100%">
-            <EscrowDetails :escrow="props.row" />
           </q-td>
         </q-tr>
       </template>

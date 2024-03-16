@@ -17,9 +17,11 @@ const $q = useQuasar();
 $q.dark.set(true);
 $q.loading.show({ message: 'Loading data...' });
 
-useGlobalStore().update_connection();
-useGlobalStore().load_token_list();
+useGlobalStore().init();
+initWorkspace();
+
 useStaratlasAPIStore().update();
+
 useWalletStore();
 
 $q.loading.hide();

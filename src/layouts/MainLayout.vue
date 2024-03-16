@@ -14,7 +14,7 @@
         </q-btn>
 
         <q-space />
-        <q-tabs v-model="tab" shrink stretch>
+        <q-tabs v-model="tab" shrink stretch active-bg-color="secondary">
           <q-route-tab
             name="tab_escrow"
             label="Offers"
@@ -24,22 +24,26 @@
           <q-route-tab
             name="tab_create"
             icon="handyman"
-            label="Make"
+            label="Edit"
             to="/create"
-          />
-          <q-route-tab
-            name="tab_settings"
-            icon="settings"
-            label="Settings"
-            to="/settings"
           />
         </q-tabs>
         <q-space />
 
-        <WalletMultiButton class="" dark />
+        <WalletMultiButton dark />
+        <q-btn class="q-mx-sm" round to="/settings">
+          <q-avatar size="30px">
+            <q-icon name="settings" />
+          </q-avatar>
+        </q-btn>
       </q-toolbar>
     </q-header>
-    <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
+    <q-drawer
+      show-if-above
+      v-if="useGlobalStore().showRightDrawer"
+      side="right"
+      bordered
+    >
       <EscrowTakeDrawer />
     </q-drawer>
     <q-page-container>
@@ -50,12 +54,12 @@
 
 <script setup lang="ts">
 import { WalletMultiButton } from 'solana-wallets-vue';
-import { ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useWalletStore } from 'stores/WalletStore';
 import EscrowTakeDrawer from 'components/drawer/EscrowTakeDrawer.vue';
+import { useGlobalStore } from 'stores/GlobalStore';
 
 const tab = ref();
-const rightDrawerOpen = ref(true);
 </script>
 
 <style lang="sass"></style>

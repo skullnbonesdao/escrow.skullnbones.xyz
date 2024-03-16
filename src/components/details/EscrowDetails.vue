@@ -1,89 +1,165 @@
 <script setup lang="ts">
-import { Escrow } from 'src/adapter/escrow_gen/accounts';
-import { ref } from 'vue';
-import AsyncDecimalsComponent from 'components/asyncComponents/AsyncDecimalsComponent.vue';
 import { format_address } from '../../functions/format_address';
+import { useGlobalStore } from '../../stores/GlobalStore';
+import { computed } from 'vue';
 
-const props = defineProps(['escrow']);
-
-const publickey = ref(props.escrow?.publicKey);
-const escrow = ref<Escrow>(props.escrow?.account);
+const remaining_percentage = computed(() => {
+  return (
+    ((useGlobalStore().escrow_selected?.account.tokensDepositRemaining.toNumber() ??
+      0) /
+      (useGlobalStore().escrow_selected?.account.tokensDepositInit.toNumber() ??
+        0)) *
+    100
+  );
+});
 </script>
 
 <template>
-  <div class="row">
-    <div class="col text-no-wrap">Escrow:</div>
-    <strong class="col-9 text-right">{{
-      format_address(publickey.toString())
-    }}</strong>
-  </div>
+  <div class="col q-gutter-y-md">
+    <div class="row items-center">
+      <p class="text-h6 col">State</p>
+      <p class="col text-right" style="font-size: 10px"></p>
+      <q-badge
+        v-if="remaining_percentage == 0"
+        color="yellow"
+        label="FILLED"
+        outline
+      ></q-badge>
+      <p v-else class="q-mr-sm text-primary">Remaining:</p>
+      <q-circular-progress
+        :value="remaining_percentage"
+        size="30px"
+        :thickness="1"
+        track-color="black"
+        color="primary"
+      />
+    </div>
+    <q-separator />
+    <div class="col q-gutter-y-sm">
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Escrow:</div>
+        <strong class="style-right">{{
+          format_address(useGlobalStore().escrow_selected?.publicKey.toString())
+        }}</strong>
+      </div>
 
-  <div class="row">
-    <div class="col">Maker:</div>
-    <strong class="col-9 text-right">{{
-      format_address(escrow.maker.toString())
-    }}</strong>
-  </div>
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Maker:</div>
+        <strong class="style-right">{{
+          format_address(
+            useGlobalStore().escrow_selected?.account.maker.toString(),
+          )
+        }}</strong>
+      </div>
 
-  <div class="row">
-    <div class="col text-no-wrap">Deposited mint:</div>
-    <strong class="col-9 text-right">{{
-      format_address(escrow.depositToken.toString())
-    }}</strong>
-  </div>
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Deposited mint:</div>
+        <strong class="col-9 text-right">{{
+          format_address(
+            useGlobalStore().escrow_selected?.account?.depositToken?.toString(),
+          )
+        }}</strong>
+      </div>
 
-  <div class="row">
-    <div class="col text-no-wrap">Request mint:</div>
-    <strong class="col-9 text-right">{{
-      format_address(escrow.requestToken.toString())
-    }}</strong>
-  </div>
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Request mint:</div>
+        <strong class="col-9 text-right">{{
+          format_address(
+            useGlobalStore().escrow_selected?.account?.requestToken?.toString(),
+          )
+        }}</strong>
+      </div>
 
-  <div class="row">
-    <div class="col text-no-wrap">Deposit amount:</div>
-    <strong class="col-9 text-right">
-      {{ escrow.tokensDepositInit }}
-    </strong>
-  </div>
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Deposit amount:</div>
+        <strong class="col-9 text-right">
+          {{ useGlobalStore().escrow_selected?.account?.tokensDepositInit }}
+        </strong>
+      </div>
 
-  <div class="row">
-    <div class="col text-no-wrap">Remaining amount:</div>
-    <strong class="col-9 text-right">
-      {{ escrow.tokensDepositRemaining }}
-    </strong>
-  </div>
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Remaining amount:</div>
+        <strong class="col-9 text-right">
+          {{
+            useGlobalStore().escrow_selected?.account?.tokensDepositRemaining
+          }}
+        </strong>
+      </div>
 
-  <div class="row">
-    <div class="col">Price:</div>
-    <strong class="col-9 text-right">{{ escrow.price.toString() }}</strong>
-  </div>
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Price:</div>
+        <strong class="col-9 text-right">{{
+          useGlobalStore().escrow_selected?.account?.price.toString()
+        }}</strong>
+      </div>
 
-  <div class="row">
-    <div class="col">Recipient:</div>
-    <strong class="col-9 text-right">{{
-      !escrow.onlyRecipient
-        ? 'any'
-        : format_address(escrow.recipient.toString())
-    }}</strong>
-  </div>
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Recipient:</div>
+        <strong class="col-9 text-right">{{
+          useGlobalStore().escrow_selected?.account?.onlyRecipient
+            ? 'any'
+            : format_address(
+                useGlobalStore().escrow_selected?.account?.recipient.toString(),
+              )
+        }}</strong>
+      </div>
 
-  <div class="row">
-    <div class="col text-no-wrap">Allow Partial fill:</div>
-    <strong class="col-9 text-right">{{
-      escrow.allowPartialFill.toString()
-    }}</strong>
-  </div>
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Partial fill:</div>
 
-  <div class="row">
-    <div class="col text-no-wrap">Deal:</div>
-    <strong class="col-9 text-right">{{ escrow.onlyWhitelist }}</strong>
-  </div>
-  <div class="row">
-    <div class="col text-no-wrap">Expire timestamp:</div>
-    <strong class="col-9 text-right">{{
-      escrow.expireTimestamp != 0 ? escrow.expireTimestamp : 'never'
-    }}</strong>
+        <q-badge
+          outline
+          :label="
+            useGlobalStore().escrow_selected?.account?.allowPartialFill
+              ? 'yes'
+              : 'no'
+          "
+          :color="
+            useGlobalStore().escrow_selected?.account?.allowPartialFill
+              ? 'purple'
+              : 'grey'
+          "
+        />
+      </div>
+
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Public</div>
+        <q-badge
+          outline
+          class=""
+          :label="
+            useGlobalStore().escrow_selected?.account?.onlyWhitelist
+              ? 'no'
+              : 'yes'
+          "
+          :color="
+            useGlobalStore().escrow_selected?.account?.onlyWhitelist
+              ? 'yellow'
+              : 'green'
+          "
+        />
+      </div>
+
+      <div class="row">
+        <div class="col text-weight-light text-no-wrap">Expire timestamp</div>
+
+        <q-badge
+          outline
+          class=""
+          :label="
+            useGlobalStore().escrow_selected?.account?.expireTimestamp != 0
+              ? useGlobalStore().escrow_selected?.account?.expireTimestamp
+              : 'never'
+          "
+          :color="
+            useGlobalStore().escrow_selected?.account?.expireTimestamp != 0
+              ? 'yellow'
+              : 'grey'
+          "
+        />
+      </div>
+    </div>
   </div>
 </template>
 
-<style scoped lang="sass"></style>
+<style scoped lang="scss"></style>

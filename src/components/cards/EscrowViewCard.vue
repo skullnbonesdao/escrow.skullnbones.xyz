@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { Escrow } from 'src/adapter/escrow_gen/accounts';
 import { format_address } from '../../stores/format_address';
 import AsyncDecimalsComponent from 'components/asyncComponents/AsyncDecimalsComponent.vue';
@@ -13,128 +13,129 @@ import { useGlobalStore } from '../../stores/GlobalStore';
 
 const props = defineProps(['escrow']);
 
-const escrow_child = ref(props.escrow);
-
-const publickey = ref(props.escrow?.publicKey);
-const escrow_account = ref<Escrow>(props.escrow?.account);
-const amount_to_buy = ref(0);
-const depositTokenAmountUI = ref(0);
-const requestTokenAmountUI = ref(0);
-
-onMounted(async () => {
-  depositTokenAmountUI.value = await amount2ui(
-    escrow_account.value.depositToken,
-    escrow_account.value.tokensDepositRemaining.toNumber(),
-  );
-  requestTokenAmountUI.value = await amount2ui(
-    escrow_account.value.requestToken,
-    escrow_account.value.tokensDepositRemaining.toNumber() *
-      escrow_account.value.price,
-  );
-
-  if (!escrow_account.value.allowPartialFill) {
-    amount_to_buy.value = depositTokenAmountUI.value;
-  }
+const publickey = computed(() => {
+  return props.escrow.publicKey as Escrow;
 });
+const amount_to_buy = ref(0);
+
+const escrow_account = computed(() => {
+  return props.escrow.account as Escrow;
+});
+
+watch(
+  () => escrow_account.value,
+  () => {
+    amount_to_buy.value = findAndFormatAmountUI(
+      escrow_account.value.tokensDepositRemaining.toNumber(),
+      escrow_account.value.depositToken.toString(),
+    );
+  },
+);
+
+onMounted(() => {
+  amount_to_buy.value = findAndFormatAmountUI(
+    escrow_account.value.tokensDepositRemaining.toNumber(),
+    escrow_account.value.depositToken.toString(),
+  );
+});
+
+function findAndFormatAmountUI(
+  amount: number | undefined,
+  mint: string | undefined,
+) {
+  if (amount && mint)
+    return (
+      amount *
+      Math.pow(
+        10,
+        -(
+          useGlobalStore().token_list.find((t) => t.address == mint)
+            ?.decimals ?? 0
+        ),
+      )
+    );
+  else return 0;
+}
 </script>
 
 <template>
-  <q-card bordered>
-    <q-card-section class="q-gutter-y-md">
-      <div>
-        <p class="text-weight-light text-green-9">You are buying</p>
-        <q-card flat class="bg-secondary">
-          <q-card-section class="row items-center">
-            <q-avatar>
-              <img
-                :src="
-                  useGlobalStore().token_list.find(
-                    (token) =>
-                      token.address == escrow_account?.depositToken.toString(),
-                  )?.logoURI ?? 'unknown.png'
-                "
-              />
-            </q-avatar>
-            <p class="col q-mx-sm">
-              {{
+  <q-card flat v-if="escrow && escrow_account">
+    <q-card-section>
+      <q-card flat class="bg-secondary q-mb-sm" bordered>
+        <p class="text-subtitle1 text-green-7 q-ml-md q-mt-sm">Buying</p>
+        <q-card-section class="row items-center q-gutter-x-xs">
+          <q-avatar>
+            <img
+              :src="
                 useGlobalStore().token_list.find(
                   (token) =>
-                    token.address == escrow_account?.depositToken.toString(),
-                )?.symbol
-              }}
-            </p>
-            <div>
-              <div class="col">
-                <div class="row items-center justify-end q-gutter-x-xs">
-                  <b class="text-right" style="width: 100px">
-                    {{ depositTokenAmountUI.toFixed(2) }}</b
-                  >
-                  <p class="text-right" style="font-size: smaller; width: 37px">
-                    Available
-                  </p>
-                </div>
-                <div class="row items-center justify-end q-gutter-x-xs">
-                  <b class="text-right" style="width: 100px">{{
-                    amount_to_buy.toFixed(2)
-                  }}</b>
-                  <p class="text-right" style="font-size: smaller; width: 37px">
-                    Amount
-                  </p>
-                </div>
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </div>
+                    token.address == escrow.account?.depositToken.toString(),
+                )?.logoURI ?? 'unknown.png'
+              "
+            />
+          </q-avatar>
+          <p class="">
+            {{
+              useGlobalStore().token_list.find(
+                (token) =>
+                  token.address == escrow_account?.depositToken.toString(),
+              )?.symbol
+            }}
+          </p>
+          <q-space />
+          <b class="col text-right">{{ amount_to_buy.toFixed(2) }}</b>
+        </q-card-section>
+      </q-card>
 
-      <div>
-        <p class="text-weight-light text-red-9">You are selling</p>
-        <q-card flat class="bg-secondary">
-          <q-card-section class="row items-center">
-            <q-avatar>
-              <img
-                :src="
-                  useGlobalStore().token_list.find(
-                    (token) =>
-                      token.address == escrow_account?.requestToken.toString(),
-                  )?.logoURI ?? 'unknown.png'
-                "
-              />
-            </q-avatar>
+      <q-card flat class="bg-secondary q-mb-sm" bordered>
+        <q-card-section class="row items-center">
+          <p class="text-subtitle1 text-orange-6">Price</p>
+          <div class="col text-right">
+            {{ escrow_account.price.toFixed(2) }}
+          </div>
+        </q-card-section>
+      </q-card>
 
-            <p class="col q-mx-sm">
-              {{
+      <q-card flat class="bg-secondary" bordered>
+        <p class="text-subtitle1 text-red-7 q-ml-md q-mt-sm">Selling</p>
+        <q-card-section class="row items-center">
+          <q-avatar>
+            <img
+              :src="
                 useGlobalStore().token_list.find(
                   (token) =>
-                    token.address == escrow_account?.depositToken.toString(),
-                )?.symbol
-              }}
-            </p>
-            <div>
-              <div class="col">
-                <div class="row items-center justify-end q-gutter-x-xs">
-                  <b class="text-right" style="width: 100px">{{
-                    (amount_to_buy * escrow_account.price).toFixed(2)
-                  }}</b>
+                    token.address == escrow_account?.requestToken.toString(),
+                )?.logoURI ?? 'unknown.png'
+              "
+            />
+          </q-avatar>
 
-                  <p class="text-right" style="font-size: smaller; width: 37px">
-                    Amount
-                  </p>
-                </div>
-              </div>
+          <p class="col q-mx-sm">
+            {{
+              useGlobalStore().token_list.find(
+                (token) =>
+                  token.address == escrow_account?.depositToken.toString(),
+              )?.symbol
+            }}
+          </p>
+          <div>
+            <div class="col">
+              <b class="text-right">{{
+                (amount_to_buy * escrow_account?.price).toFixed(2)
+              }}</b>
             </div>
-          </q-card-section>
-        </q-card>
-      </div>
+          </div>
+        </q-card-section>
+      </q-card>
     </q-card-section>
-
-    <q-card-section class="q-gutter-y-sm items-center" style="height: 120px">
+    <q-separator />
+    <q-card-section>
       <ExchangeEscrowButtonFill
-        v-if="!escrow_account.allowPartialFill"
+        v-if="!escrow_account?.allowPartialFill"
         class="full-width"
         :escrow_address="publickey"
       />
-      <q-card bordered class="col q-pa-sm" flat v-else>
+      <q-card bordered class="col q-pa-sm bg-secondary" flat v-else>
         <div class="row q-gutter-x-sm">
           <div class="col">
             <q-input
@@ -151,7 +152,12 @@ onMounted(async () => {
               dense
               v-model="amount_to_buy"
               :min="0"
-              :max="depositTokenAmountUI"
+              :max="
+                findAndFormatAmountUI(
+                  escrow_account.tokensDepositRemaining.toNumber(),
+                  escrow_account.depositToken.toString(),
+                )
+              "
               color="blue"
               track-size="10px"
               thumb-color="black"
@@ -165,11 +171,15 @@ onMounted(async () => {
         </div>
       </q-card>
     </q-card-section>
-    <q-card-section class="q-gutter-y-sm">
-      <q-list class="rounded-borders">
+    <q-separator />
+    <q-card-section>
+      <q-list bordered class="rounded-borders">
         <q-expansion-item icon="info" label="Details">
           <q-card-section>
-            <EscrowDetails :escrow="escrow_child" />
+            <EscrowDetails
+              v-if="escrow"
+              :escrow="useGlobalStore().escrow_selected"
+            />
           </q-card-section>
         </q-expansion-item>
       </q-list>

@@ -142,6 +142,7 @@ async function build_tx() {
       message: 'Transaction confirmed!',
       timeout: 2500,
     });
+    await useGlobalStore().load_escrow(props.escrow_address);
   } catch (err: any) {
     console.error(err);
     notification_process({
@@ -157,8 +158,10 @@ async function build_tx() {
 
 <template>
   <q-btn
+    class="full-width"
     color="primary"
-    icon="send"
+    label="Take offer"
+    icon-right="send"
     @click="
       build_tx().then(() => {
         console.info('build_tx executed');

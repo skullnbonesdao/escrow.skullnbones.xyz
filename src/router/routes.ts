@@ -14,6 +14,14 @@ const routes: RouteRecordRaw[] = [
   },
 
   {
+    path: '/details/:account',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/EscrowDetailPage.vue') },
+    ],
+  },
+
+  {
     path: '/create',
     component: () => import('layouts/MainLayout.vue'),
     children: [

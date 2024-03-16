@@ -4,7 +4,7 @@ import EscrowViewCard from 'components/cards/EscrowViewCard.vue';
 import EscrowTableCards from 'components/tables/EscrowTableCards.vue';
 import { useWallet, WalletMultiButton } from 'solana-wallets-vue';
 
-const props = defineProps(['type', 'as_cards', 'title']);
+const props = defineProps(['type', 'title']);
 </script>
 
 <template>
@@ -14,8 +14,7 @@ const props = defineProps(['type', 'as_cards', 'title']);
     <q-space />
   </div>
   <div v-else>
-    <EscrowTableCards v-if="as_cards" :escrow_filter="type" :title="title" />
-    <EscrowTable v-else :escrow_filter="type" :title="title" />
+    <EscrowTable :escrow_filter="type" :title="title" />
   </div>
 </template>
 
