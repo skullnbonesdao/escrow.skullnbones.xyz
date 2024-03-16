@@ -84,9 +84,10 @@ const pagination = ref({
 });
 
 const columns = ref([
-  { name: 'price', label: 'Price' },
   { name: 'buying', label: 'Buying', align: 'right' },
-  { name: 'between', label: '', align: 'left' },
+  { name: 'icon_1', label: '', align: 'left' },
+  { name: 'price', label: 'Price', align: 'center' },
+  { name: 'icon_2', label: '', align: 'left' },
   { name: 'selling', label: 'Selling' },
 
   { name: 'take', label: '' },
@@ -119,13 +120,10 @@ const columns = ref([
       </template>
 
       <template v-slot:body="props">
-        <q-tr :props="props" class="bg-secondary" ŝ>
-          <q-td key="price" :props="props">
-            {{ props.row.account.price }}
-          </q-td>
-          <q-td key="buying" :props="props" class="text-right">
+        <q-tr :props="props" class="bg-secondary">
+          <q-td key="buying" :props="props" class="">
             <div class="row items-center">
-              <b class="col text-right">
+              <b class="col text-right text-h6">
                 {{
                   (
                     props.row.account.tokensDepositRemaining *
@@ -142,7 +140,8 @@ const columns = ref([
               </b>
             </div>
           </q-td>
-          <q-td key="between" :props="props">
+
+          <q-td key="icon_1" :props="props">
             <div class="row items-center">
               <div class="col text-center">
                 <q-avatar size="md">
@@ -167,6 +166,16 @@ const columns = ref([
                 </p>
               </div>
 
+              <q-icon class="col" name="arrow_forward"></q-icon>
+            </div>
+          </q-td>
+
+          <q-td key="price" :props="props">
+            <p class="text-subtitle1">x{{ props.row.account.price }}</p>
+          </q-td>
+
+          <q-td key="icon_2" :props="props">
+            <div class="row items-center">
               <q-icon class="col" name="arrow_forward"></q-icon>
 
               <div class="col text-center">
@@ -194,7 +203,7 @@ const columns = ref([
             </div>
           </q-td>
           <q-td key="selling" :props="props" class="text-right">
-            <b>
+            <b class="text-h6">
               {{
                 (
                   props.row.account.tokensDepositRemaining *
