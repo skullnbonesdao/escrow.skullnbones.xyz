@@ -49,7 +49,11 @@ async function load_escrows() {
       console.log(escrows_list);
       escrows.value = escrows_list.filter(
         (escrow) =>
-          escrow.account.recipient.toString() != NULL_ADDRESS.toString(),
+          escrow.account.recipient.toString() != NULL_ADDRESS.toString() &&
+          (escrow.account.maker.toString() ==
+            useWallet().publicKey.value?.toString() ||
+            escrow.account.recipient.toString() ==
+              useWallet().publicKey.value?.toString()),
       );
       break;
     case 'deals':
