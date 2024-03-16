@@ -7,10 +7,10 @@ const tab = ref('open');
 
 <template>
   <q-page>
-    <q-tabs v-model="tab" shrink stretch class="bg-secondary">
-      <q-tab name="open" label="OPEN" />
-      <q-tab name="p2p" label="P2P" />
-      <q-tab name="p2g" label="P2G" />
+    <q-tabs v-model="tab" align="justify">
+      <q-tab name="open" label="Public Offers" />
+      <q-tab name="p2p" label="P2P Offers" />
+      <q-tab name="b2b" label="B2B Offers" />
     </q-tabs>
 
     <q-tab-panels v-model="tab" animated>

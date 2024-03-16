@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onMounted, watch } from 'vue';
 import { useGlobalStore } from 'stores/GlobalStore';
 import { PublicKey } from '@solana/web3.js';
@@ -28,18 +28,25 @@ watchDeep(
   <q-page class="q-gutter-y-sm">
     <q-card flat>
       <q-card-section class="row q-gutter-x-sm items-center">
-        <p class="text-h6">Offer</p>
+        <q-btn flat to="/escrow">
+          <q-avatar>
+            <q-icon name="arrow_left" />
+          </q-avatar>
+        </q-btn>
+        <p class="text-h6 q-mr-sm">Offer:</p>
         <p class="text-subtitle1">
           {{ useGlobalStore().escrow_selected?.publicKey }}
         </p>
         <q-icon name="content_copy" />
       </q-card-section>
     </q-card>
+
     <div
       class="q-px-sm q-gutter-x-sm"
       :class="useQuasar().screen.lt.md ? 'col' : 'row'"
     >
-      <div class="col">
+      <q-space />
+      <div class="col-4">
         <EscrowTakeView />
       </div>
       <div class="col-3">
@@ -49,6 +56,7 @@ watchDeep(
           </q-card-section>
         </q-card>
       </div>
+      <q-space />
     </div>
   </q-page>
 </template>

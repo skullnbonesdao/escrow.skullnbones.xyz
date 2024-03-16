@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useWorkspace } from 'src/adapter/adapterPrograms';
 import { computed, onMounted, ref, watch } from 'vue';
-import { useGlobalStore } from 'stores/GlobalStore';
+import { I_Escrows, useGlobalStore } from 'stores/GlobalStore';
 import { useQuasar } from 'quasar';
 import { Escrow } from 'src/adapter/escrow_gen/accounts';
 import { amount2ui } from 'src/helper/tokenDecimalConversion';
@@ -14,49 +14,20 @@ import { PublicKey } from '@solana/web3.js';
 import ExchangeEscrowButtonFill from 'components/actions/ExchangeEscrowButtonFill.vue';
 import EscrowDetails from 'components/details/EscrowDetails.vue';
 import EscrowViewCard from 'components/cards/EscrowViewCard.vue';
+import SelectTokenDropdown from 'components/dropdowns/SelectTokenDropdown.vue';
+import { token } from '@metaplex-foundation/js';
+import EscrowTakeDrawer from 'components/drawer/EscrowTakeDrawer.vue';
 
 const props = defineProps(['title', 'escrow_filter']);
 
 const $q = useQuasar();
 
-let escrows = ref<EscrowAccounts[]>([]);
-const amount_to_buy = ref<number[]>([]);
-const expanded_details = ref<boolean[]>([]);
-const expanded_take = ref<boolean[]>([]);
-
-watch(
-  () => useGlobalStore().is_initialized,
-  async () => {
-    await load_escrows();
-  },
-);
-
-onMounted(async () => {
-  if (useGlobalStore().is_initialized) {
-    await load_escrows();
-  }
-});
-
-interface EscrowAccounts {
-  publicKey: PublicKey;
-  account: Escrow;
-}
-
-function handle_buy(escrow: any) {
-  useGlobalStore().escrow_selected = escrow;
-  useGlobalStore().showRightDrawer = true;
-}
-
-async function load_escrows() {
-  const { pg_escrow } = useWorkspace();
-  const escrows_list = (
-    (await pg_escrow.value.account.escrow.all()) as EscrowAccounts[]
-  ).filter((escrow) => escrow.account.tokensDepositRemaining.toNumber() > 0);
+let escrows = computed(() => {
+  let escrows_list = useGlobalStore().escrows;
 
   switch (props.escrow_filter) {
     case 'p2p':
-      console.log(escrows_list);
-      escrows.value = escrows_list.filter(
+      escrows_list = useGlobalStore().escrows?.filter(
         (escrow) =>
           escrow.account.recipient.toString() != NULL_ADDRESS.toString() &&
           (escrow.account.maker.toString() ==
@@ -64,24 +35,60 @@ async function load_escrows() {
             escrow.account.recipient.toString() ==
               useWallet().publicKey.value?.toString()),
       );
-      break;
-    case 'p2g':
-      escrows.value = escrows_list.filter(
+    case 'b2b':
+      escrows_list = useGlobalStore().escrows?.filter(
         (escrow) => escrow.account.onlyWhitelist == true,
       );
-      break;
     default:
-      escrows.value = escrows.value = escrows_list.filter(
+      escrows_list = useGlobalStore().escrows?.filter(
         (escrow) =>
           escrow.account.recipient.toString() == NULL_ADDRESS.toString() &&
-          escrow.account.onlyWhitelist != true,
+          escrow.account.onlyWhitelist != true &&
+          escrow.account.tokensDepositRemaining.toNumber() > 0,
       );
-      break;
   }
 
-  amount_to_buy.value = [];
-  expanded_details.value = escrows.value.flatMap((escrow) => false);
-  expanded_take.value = escrows.value.flatMap((escrow) => false);
+  if (token_selected.value) {
+    if (accepted.value.some((v) => v == 'buying')) {
+      console.log(token_selected.value.mint.toString());
+      escrows_list = escrows_list?.filter(
+        (e) =>
+          e.account.depositToken.toString() ==
+          token_selected.value.mint.toString(),
+      );
+    }
+    if (accepted.value.some((v) => v == 'selling')) {
+      console.log(token_selected.value.mint.toString());
+      escrows_list = escrows_list?.filter(
+        (e) =>
+          e.account.requestToken.toString() ===
+          token_selected.value.mint.toString(),
+      );
+    }
+  }
+  return escrows_list;
+});
+
+watch(
+  () => useGlobalStore().is_initialized,
+  async () => {
+    await useGlobalStore().load_all_escrows();
+  },
+);
+
+onMounted(async () => {
+  if (useGlobalStore().is_initialized) {
+    await useGlobalStore().load_all_escrows();
+  }
+});
+
+function handle_buy(escrow: any) {
+  if (escrow.publicKey != useGlobalStore().escrow_selected?.publicKey) {
+    useGlobalStore().escrow_selected = escrow;
+    useGlobalStore().showRightDrawer = true;
+  } else {
+    useGlobalStore().showRightDrawer = !useGlobalStore().showRightDrawer;
+  }
 }
 
 const pagination = ref({
@@ -94,13 +101,45 @@ const columns = ref([
   { name: 'price', label: 'Price', align: 'center' },
   { name: 'icon_2', label: '', align: 'left' },
   { name: 'selling', label: 'Selling' },
-
+  { name: 'types', label: '' },
   { name: 'take', label: '' },
 ]);
+
+const options = ref([
+  {
+    label: 'Buying',
+    value: 'buying',
+  },
+  {
+    label: 'Selling',
+    value: 'selling',
+  },
+]);
+
+const accepted = ref([]);
+const token_selected = ref();
 </script>
 
 <template>
   <div class="q-pa-md">
+    <div class="row">
+      <SelectTokenDropdown
+        class="col full-width"
+        @mint_selected="(data) => (token_selected = data)"
+      />
+
+      <div class="q-pa-sm bg-secondary">
+        <q-option-group
+          name="accepted_genres"
+          v-model="accepted"
+          :options="options"
+          type="checkbox"
+          color="primary"
+          inline
+        />
+      </div>
+    </div>
+
     <q-table
       flat
       :title="props.title"
@@ -110,22 +149,14 @@ const columns = ref([
       :filter="filter"
       v-model:pagination="pagination"
     >
-      <template v-slot:top-right>
-        <q-input
-          borderless
-          dense
-          debounce="300"
-          v-model="filter"
-          placeholder="Search"
-        >
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-      </template>
+      <template v-slot:top> </template>
 
       <template v-slot:body="props">
-        <q-tr :props="props" class="bg-secondary">
+        <q-tr
+          :props="props"
+          class="bg-secondary"
+          @click="handle_buy(props.row)"
+        >
           <q-td key="buying" :props="props" class="">
             <div class="row items-center">
               <b class="col text-right text-h6">
@@ -228,14 +259,39 @@ const columns = ref([
             </b>
           </q-td>
 
+          <q-td key="types" :props="props">
+            <q-icon
+              size="sm"
+              name="balance"
+              :color="props.row.account.allowPartialFill ? 'purple' : 'grey'"
+            >
+              <q-tooltip
+                >Partial fill
+                {{ props.row.account.allowPartialFill ? '' : 'NOT ' }}
+                allowed</q-tooltip
+              >
+            </q-icon>
+          </q-td>
           <q-td key="take" :props="props">
             <q-btn
               flat
               color="primary"
-              :icon="expanded_take[props.rowIndex] ? 'remove' : 'send'"
-              v-c
+              icon="send"
               @click="handle_buy(props.row)"
             />
+          </q-td>
+        </q-tr>
+        <q-tr
+          :props="props"
+          v-if="
+            useQuasar().screen.lt.md &&
+            useGlobalStore().showRightDrawer &&
+            props.row.publicKey ==
+              useGlobalStore().escrow_selected.publicKey.toString()
+          "
+        >
+          <q-td colspan="100%">
+            <EscrowTakeDrawer />
           </q-td>
         </q-tr>
       </template>

@@ -21,6 +21,10 @@ export const RPC_NETWORKS = [
   },
 ];
 
+export interface I_Escrows {
+  publicKey: PublicKey;
+  account: Escrow;
+}
 export const useGlobalStore = defineStore('GlobalStore', {
   state: () => ({
     is_initialized: false,
@@ -28,12 +32,8 @@ export const useGlobalStore = defineStore('GlobalStore', {
     token_list: [] as I_Token[],
     connection: {} as Connection,
     showRightDrawer: false,
-    escrow_selected: undefined as
-      | {
-          publicKey: PublicKey;
-          account: Escrow;
-        }
-      | undefined,
+    escrows: undefined as Array<I_Escrows> | undefined,
+    escrow_selected: undefined as I_Escrows | undefined,
   }),
   getters: {},
   actions: {
@@ -57,6 +57,10 @@ export const useGlobalStore = defineStore('GlobalStore', {
       //     const data: I_TokenList = response.data;
       //     this.token_list = data.tokens;
       //   });
+    },
+    async load_all_escrows() {
+      this.escrows =
+        (await useWorkspace()?.pg_escrow.value.account.escrow.all()) as any;
     },
     async load_escrow(address: PublicKey) {
       console.log('load_escrow()');

@@ -6,25 +6,19 @@ import EscrowTakeView from 'components/details/EscrowTakeView.vue';
 
 <template>
   <div class="col">
-    <div
-      class="row q-pa-none bg-secondary"
-      @click="useGlobalStore().escrow_selected = undefined"
-    >
-      <q-btn
-        flat
+    <q-tabs class="bg-secondary">
+      <q-route-tab
+        name="tab_expand"
+        icon="open_in_full"
         :to="'details/' + useGlobalStore().escrow_selected?.publicKey"
-      >
-        <q-avatar size="md">
-          <q-icon color="primary" name="open_in_full" size="md" rounded />
-        </q-avatar>
-      </q-btn>
-      <q-space />
-      <q-btn class=" " flat>
-        <q-avatar size="md">
-          <q-icon color="primary" name="cancel" size="md" rounded />
-        </q-avatar>
-      </q-btn>
-    </div>
+      />
+      <q-tab
+        name="tab_create"
+        icon="cancel"
+        @click="useGlobalStore().showRightDrawer = false"
+      />
+    </q-tabs>
+
     <EscrowTakeView />
 
     <q-card flat>
