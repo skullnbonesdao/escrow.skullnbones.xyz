@@ -93,12 +93,7 @@ async function build_tx() {
     }
 
     let signature = await pg_escrow.value.methods
-      .exchange(
-        new anchor.BN(
-          escrow_account.tokensDepositRemaining.toNumber() *
-            escrow_account.price,
-        ),
-      )
+      .exchange(new anchor.BN(escrow_account.tokensDepositRemaining.toNumber()))
       .accounts({
         taker: useWallet().publicKey!.value,
         takerAta: taker_deposit_ata,
