@@ -206,7 +206,27 @@ const token_selected = ref();
 
           <q-td key="price" :props="props">
             <p class="text-subtitle1">
-              {{ props.row.account.price.toFixed(2) }}
+              {{
+                (
+                  props.row.account.price.toFixed(2) *
+                  Math.pow(
+                    10,
+                    -useGlobalStore().token_list.find(
+                      (token) =>
+                        token.address ==
+                        props.row.account.depositToken.toString(),
+                    ).decimals,
+                  ) *
+                  Math.pow(
+                    10,
+                    -useGlobalStore().token_list.find(
+                      (token) =>
+                        token.address ==
+                        props.row.account.requestToken.toString(),
+                    ).decimals,
+                  )
+                ).toFixed(2)
+              }}
             </p>
           </q-td>
 
@@ -248,7 +268,7 @@ const token_selected = ref();
                     -useGlobalStore().token_list.find(
                       (token) =>
                         token.address ==
-                        props.row.account.depositToken.toString(),
+                        props.row.account.requestToken.toString(),
                     ).decimals,
                   ) *
                   props.row.account.price
