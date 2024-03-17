@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header class="bg-black">
+    <q-header class="bg-transparent">
       <q-toolbar class="q-ma-none q-pa-none">
         <q-btn
           class="q-mx-sm"
@@ -38,6 +38,8 @@
           </q-avatar>
         </q-btn>
       </q-toolbar>
+
+      <q-separator />
     </q-header>
     <q-drawer
       show-if-above

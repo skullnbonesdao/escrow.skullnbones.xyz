@@ -7,7 +7,7 @@ const tab = ref('open');
 
 <template>
   <q-page>
-    <q-tabs v-model="tab" align="justify">
+    <q-tabs v-model="tab" align="justify" active-bg-color="secondary">
       <q-tab name="open" label="Public Offers" />
       <q-tab name="p2p" label="P2P Offers" />
       <q-tab name="b2b" label="B2B Offers" />

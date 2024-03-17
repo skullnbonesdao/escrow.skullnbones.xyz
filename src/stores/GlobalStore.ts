@@ -61,6 +61,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
     async load_all_escrows() {
       this.escrows =
         (await useWorkspace()?.pg_escrow.value.account.escrow.all()) as any;
+      this.escrows = this.escrows?.sort((a, b) => a.publicKey > b.publicKey, 0);
     },
     async load_escrow(address: PublicKey) {
       console.log('load_escrow()');

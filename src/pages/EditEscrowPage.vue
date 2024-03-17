@@ -9,11 +9,10 @@ const tab = ref('tab_create');
 
 <template>
   <q-page>
-    <q-tabs v-model="tab" shrink stretch class="bg-secondary">
+    <q-tabs v-model="tab" align="justify" active-bg-color="secondary">
       <q-tab name="tab_create" label="Create" />
       <q-tab name="tab_open" label="Open" />
       <q-tab name="tab_close" label="Close" />
-      <q-space />
     </q-tabs>
 
     <q-tab-panels v-model="tab" animated class="bg-">

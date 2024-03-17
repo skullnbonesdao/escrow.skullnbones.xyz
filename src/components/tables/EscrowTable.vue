@@ -273,12 +273,7 @@ const token_selected = ref();
             </q-icon>
           </q-td>
           <q-td key="take" :props="props">
-            <q-btn
-              flat
-              color="primary"
-              icon="send"
-              @click="handle_buy(props.row)"
-            />
+            <q-btn flat color="primary" icon="send" />
           </q-td>
         </q-tr>
         <q-tr
