@@ -149,7 +149,7 @@ const remaining_percentage = computed(() => {
           class=""
           :label="
             useGlobalStore().escrow_selected?.account?.expireTimestamp != 0
-              ? useGlobalStore().escrow_selected?.account?.expireTimestamp
+              ? useGlobalStore().escrow_selected?.account?.expireTimestamp.toNumber()
               : 'never'
           "
           :color="
