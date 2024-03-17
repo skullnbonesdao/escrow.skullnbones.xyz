@@ -36,6 +36,11 @@ watch(
 );
 
 const amount_to_buy = ref(amount_to_buy_comp.value);
+const amount_to_sell = computed(() => {
+  return (
+    amount_to_buy.value * (useGlobalStore().escrow_selected?.account.price ?? 0)
+  );
+});
 
 function calc_percent_amount(percentage: number) {
   amount_to_buy.value =
@@ -161,7 +166,7 @@ function calc_percent_amount(percentage: number) {
             dense
             class="col"
             borderless
-            v-model="amount_to_buy"
+            v-model="amount_to_sell"
             label="Amount"
             type="number"
           />

@@ -101,7 +101,8 @@ const columns = ref([
   { name: 'price', label: 'Price', align: 'center' },
   { name: 'icon_2', label: '', align: 'left' },
   { name: 'selling', label: 'Selling' },
-  { name: 'types', label: '' },
+  { name: 'balance', label: '' },
+  { name: 'expire', label: '' },
   { name: 'take', label: '' },
 ]);
 
@@ -259,7 +260,7 @@ const token_selected = ref();
             </b>
           </q-td>
 
-          <q-td key="types" :props="props">
+          <q-td key="balance" :props="props">
             <q-icon
               size="sm"
               name="balance"
@@ -269,6 +270,19 @@ const token_selected = ref();
                 >Partial fill
                 {{ props.row.account.allowPartialFill ? '' : 'NOT ' }}
                 allowed</q-tooltip
+              >
+            </q-icon>
+          </q-td>
+          <q-td key="expire" :props="props">
+            <q-icon
+              size="sm"
+              name="timer"
+              :color="props.row.account.expireTimestamp > 0 ? 'orange' : 'grey'"
+            >
+              <q-tooltip
+                >Will
+                {{ props.row.account.expireTimestamp > 0 ? '' : 'NOT ' }}
+                expire</q-tooltip
               >
             </q-icon>
           </q-td>

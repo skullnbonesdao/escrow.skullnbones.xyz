@@ -158,6 +158,7 @@ async function build_tx() {
 
 <template>
   <q-btn
+    :disable="exchange_amount == 0"
     class="full-width"
     color="primary"
     label="Take offer"
