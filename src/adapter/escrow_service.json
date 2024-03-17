@@ -381,7 +381,7 @@
     {
       "code": 6006,
       "name": "EscrowMinimumError",
-      "msg": "Wrong minimim"
+      "msg": "Wrong minimum"
     },
     {
       "code": 6007,
@@ -397,6 +397,11 @@
       "code": 6009,
       "name": "WrongWhitelistProvided",
       "msg": "Wrong whitelist is provided"
+    },
+    {
+      "code": 6010,
+      "name": "DecimalPrecisionLoss",
+      "msg": "Decimal precision loss"
     }
   ]
 }

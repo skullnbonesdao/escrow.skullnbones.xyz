@@ -211,7 +211,7 @@ const token_selected = ref();
                   props.row.account.price.toFixed(2) *
                   Math.pow(
                     10,
-                    -useGlobalStore().token_list.find(
+                    +useGlobalStore().token_list.find(
                       (token) =>
                         token.address ==
                         props.row.account.depositToken.toString(),

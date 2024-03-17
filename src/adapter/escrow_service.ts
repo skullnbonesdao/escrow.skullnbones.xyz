@@ -1,805 +1,815 @@
 export type EscrowService = {
-  "version": "0.1.0",
-  "name": "escrow_service",
-  "instructions": [
+  version: '0.1.0';
+  name: 'escrow_service';
+  instructions: [
     {
-      "name": "initialize",
-      "accounts": [
+      name: 'initialize';
+      accounts: [
         {
-          "name": "maker",
-          "isMut": true,
-          "isSigner": true
+          name: 'maker';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "makerAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'makerAta';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "recipient",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'recipient';
+          isMut: false;
+          isSigner: false;
+          isOptional: true;
         },
         {
-          "name": "depositToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'depositToken';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "requestToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'requestToken';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "auth",
-          "isMut": false,
-          "isSigner": false
+          name: 'auth';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
+          name: 'vault';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
+          name: 'escrow';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "fee",
-          "isMut": true,
-          "isSigner": false
+          name: 'fee';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "whitelistProgram",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'whitelistProgram';
+          isMut: false;
+          isSigner: false;
+          isOptional: true;
         },
         {
-          "name": "whitelist",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'whitelist';
+          isMut: false;
+          isSigner: false;
+          isOptional: true;
         },
         {
-          "name": "entry",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
-        }
-      ],
-      "args": [
+          name: 'entry';
+          isMut: false;
+          isSigner: false;
+          isOptional: true;
+        },
+      ];
+      args: [
         {
-          "name": "seed",
-          "type": "u64"
+          name: 'seed';
+          type: 'u64';
         },
         {
-          "name": "depositAmount",
-          "type": "u64"
+          name: 'depositAmount';
+          type: 'u64';
         },
         {
-          "name": "requestAmount",
-          "type": "u64"
+          name: 'requestAmount';
+          type: 'u64';
         },
         {
-          "name": "expireTimestamp",
-          "type": "i64"
+          name: 'expireTimestamp';
+          type: 'i64';
         },
         {
-          "name": "allowPartialFill",
-          "type": "bool"
+          name: 'allowPartialFill';
+          type: 'bool';
         },
         {
-          "name": "onlyWhitelist",
-          "type": "bool"
-        }
-      ]
+          name: 'onlyWhitelist';
+          type: 'bool';
+        },
+      ];
     },
     {
-      "name": "cancel",
-      "accounts": [
+      name: 'cancel';
+      accounts: [
         {
-          "name": "maker",
-          "isMut": true,
-          "isSigner": true
+          name: 'maker';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "makerAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'makerAta';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "depositToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'depositToken';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "makerAtaRequest",
-          "isMut": false,
-          "isSigner": false
+          name: 'makerAtaRequest';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "makerTokenRequest",
-          "isMut": false,
-          "isSigner": false
+          name: 'makerTokenRequest';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "auth",
-          "isMut": false,
-          "isSigner": false
+          name: 'auth';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
+          name: 'vault';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
+          name: 'escrow';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [];
     },
     {
-      "name": "exchange",
-      "accounts": [
+      name: 'exchange';
+      accounts: [
         {
-          "name": "maker",
-          "isMut": true,
-          "isSigner": false
+          name: 'maker';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "makerReceiveAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'makerReceiveAta';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "depositToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'depositToken';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "taker",
-          "isMut": true,
-          "isSigner": true
+          name: 'taker';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "takerAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'takerAta';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "takerReceiveAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'takerReceiveAta';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "requestToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'requestToken';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "auth",
-          "isMut": false,
-          "isSigner": false
+          name: 'auth';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
+          name: 'vault';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
+          name: 'escrow';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "fee",
-          "isMut": true,
-          "isSigner": false
+          name: 'fee';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "whitelistProgram",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'whitelistProgram';
+          isMut: false;
+          isSigner: false;
+          isOptional: true;
         },
         {
-          "name": "whitelist",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'whitelist';
+          isMut: false;
+          isSigner: false;
+          isOptional: true;
         },
         {
-          "name": "entry",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
-        }
-      ],
-      "args": [
+          name: 'entry';
+          isMut: false;
+          isSigner: false;
+          isOptional: true;
+        },
+      ];
+      args: [
         {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    }
-  ],
-  "accounts": [
+          name: 'amount';
+          type: 'u64';
+        },
+      ];
+    },
+  ];
+  accounts: [
     {
-      "name": "escrow",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'escrow';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "maker",
-            "type": "publicKey"
+            name: 'maker';
+            type: 'publicKey';
           },
           {
-            "name": "depositToken",
-            "type": "publicKey"
+            name: 'depositToken';
+            type: 'publicKey';
           },
           {
-            "name": "requestToken",
-            "type": "publicKey"
+            name: 'requestToken';
+            type: 'publicKey';
           },
           {
-            "name": "tokensDepositInit",
-            "type": "u64"
+            name: 'tokensDepositInit';
+            type: 'u64';
           },
           {
-            "name": "tokensDepositRemaining",
-            "type": "u64"
+            name: 'tokensDepositRemaining';
+            type: 'u64';
           },
           {
-            "name": "price",
-            "type": "f64"
+            name: 'price';
+            type: 'f64';
           },
           {
-            "name": "seed",
-            "type": "u64"
+            name: 'seed';
+            type: 'u64';
           },
           {
-            "name": "authBump",
-            "type": "u8"
+            name: 'authBump';
+            type: 'u8';
           },
           {
-            "name": "vaultBump",
-            "type": "u8"
+            name: 'vaultBump';
+            type: 'u8';
           },
           {
-            "name": "escrowBump",
-            "type": "u8"
+            name: 'escrowBump';
+            type: 'u8';
           },
           {
-            "name": "expireTimestamp",
-            "type": "i64"
+            name: 'expireTimestamp';
+            type: 'i64';
           },
           {
-            "name": "recipient",
-            "type": "publicKey"
+            name: 'recipient';
+            type: 'publicKey';
           },
           {
-            "name": "onlyRecipient",
-            "type": "bool"
+            name: 'onlyRecipient';
+            type: 'bool';
           },
           {
-            "name": "onlyWhitelist",
-            "type": "bool"
+            name: 'onlyWhitelist';
+            type: 'bool';
           },
           {
-            "name": "whitelist",
-            "type": "publicKey"
+            name: 'whitelist';
+            type: 'publicKey';
           },
           {
-            "name": "allowPartialFill",
-            "type": "bool"
-          }
-        ]
-      }
-    }
-  ],
-  "errors": [
+            name: 'allowPartialFill';
+            type: 'bool';
+          },
+        ];
+      };
+    },
+  ];
+  errors: [
     {
-      "code": 6000,
-      "name": "AuthBumpError",
-      "msg": "Unable to get auth bump"
+      code: 6000;
+      name: 'AuthBumpError';
+      msg: 'Unable to get auth bump';
     },
     {
-      "code": 6001,
-      "name": "VaultBumpError",
-      "msg": "Unable to get vault bump"
+      code: 6001;
+      name: 'VaultBumpError';
+      msg: 'Unable to get vault bump';
     },
     {
-      "code": 6002,
-      "name": "EscrowBumpError",
-      "msg": "Unable to get escrow bump"
+      code: 6002;
+      name: 'EscrowBumpError';
+      msg: 'Unable to get escrow bump';
     },
     {
-      "code": 6003,
-      "name": "EscrowNotEnoughRemaining",
-      "msg": "Escrow has not enough funds reamining"
+      code: 6003;
+      name: 'EscrowNotEnoughRemaining';
+      msg: 'Escrow has not enough funds reamining';
     },
     {
-      "code": 6004,
-      "name": "EscrowRecipientError",
-      "msg": "Wrong recipient input"
+      code: 6004;
+      name: 'EscrowRecipientError';
+      msg: 'Wrong recipient input';
     },
     {
-      "code": 6005,
-      "name": "EscrowFeeError",
-      "msg": "Wrong fee account input"
+      code: 6005;
+      name: 'EscrowFeeError';
+      msg: 'Wrong fee account input';
     },
     {
-      "code": 6006,
-      "name": "EscrowMinimumError",
-      "msg": "Wrong minimim"
+      code: 6006;
+      name: 'EscrowMinimumError';
+      msg: 'Wrong minimum';
     },
     {
-      "code": 6007,
-      "name": "EscrowPartialFillNotAllowed",
-      "msg": "Partial fill is not allowed"
+      code: 6007;
+      name: 'EscrowPartialFillNotAllowed';
+      msg: 'Partial fill is not allowed';
     },
     {
-      "code": 6008,
-      "name": "EscrowTimestampExpired",
-      "msg": "Timestamp expired"
+      code: 6008;
+      name: 'EscrowTimestampExpired';
+      msg: 'Timestamp expired';
     },
     {
-      "code": 6009,
-      "name": "WrongWhitelistProvided",
-      "msg": "Wrong whitelist is provided"
-    }
-  ]
+      code: 6009;
+      name: 'WrongWhitelistProvided';
+      msg: 'Wrong whitelist is provided';
+    },
+    {
+      code: 6010;
+      name: 'DecimalPrecisionLoss';
+      msg: 'Decimal precision loss';
+    },
+  ];
 };
 
 export const IDL: EscrowService = {
-  "version": "0.1.0",
-  "name": "escrow_service",
-  "instructions": [
+  version: '0.1.0',
+  name: 'escrow_service',
+  instructions: [
     {
-      "name": "initialize",
-      "accounts": [
+      name: 'initialize',
+      accounts: [
         {
-          "name": "maker",
-          "isMut": true,
-          "isSigner": true
+          name: 'maker',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "makerAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'makerAta',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "recipient",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'recipient',
+          isMut: false,
+          isSigner: false,
+          isOptional: true,
         },
         {
-          "name": "depositToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'depositToken',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "requestToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'requestToken',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "auth",
-          "isMut": false,
-          "isSigner": false
+          name: 'auth',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
+          name: 'vault',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
+          name: 'escrow',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "fee",
-          "isMut": true,
-          "isSigner": false
+          name: 'fee',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "whitelistProgram",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'whitelistProgram',
+          isMut: false,
+          isSigner: false,
+          isOptional: true,
         },
         {
-          "name": "whitelist",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'whitelist',
+          isMut: false,
+          isSigner: false,
+          isOptional: true,
         },
         {
-          "name": "entry",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
-        }
+          name: 'entry',
+          isMut: false,
+          isSigner: false,
+          isOptional: true,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "seed",
-          "type": "u64"
+          name: 'seed',
+          type: 'u64',
         },
         {
-          "name": "depositAmount",
-          "type": "u64"
+          name: 'depositAmount',
+          type: 'u64',
         },
         {
-          "name": "requestAmount",
-          "type": "u64"
+          name: 'requestAmount',
+          type: 'u64',
         },
         {
-          "name": "expireTimestamp",
-          "type": "i64"
+          name: 'expireTimestamp',
+          type: 'i64',
         },
         {
-          "name": "allowPartialFill",
-          "type": "bool"
+          name: 'allowPartialFill',
+          type: 'bool',
         },
         {
-          "name": "onlyWhitelist",
-          "type": "bool"
-        }
-      ]
+          name: 'onlyWhitelist',
+          type: 'bool',
+        },
+      ],
     },
     {
-      "name": "cancel",
-      "accounts": [
+      name: 'cancel',
+      accounts: [
         {
-          "name": "maker",
-          "isMut": true,
-          "isSigner": true
+          name: 'maker',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "makerAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'makerAta',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "depositToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'depositToken',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "makerAtaRequest",
-          "isMut": false,
-          "isSigner": false
+          name: 'makerAtaRequest',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "makerTokenRequest",
-          "isMut": false,
-          "isSigner": false
+          name: 'makerTokenRequest',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "auth",
-          "isMut": false,
-          "isSigner": false
+          name: 'auth',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
+          name: 'vault',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
+          name: 'escrow',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": []
+      args: [],
     },
     {
-      "name": "exchange",
-      "accounts": [
+      name: 'exchange',
+      accounts: [
         {
-          "name": "maker",
-          "isMut": true,
-          "isSigner": false
+          name: 'maker',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "makerReceiveAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'makerReceiveAta',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "depositToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'depositToken',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "taker",
-          "isMut": true,
-          "isSigner": true
+          name: 'taker',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "takerAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'takerAta',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "takerReceiveAta",
-          "isMut": true,
-          "isSigner": false
+          name: 'takerReceiveAta',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "requestToken",
-          "isMut": false,
-          "isSigner": false
+          name: 'requestToken',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "auth",
-          "isMut": false,
-          "isSigner": false
+          name: 'auth',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
+          name: 'vault',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
+          name: 'escrow',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "fee",
-          "isMut": true,
-          "isSigner": false
+          name: 'fee',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "whitelistProgram",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'whitelistProgram',
+          isMut: false,
+          isSigner: false,
+          isOptional: true,
         },
         {
-          "name": "whitelist",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          name: 'whitelist',
+          isMut: false,
+          isSigner: false,
+          isOptional: true,
         },
         {
-          "name": "entry",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
-        }
+          name: 'entry',
+          isMut: false,
+          isSigner: false,
+          isOptional: true,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    }
+          name: 'amount',
+          type: 'u64',
+        },
+      ],
+    },
   ],
-  "accounts": [
+  accounts: [
     {
-      "name": "escrow",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'escrow',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "maker",
-            "type": "publicKey"
+            name: 'maker',
+            type: 'publicKey',
           },
           {
-            "name": "depositToken",
-            "type": "publicKey"
+            name: 'depositToken',
+            type: 'publicKey',
           },
           {
-            "name": "requestToken",
-            "type": "publicKey"
+            name: 'requestToken',
+            type: 'publicKey',
           },
           {
-            "name": "tokensDepositInit",
-            "type": "u64"
+            name: 'tokensDepositInit',
+            type: 'u64',
           },
           {
-            "name": "tokensDepositRemaining",
-            "type": "u64"
+            name: 'tokensDepositRemaining',
+            type: 'u64',
           },
           {
-            "name": "price",
-            "type": "f64"
+            name: 'price',
+            type: 'f64',
           },
           {
-            "name": "seed",
-            "type": "u64"
+            name: 'seed',
+            type: 'u64',
           },
           {
-            "name": "authBump",
-            "type": "u8"
+            name: 'authBump',
+            type: 'u8',
           },
           {
-            "name": "vaultBump",
-            "type": "u8"
+            name: 'vaultBump',
+            type: 'u8',
           },
           {
-            "name": "escrowBump",
-            "type": "u8"
+            name: 'escrowBump',
+            type: 'u8',
           },
           {
-            "name": "expireTimestamp",
-            "type": "i64"
+            name: 'expireTimestamp',
+            type: 'i64',
           },
           {
-            "name": "recipient",
-            "type": "publicKey"
+            name: 'recipient',
+            type: 'publicKey',
           },
           {
-            "name": "onlyRecipient",
-            "type": "bool"
+            name: 'onlyRecipient',
+            type: 'bool',
           },
           {
-            "name": "onlyWhitelist",
-            "type": "bool"
+            name: 'onlyWhitelist',
+            type: 'bool',
           },
           {
-            "name": "whitelist",
-            "type": "publicKey"
+            name: 'whitelist',
+            type: 'publicKey',
           },
           {
-            "name": "allowPartialFill",
-            "type": "bool"
-          }
-        ]
-      }
-    }
+            name: 'allowPartialFill',
+            type: 'bool',
+          },
+        ],
+      },
+    },
   ],
-  "errors": [
+  errors: [
     {
-      "code": 6000,
-      "name": "AuthBumpError",
-      "msg": "Unable to get auth bump"
+      code: 6000,
+      name: 'AuthBumpError',
+      msg: 'Unable to get auth bump',
     },
     {
-      "code": 6001,
-      "name": "VaultBumpError",
-      "msg": "Unable to get vault bump"
+      code: 6001,
+      name: 'VaultBumpError',
+      msg: 'Unable to get vault bump',
     },
     {
-      "code": 6002,
-      "name": "EscrowBumpError",
-      "msg": "Unable to get escrow bump"
+      code: 6002,
+      name: 'EscrowBumpError',
+      msg: 'Unable to get escrow bump',
     },
     {
-      "code": 6003,
-      "name": "EscrowNotEnoughRemaining",
-      "msg": "Escrow has not enough funds reamining"
+      code: 6003,
+      name: 'EscrowNotEnoughRemaining',
+      msg: 'Escrow has not enough funds reamining',
     },
     {
-      "code": 6004,
-      "name": "EscrowRecipientError",
-      "msg": "Wrong recipient input"
+      code: 6004,
+      name: 'EscrowRecipientError',
+      msg: 'Wrong recipient input',
     },
     {
-      "code": 6005,
-      "name": "EscrowFeeError",
-      "msg": "Wrong fee account input"
+      code: 6005,
+      name: 'EscrowFeeError',
+      msg: 'Wrong fee account input',
     },
     {
-      "code": 6006,
-      "name": "EscrowMinimumError",
-      "msg": "Wrong minimim"
+      code: 6006,
+      name: 'EscrowMinimumError',
+      msg: 'Wrong minimum',
     },
     {
-      "code": 6007,
-      "name": "EscrowPartialFillNotAllowed",
-      "msg": "Partial fill is not allowed"
+      code: 6007,
+      name: 'EscrowPartialFillNotAllowed',
+      msg: 'Partial fill is not allowed',
     },
     {
-      "code": 6008,
-      "name": "EscrowTimestampExpired",
-      "msg": "Timestamp expired"
+      code: 6008,
+      name: 'EscrowTimestampExpired',
+      msg: 'Timestamp expired',
     },
     {
-      "code": 6009,
-      "name": "WrongWhitelistProvided",
-      "msg": "Wrong whitelist is provided"
-    }
-  ]
+      code: 6009,
+      name: 'WrongWhitelistProvided',
+      msg: 'Wrong whitelist is provided',
+    },
+    {
+      code: 6010,
+      name: 'DecimalPrecisionLoss',
+      msg: 'Decimal precision loss',
+    },
+  ],
 };
