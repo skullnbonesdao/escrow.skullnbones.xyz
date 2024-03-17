@@ -9,7 +9,7 @@
           :class="useWalletStore().is_whitelisted ? 'bg-primary' : ''"
         >
           <q-avatar size="50px">
-            <q-img src="logo.png" />
+            <q-img src="logo.svg" />
           </q-avatar>
         </q-btn>
 
@@ -23,7 +23,7 @@
           />
           <q-route-tab
             name="tab_create"
-            icon="handyman"
+            icon="design_services"
             label="Edit"
             to="/create"
           />
@@ -61,6 +61,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useWalletStore } from 'stores/WalletStore';
 import EscrowTakeDrawer from 'components/drawer/EscrowTakeDrawer.vue';
 import { useGlobalStore } from 'stores/GlobalStore';
+import LogoIcon from 'src/icons/LogoIcon.vue';
 
 const tab = ref();
 </script>

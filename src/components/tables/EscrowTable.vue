@@ -106,6 +106,7 @@ const columns = ref([
   { name: 'selling', label: 'Selling' },
   { name: 'balance', label: '' },
   { name: 'expire', label: '' },
+  { name: 'creator', label: '' },
   { name: 'take', label: '' },
 ]);
 
@@ -300,6 +301,29 @@ const token_selected = ref();
                 >Will
                 {{ props.row.account.expireTimestamp > 0 ? '' : 'NOT ' }}
                 expire</q-tooltip
+              >
+            </q-icon>
+          </q-td>
+          <q-td key="creator" :props="props">
+            <q-icon
+              size="sm"
+              name="design_services"
+              :color="
+                props.row.account.maker.toString() ==
+                useWallet().publicKey.value?.toString()
+                  ? 'orange'
+                  : 'grey'
+              "
+            >
+              <q-tooltip
+                >You are
+                {{
+                  props.row.account.maker.toString() ==
+                  useWallet().publicKey.value?.toString()
+                    ? ''
+                    : 'NOT '
+                }}
+                the creator</q-tooltip
               >
             </q-icon>
           </q-td>

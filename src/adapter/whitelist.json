@@ -1,347 +1,191 @@
 {
   "version": "0.1.0",
-  "name": "escrow_service",
+  "name": "whitelist",
   "instructions": [
     {
       "name": "initialize",
       "accounts": [
         {
-          "name": "maker",
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
           "isMut": true,
           "isSigner": true
         },
         {
-          "name": "makerAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "recipient",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
-        },
-        {
-          "name": "depositToken",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "requestToken",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "auth",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "systemProgram",
           "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "fee",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitelistProgram",
-          "isMut": false,
           "isSigner": false,
-          "isOptional": true
-        },
-        {
-          "name": "whitelist",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
-        },
-        {
-          "name": "entry",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          "docs": ["the account sending (and signing) this transaction"]
         }
       ],
       "args": [
         {
-          "name": "seed",
-          "type": "u64"
-        },
-        {
-          "name": "depositAmount",
-          "type": "u64"
-        },
-        {
-          "name": "requestAmount",
-          "type": "u64"
-        },
-        {
-          "name": "expireTimestamp",
-          "type": "i64"
-        },
-        {
-          "name": "allowPartialFill",
-          "type": "bool"
-        },
-        {
-          "name": "onlyWhitelist",
-          "type": "bool"
+          "name": "name",
+          "type": "string"
         }
       ]
     },
     {
-      "name": "cancel",
+      "name": "addToWhitelist",
       "accounts": [
         {
-          "name": "maker",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "makerAta",
+          "name": "entry",
           "isMut": true,
           "isSigner": false
-        },
-        {
-          "name": "depositToken",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "makerAtaRequest",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "makerTokenRequest",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "auth",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "exchange",
-      "accounts": [
-        {
-          "name": "maker",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "makerReceiveAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "depositToken",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "taker",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "takerAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "takerReceiveAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "requestToken",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "auth",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "escrow",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "fee",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitelistProgram",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
         },
         {
           "name": "whitelist",
-          "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          "isMut": true,
+          "isSigner": false
         },
         {
-          "name": "entry",
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
           "isMut": false,
-          "isSigner": false,
-          "isOptional": true
+          "isSigner": false
         }
       ],
       "args": [
         {
-          "name": "amount",
-          "type": "u64"
+          "name": "accountToAdd",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "removeFromWhitelist",
+      "accounts": [
+        {
+          "name": "entry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "accountToDelete",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "deleteWhitelist",
+      "accounts": [
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "checkWhitelist",
+      "accounts": [
+        {
+          "name": "whitelist",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "publicKey"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "checkWhitelisted",
+      "accounts": [
+        {
+          "name": "entry",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "accountToCheck",
+          "type": "publicKey"
         }
       ]
     }
   ],
   "accounts": [
     {
-      "name": "Escrow",
+      "name": "Whitelist",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "maker",
+            "name": "authority",
             "type": "publicKey"
           },
           {
-            "name": "depositToken",
-            "type": "publicKey"
+            "name": "name",
+            "type": "string"
           },
           {
-            "name": "requestToken",
-            "type": "publicKey"
-          },
-          {
-            "name": "tokensDepositInit",
-            "type": "u64"
-          },
-          {
-            "name": "tokensDepositRemaining",
-            "type": "u64"
-          },
-          {
-            "name": "price",
-            "type": "f64"
-          },
-          {
-            "name": "seed",
-            "type": "u64"
-          },
-          {
-            "name": "authBump",
-            "type": "u8"
-          },
-          {
-            "name": "vaultBump",
-            "type": "u8"
-          },
-          {
-            "name": "escrowBump",
-            "type": "u8"
-          },
-          {
-            "name": "expireTimestamp",
-            "type": "i64"
-          },
-          {
-            "name": "recipient",
-            "type": "publicKey"
-          },
-          {
-            "name": "onlyRecipient",
+            "name": "hasChilds",
             "type": "bool"
           },
           {
-            "name": "onlyWhitelist",
-            "type": "bool"
-          },
+            "name": "accessCount",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WhitelistEntry",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "whitelist",
+            "name": "parent",
             "type": "publicKey"
           },
           {
-            "name": "allowPartialFill",
-            "type": "bool"
+            "name": "whitelisted",
+            "type": "publicKey"
           }
         ]
       }
@@ -350,53 +194,16 @@
   "errors": [
     {
       "code": 6000,
-      "name": "AuthBumpError",
-      "msg": "Unable to get auth bump"
+      "name": "WhitelistStillHasChilds",
+      "msg": "The whitelist still has childs"
     },
     {
       "code": 6001,
-      "name": "VaultBumpError",
-      "msg": "Unable to get vault bump"
-    },
-    {
-      "code": 6002,
-      "name": "EscrowBumpError",
-      "msg": "Unable to get escrow bump"
-    },
-    {
-      "code": 6003,
-      "name": "EscrowNotEnoughRemaining",
-      "msg": "Escrow has not enough funds reamining"
-    },
-    {
-      "code": 6004,
-      "name": "EscrowRecipientError",
-      "msg": "Wrong recipient input"
-    },
-    {
-      "code": 6005,
-      "name": "EscrowFeeError",
-      "msg": "Wrong fee account input"
-    },
-    {
-      "code": 6006,
-      "name": "EscrowMinimumError",
-      "msg": "Wrong minimim"
-    },
-    {
-      "code": 6007,
-      "name": "EscrowPartialFillNotAllowed",
-      "msg": "Partial fill is not allowed"
-    },
-    {
-      "code": 6008,
-      "name": "EscrowTimestampExpired",
-      "msg": "Timestamp expired"
-    },
-    {
-      "code": 6009,
-      "name": "WrongWhitelistProvided",
-      "msg": "Wrong whitelist is provided"
+      "name": "AccountsNoRemovable",
+      "msg": "Can not remove the specified account"
     }
-  ]
+  ],
+  "metadata": {
+    "address": "whi5uDPWK4rAE9Sus6hdxdHwsG1hjDBn6kXM6pyqwTn"
+  }
 }

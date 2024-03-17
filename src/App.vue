@@ -30,11 +30,11 @@ watch(
   () => useWallet().publicKey.value,
   async () => {
     $q.loading.show({ message: 'Loading data...' });
-    await useWalletStore().load_token_accounts();
-
     initWorkspace();
-    useGlobalStore().is_initialized = true;
+
+    await useWalletStore().load_token_accounts();
     await useWalletStore().prepare_whitelisted();
+    useGlobalStore().is_initialized = true;
 
     $q.loading.hide();
   },

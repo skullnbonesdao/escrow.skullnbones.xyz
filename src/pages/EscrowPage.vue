@@ -8,19 +8,36 @@ const tab = ref('open');
 <template>
   <q-page>
     <q-tabs v-model="tab" align="justify" active-bg-color="secondary">
-      <q-tab name="open" label="Public Offers" />
-      <q-tab name="p2p" label="P2P Offers" />
-      <q-tab name="b2b" label="B2B Offers" />
+      <q-tab name="open" label="Public" />
+      <q-tab name="p2p" label="Direct" />
+      <q-tab name="b2b" label="S&B Members" />
     </q-tabs>
 
     <q-tab-panels v-model="tab" animated>
       <q-tab-panel name="open" class="q-pa-none">
+        <q-badge
+          color="secondary"
+          class="full-width q-px-md q-my-sm text-subtitle2 text-weight-light"
+          >All offers listed here are open for everyone to take...</q-badge
+        >
+
         <EscrowViews :type="tab" title="Public" />
       </q-tab-panel>
       <q-tab-panel name="p2p" class="q-pa-none">
+        <q-badge
+          color="secondary"
+          class="full-width q-px-md q-my-sm text-subtitle2 text-weight-light"
+          >All offers listed here are only to be filled by a single
+          address</q-badge
+        >
         <EscrowViews :type="tab" title="Person 2 Person" />
       </q-tab-panel>
-      <q-tab-panel name="p2g" class="q-pa-none">
+      <q-tab-panel name="b2b" class="q-pa-none">
+        <q-badge
+          color="secondary"
+          class="full-width q-px-md q-my-sm text-subtitle2 text-weight-light"
+          >All offers listed here are only open for S&B Members</q-badge
+        >
         <EscrowViews :type="tab" title="Person 2 Group" />
       </q-tab-panel>
     </q-tab-panels>

@@ -162,8 +162,8 @@ async function build_tx() {
       !(
         deposit_mint?.length &&
         request_mint?.length &&
-        deposit_amount > 1 &&
-        request_amount > 1
+        deposit_amount > 0 &&
+        request_amount > 0
       )
     "
     :label="useWalletStore().is_whitelisted ? 'Create as Member' : `Create`"
