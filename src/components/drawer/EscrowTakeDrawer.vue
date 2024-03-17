@@ -2,6 +2,8 @@
 import { useGlobalStore } from 'src/stores/GlobalStore';
 import EscrowDetails from 'components/details/EscrowDetails.vue';
 import EscrowTakeView from 'components/details/EscrowTakeView.vue';
+import { ACCOUNT_COST_ESCROW } from 'stores/constants';
+import { useWalletStore } from 'stores/WalletStore';
 </script>
 
 <template>

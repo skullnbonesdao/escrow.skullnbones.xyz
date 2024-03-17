@@ -2,6 +2,7 @@
 import { useGlobalStore } from 'stores/GlobalStore';
 import { computed, ref, watch } from 'vue';
 import ExchangeEscrowButton from 'components/actions/ExchangeEscrowButton.vue';
+import { useWalletStore } from 'stores/WalletStore';
 
 const token_depostit_info = computed(() => {
   return useGlobalStore().token_list.find(
@@ -179,6 +180,10 @@ function calc_percent_amount(percentage: number) {
         :escrow_address="useGlobalStore().escrow_selected?.publicKey"
         :exchange_amount="amount_to_buy"
       />
+      <p class="text-right q-mt-sm text-weight-thin">
+        Fee:
+        {{ useWalletStore().is_whitelisted ? 0.01 / 2 : 0.01 }}sol
+      </p>
     </q-card-section>
   </q-card>
 </template>

@@ -9,44 +9,36 @@ const tab = ref('tab_create');
 
 <template>
   <q-page>
-    <q-tabs v-model="tab" align="justify" active-bg-color="secondary">
-      <q-tab name="tab_create" label="Create" />
-      <q-tab name="tab_open" label="Open" />
-      <q-tab name="tab_close" label="Close" />
-    </q-tabs>
+    <div v-if="!useWallet().publicKey.value" class="row q-ma-md">
+      <q-space />
+      <WalletMultiButton dark />
+      <q-space />
+    </div>
+    <div v-else>
+      <q-tabs v-model="tab" align="justify" active-bg-color="secondary">
+        <q-tab name="tab_create" label="Create" />
+        <q-tab name="tab_open" label="Open" />
+        <q-tab name="tab_close" label="Close" />
+      </q-tabs>
 
-    <q-tab-panels v-model="tab" animated class="bg-">
-      <q-tab-panel name="tab_create">
-        <div v-if="!useWallet().publicKey.value" class="row q-ma-md">
-          <q-space />
-          <WalletMultiButton dark />
-          <q-space />
-        </div>
-        <div v-else class="row">
-          <q-space />
-          <CreateEscrowCard style="max-width: 500px" />
-          <q-space />
-        </div>
-      </q-tab-panel>
+      <q-tab-panels v-model="tab" animated class="bg-">
+        <q-tab-panel name="tab_create">
+          <div class="row">
+            <q-space />
+            <CreateEscrowCard style="max-width: 500px" />
+            <q-space />
+          </div>
+        </q-tab-panel>
 
-      <q-tab-panel name="tab_open">
-        <div v-if="!useWallet().publicKey.value" class="row q-ma-md">
-          <q-space />
-          <WalletMultiButton dark />
-          <q-space />
-        </div>
-        <EscrowTableOpen v-else />
-      </q-tab-panel>
+        <q-tab-panel name="tab_open">
+          <EscrowTableOpen />
+        </q-tab-panel>
 
-      <q-tab-panel name="tab_close">
-        <div v-if="!useWallet().publicKey.value" class="row q-ma-md">
-          <q-space />
-          <WalletMultiButton dark />
-          <q-space />
-        </div>
-        <EscrowTableCloseable v-else />
-      </q-tab-panel>
-    </q-tab-panels>
+        <q-tab-panel name="tab_close">
+          <EscrowTableCloseable />
+        </q-tab-panel>
+      </q-tab-panels>
+    </div>
   </q-page>
 </template>
 
