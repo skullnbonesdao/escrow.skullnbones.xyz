@@ -73,16 +73,14 @@ function calc_percent_amount(percentage: number) {
       </p>
     </q-card-section>
     <q-card-section class="q-gutter-y-md">
-      <q-card
-        bordered
-        class="q-pa-sm bg-secondary"
-        flat
-        :disabled="!useGlobalStore().escrow_selected?.account.allowPartialFill"
-      >
+      <q-card bordered class="q-pa-sm bg-secondary" flat>
         <div><q-badge outline label="BUYING" color="green" rounded /></div>
         <div class="col">
           <div class="row items-center">
             <q-input
+              :disable="
+                !useGlobalStore().escrow_selected?.account.allowPartialFill
+              "
               dense
               class="col"
               borderless
@@ -99,6 +97,9 @@ function calc_percent_amount(percentage: number) {
             class="q-px-sm"
             dense
             v-model="amount_to_buy"
+            :disable="
+              !useGlobalStore().escrow_selected?.account.allowPartialFill
+            "
             :min="0"
             :max="
               useGlobalStore().escrow_selected?.account.tokensDepositRemaining.toNumber() *
@@ -111,6 +112,9 @@ function calc_percent_amount(percentage: number) {
           />
           <div class="q-px-sm row">
             <q-btn
+              :disable="
+                !useGlobalStore().escrow_selected?.account.allowPartialFill
+              "
               dense
               flat
               class="col"
