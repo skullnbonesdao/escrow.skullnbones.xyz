@@ -129,8 +129,9 @@ const token_selected = ref();
         @mint_selected="(data) => (token_selected = data)"
       />
 
-      <div class="q-pa-sm bg-secondary">
+      <div class="bg-secondary">
         <q-option-group
+          class="q-pa-sm q-pr-md"
           name="accepted_genres"
           v-model="accepted"
           :options="options"
@@ -153,11 +154,7 @@ const token_selected = ref();
       <template v-slot:top> </template>
 
       <template v-slot:body="props">
-        <q-tr
-          :props="props"
-          class="bg-secondary"
-          @click="handle_buy(props.row)"
-        >
+        <q-tr :props="props" @click="handle_buy(props.row)">
           <q-td key="buying" :props="props" class="">
             <div class="row items-center">
               <b class="col text-right text-h6">
@@ -299,8 +296,8 @@ const token_selected = ref();
               useGlobalStore().escrow_selected.publicKey.toString()
           "
         >
-          <q-td colspan="100%">
-            <EscrowTakeDrawer />
+          <q-td colspan="100%" class="bg-secondary">
+            <EscrowTakeDrawer class="q-pb-md" />
           </q-td>
         </q-tr>
       </template>

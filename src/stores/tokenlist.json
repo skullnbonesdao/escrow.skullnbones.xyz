@@ -26,6 +26,17 @@
       "tags": [],
       "verified": true,
       "holders": null
+    },
+    {
+      "chainId": 101,
+      "name": "Pearce X4",
+      "symbol": "PX$",
+      "address": "B8MFK4agivn1tDa2KtYZxmyPsuZepn1ZQ4KEuzZanAMV",
+      "decimals": 0,
+      "logoURI": "https://storage.googleapis.com/nft-assets/items/FBLAIR.jpg",
+      "tags": [],
+      "verified": true,
+      "holders": null
     }
   ]
 }

@@ -91,6 +91,9 @@ async function build_tx() {
       entry = useWalletStore().entry_account;
     }
 
+    console.log(`depostit=${props.deposit_amount}`);
+    console.log(`request=${props.request_amount}`);
+
     let signature = await pg_escrow.value.methods
       .initialize(
         seed,
