@@ -37,9 +37,7 @@ watch(
 
 const amount_to_buy = ref(amount_to_buy_comp.value);
 const amount_to_sell = computed(() => {
-  return (
-    amount_to_buy.value * (useGlobalStore().escrow_selected?.account.price ?? 0)
-  );
+  return amount_to_buy.value * useGlobalStore().getSelectedEscrowPrice;
 });
 
 function calc_percent_amount(percentage: number) {
@@ -74,7 +72,7 @@ function calc_percent_amount(percentage: number) {
       <p class="col">Price</p>
 
       <p class="text-subtitle1">
-        {{ useGlobalStore().escrow_selected?.account.price.toFixed(2) }}
+        {{ useGlobalStore().getSelectedEscrowPrice }}
       </p>
     </q-card-section>
     <q-card-section class="q-gutter-y-md">

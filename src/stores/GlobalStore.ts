@@ -35,7 +35,24 @@ export const useGlobalStore = defineStore('GlobalStore', {
     escrows: undefined as Array<I_Escrows> | undefined,
     escrow_selected: undefined as I_Escrows | undefined,
   }),
-  getters: {},
+  getters: {
+    getSelectedEscrowPrice(state) {
+      return (
+        (state.escrow_selected?.account.price ?? 0) *
+        10 **
+          ((state.token_list.find(
+            (t) =>
+              t.address ==
+              state.escrow_selected?.account.depositToken.toString(),
+          )?.decimals ?? 0) -
+            (state.token_list.find(
+              (t) =>
+                t.address ==
+                state.escrow_selected?.account.requestToken.toString(),
+            )?.decimals ?? 0))
+      );
+    },
+  },
   actions: {
     async init() {
       this.update_connection();

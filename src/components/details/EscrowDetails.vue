@@ -74,7 +74,15 @@ const remaining_percentage = computed(() => {
       <div class="row">
         <div class="col text-weight-light text-no-wrap">Deposit amount:</div>
         <strong class="col-9 text-right">
-          {{ useGlobalStore().escrow_selected?.account?.tokensDepositInit }}
+          {{
+            useGlobalStore().escrow_selected?.account?.tokensDepositInit *
+            10 **
+              -useGlobalStore().token_list.find(
+                (token) =>
+                  token.address ==
+                  useGlobalStore().escrow_selected?.account.depositToken.toString(),
+              ).decimals
+          }}
         </strong>
       </div>
 
@@ -82,7 +90,13 @@ const remaining_percentage = computed(() => {
         <div class="col text-weight-light text-no-wrap">Remaining amount:</div>
         <strong class="col-9 text-right">
           {{
-            useGlobalStore().escrow_selected?.account?.tokensDepositRemaining
+            useGlobalStore().escrow_selected?.account?.tokensDepositRemaining *
+            10 **
+              -useGlobalStore().token_list.find(
+                (token) =>
+                  token.address ==
+                  useGlobalStore().escrow_selected?.account.depositToken.toString(),
+              ).decimals
           }}
         </strong>
       </div>
@@ -90,7 +104,7 @@ const remaining_percentage = computed(() => {
       <div class="row">
         <div class="col text-weight-light text-no-wrap">Price:</div>
         <strong class="col-9 text-right">{{
-          useGlobalStore().escrow_selected?.account?.price.toString()
+          useGlobalStore().getSelectedEscrowPrice
         }}</strong>
       </div>
 

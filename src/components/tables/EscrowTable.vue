@@ -35,10 +35,12 @@ let escrows = computed(() => {
             escrow.account.recipient.toString() ==
               useWallet().publicKey.value?.toString()),
       );
+      break;
     case 'b2b':
       escrows_list = useGlobalStore().escrows?.filter(
         (escrow) => escrow.account.onlyWhitelist == true,
       );
+      break;
     default:
       escrows_list = useGlobalStore().escrows?.filter(
         (escrow) =>
@@ -46,6 +48,7 @@ let escrows = computed(() => {
           escrow.account.onlyWhitelist != true &&
           escrow.account.tokensDepositRemaining.toNumber() > 0,
       );
+      break;
   }
 
   if (token_selected.value) {
@@ -208,22 +211,19 @@ const token_selected = ref();
             <p class="text-subtitle1">
               {{
                 (
-                  props.row.account.price.toFixed(2) *
+                  props.row.account.price *
                   Math.pow(
                     10,
-                    +useGlobalStore().token_list.find(
+                    useGlobalStore().token_list.find(
                       (token) =>
                         token.address ==
                         props.row.account.depositToken.toString(),
-                    ).decimals,
-                  ) *
-                  Math.pow(
-                    10,
-                    -useGlobalStore().token_list.find(
-                      (token) =>
-                        token.address ==
-                        props.row.account.requestToken.toString(),
-                    ).decimals,
+                    ).decimals -
+                      useGlobalStore().token_list.find(
+                        (token) =>
+                          token.address ==
+                          props.row.account.requestToken.toString(),
+                      ).decimals,
                   )
                 ).toFixed(2)
               }}
@@ -308,6 +308,7 @@ const token_selected = ref();
           </q-td>
         </q-tr>
         <q-tr
+          no-hover
           :props="props"
           v-if="
             useQuasar().screen.lt.md &&
@@ -316,7 +317,7 @@ const token_selected = ref();
               useGlobalStore().escrow_selected.publicKey.toString()
           "
         >
-          <q-td colspan="100%" class="bg-secondary">
+          <q-td colspan="100%" class="bg-secondary q-ma-none q-pa-none">
             <EscrowTakeDrawer class="q-pb-md" />
           </q-td>
         </q-tr>
