@@ -47,7 +47,6 @@ async function load_escrows() {
 
   switch (props.escrow_filter) {
     case 'p2p':
-      console.log(escrows_list);
       escrows.value = escrows_list.filter(
         (escrow) =>
           escrow.account.recipient.toString() != NULL_ADDRESS.toString() &&

@@ -82,10 +82,6 @@ async function build_tx() {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
-    console.log(`maker_receive_ata: ${maker_receive_ata}`);
-    console.log(`taker_request_ata: ${taker_request_ata}`);
-    console.log(`taker_deposit_ata: ${taker_deposit_ata}`);
-    console.log(`exchange_amount: ${props.exchange_amount}`);
     const exchange_amount = await ui2amount(
       escrow_account.depositToken,
       props.exchange_amount,

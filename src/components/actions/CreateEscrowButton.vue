@@ -50,8 +50,6 @@ async function build_tx() {
       [Buffer.from('auth')],
       pg_escrow.value.programId,
     );
-    console.log(auth);
-    console.log(auth_bump);
 
     const escrow = anchor.web3.PublicKey.findProgramAddressSync(
       [
@@ -67,8 +65,6 @@ async function build_tx() {
       pg_escrow.value.programId,
     )[0];
 
-    console.log(`vault: ${vault.toString()}`);
-
     const maker_ata = getAssociatedTokenAddressSync(
       new PublicKey(props.deposit_mint),
       useWallet().publicKey.value as PublicKey,
@@ -76,8 +72,6 @@ async function build_tx() {
       TOKEN_PROGRAM_ID,
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
-
-    console.log(`maker_ata: ${maker_ata.toString()}`);
 
     const recipient = props.recipient_address ? props.recipient_address : null;
 
@@ -90,9 +84,6 @@ async function build_tx() {
       whitelist = useWalletStore().whitelist_account;
       entry = useWalletStore().entry_account;
     }
-
-    console.log(`depostit=${props.deposit_amount}`);
-    console.log(`request=${props.request_amount}`);
 
     let signature = await pg_escrow.value.methods
       .initialize(

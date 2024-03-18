@@ -328,7 +328,7 @@ const token_selected = ref();
             </q-icon>
           </q-td>
           <q-td key="take" :props="props">
-            <q-btn flat color="primary" icon="send" />
+            <q-btn color="primary" icon="send" />
           </q-td>
         </q-tr>
         <q-tr

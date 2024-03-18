@@ -6,7 +6,7 @@
           class="q-mx-sm"
           round
           to="/"
-          :class="useWalletStore().is_whitelisted ? 'bg-primary' : ''"
+          :class="useWalletStore().is_whitelisted ? 'bg-blue' : ''"
         >
           <q-avatar size="50px">
             <q-img src="logo.svg" />

@@ -35,8 +35,6 @@ async function build_tx() {
     );
 
     const seed: anchor.BN = escrow_account.seed;
-    console.log(`escrow_account=${escrow_account}`);
-    console.log(`seed=${seed}`);
 
     const auth = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from('auth')],
