@@ -25,14 +25,14 @@ const remaining_percentage = computed(() => {
         label="FILLED"
         outline
       ></q-badge>
-      <p v-else class="q-mr-sm text-primary">Remaining:</p>
+      <p v-else class="q-mr-sm">{{ remaining_percentage }}%</p>
       <q-circular-progress
         v-if="remaining_percentage != 0"
         :value="remaining_percentage"
         size="30px"
         :thickness="1"
         track-color="black"
-        color="primary"
+        color="green"
       />
     </div>
     <q-separator />

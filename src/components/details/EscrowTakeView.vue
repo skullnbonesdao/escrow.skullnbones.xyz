@@ -164,17 +164,19 @@ function calc_percent_amount(percentage: number) {
 
           <p class="col text-subtitle2 text-right">
             {{
-              useWalletStore().accounts_mapped.find(
-                (a) =>
-                  a.mint ==
-                  useGlobalStore().escrow_selected?.account.requestToken.toString(),
-              )?.amount *
-              10 **
-                -useWalletStore().accounts_mapped.find(
+              (
+                useWalletStore().accounts_mapped.find(
                   (a) =>
                     a.mint ==
                     useGlobalStore().escrow_selected?.account.requestToken.toString(),
-                )?.decimals
+                )?.amount *
+                10 **
+                  -useWalletStore().accounts_mapped.find(
+                    (a) =>
+                      a.mint ==
+                      useGlobalStore().escrow_selected?.account.requestToken.toString(),
+                  )?.decimals
+              ).toFixed(2)
             }}
           </p>
           <p style="font-size: 12px">Available</p>
