@@ -203,7 +203,7 @@ function calc_percent_amount(percentage: number) {
       />
       <p class="text-right q-mt-sm text-weight-thin">
         Fee:
-        {{ useWalletStore().is_whitelisted ? 0.01 / 2 : 0.01 }}sol
+        {{ useWalletStore().is_whitelisted ? 0.006 / 2 : 0.006 }}sol
       </p>
     </q-card-section>
   </q-card>
