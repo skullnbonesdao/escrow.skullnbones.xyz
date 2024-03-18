@@ -31,8 +31,8 @@ const recipient_address = ref<PublicKey>();
 
 <template>
   <q-card flat class="bg-dark q-pa-md q-gutter-y-sm">
-    <div class="bg-secondary">
-      <q-card bordered flat class="row bg-secondary">
+    <div class="">
+      <q-card bordered flat class="row">
         <SelectTokenDropdown
           label="Token provided"
           class="col"
@@ -50,7 +50,7 @@ const recipient_address = ref<PublicKey>();
       </q-card>
     </div>
     <div>
-      <q-card bordered flat class="row bg-secondary">
+      <q-card bordered flat class="row">
         <SelectTokenDropdown
           label="Token requested"
           class="col"
@@ -68,7 +68,7 @@ const recipient_address = ref<PublicKey>();
       </q-card>
     </div>
     <div>
-      <q-card bordered flat class="bg-secondary">
+      <q-card bordered flat>
         <q-expansion-item expand-separator icon="settings" label="Extra config">
           <q-separator />
           <q-item>

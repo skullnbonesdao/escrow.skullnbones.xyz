@@ -77,11 +77,11 @@ const remaining_percentage = computed(() => {
           {{
             useGlobalStore().escrow_selected?.account?.tokensDepositInit *
             10 **
-              -useGlobalStore().token_list.find(
+              (-useGlobalStore().token_list.find(
                 (token) =>
                   token.address ==
                   useGlobalStore().escrow_selected?.account.depositToken.toString(),
-              ).decimals
+              )?.decimals ?? 0)
           }}
         </strong>
       </div>
@@ -96,7 +96,7 @@ const remaining_percentage = computed(() => {
                 (token) =>
                   token.address ==
                   useGlobalStore().escrow_selected?.account.depositToken.toString(),
-              ).decimals
+              )?.decimals
           }}
         </strong>
       </div>

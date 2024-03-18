@@ -14,7 +14,7 @@
         </q-btn>
 
         <q-space />
-        <q-tabs v-model="tab" shrink stretch active-bg-color="secondary">
+        <q-tabs v-model="tab" shrink stretch active-bg-color="primary">
           <q-route-tab
             name="tab_escrow"
             label="Offers"

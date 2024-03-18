@@ -28,7 +28,7 @@ watchDeep(
   <q-page class="q-gutter-y-sm">
     <q-card flat>
       <q-card-section class="row q-gutter-x-sm items-center">
-        <q-btn flat to="/escrow">
+        <q-btn color="primary" to="/escrow">
           <q-avatar>
             <q-icon name="arrow_left" />
           </q-avatar>
@@ -52,7 +52,7 @@ watchDeep(
       <div class="col-3">
         <q-card flat class="full-height">
           <q-card-section>
-            <EscrowDetails :escrow="useGlobalStore().escrow_selected" />
+            <EscrowDetails />
           </q-card-section>
         </q-card>
       </div>

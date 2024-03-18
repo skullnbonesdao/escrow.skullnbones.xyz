@@ -8,18 +8,21 @@ import { useWalletStore } from 'stores/WalletStore';
 
 <template>
   <div class="col">
-    <q-tabs class="bg-secondary">
+    <q-tabs class="bg-dark">
       <q-route-tab
         name="tab_expand"
         icon="open_in_full"
         :to="'details/' + useGlobalStore().escrow_selected?.publicKey"
       />
+
+      <q-separator vertical />
       <q-tab
         name="tab_create"
         icon="cancel"
         @click="useGlobalStore().showRightDrawer = false"
       />
     </q-tabs>
+    <q-separator />
 
     <EscrowTakeView />
 
