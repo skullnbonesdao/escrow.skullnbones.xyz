@@ -159,7 +159,26 @@ function calc_percent_amount(percentage: number) {
         </div>
       </q-card>
       <q-card disabled="" bordered class="q-pa-sm bg-secondary" flat>
-        <div><q-badge outline label="SELLING" color="red" rounded /></div>
+        <div class="row q-gutter-x-xs items-center">
+          <q-badge outline label="SELLING" color="red" rounded />
+
+          <p class="col text-subtitle2 text-right">
+            {{
+              useWalletStore().accounts_mapped.find(
+                (a) =>
+                  a.mint ==
+                  useGlobalStore().escrow_selected?.account.requestToken.toString(),
+              )?.amount *
+              10 **
+                -useWalletStore().accounts_mapped.find(
+                  (a) =>
+                    a.mint ==
+                    useGlobalStore().escrow_selected?.account.requestToken.toString(),
+                )?.decimals
+            }}
+          </p>
+          <p style="font-size: 12px">Available</p>
+        </div>
         <div class="row items-center">
           <q-input
             dense
