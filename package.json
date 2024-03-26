@@ -14,7 +14,8 @@
     "serve": "quasar help",
     "gh-pages-deploy": "node scripts/gh-pages-deploy.js",
     "copy_idl_whitelist": "cp ../anchor/whitelist/target/idl/whitelist.json src/idls/",
-    "gen_client": "anchor-client-gen src/adapter/escrow_service.json src/adapter/escrow_gen"
+    "gen_client": "anchor-client-gen src/adapter/escrow_service.json src/adapter/escrow_gen",
+    "icon": "icongenie generate -i public/logo.png"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.29.0",
@@ -25,6 +26,7 @@
     "@nfteyez/sol-rayz": "^0.10.2",
     "@quasar/app": "^3.3.3",
     "@quasar/extras": "^1.16.4",
+    "@quasar/icongenie": "^4.0.0",
     "@solana-suite/core": "^0.6.8",
     "@solana/spl-token": "^0.3.7",
     "@solana/wallet-adapter-wallets": "^0.19.23",
@@ -32,6 +34,7 @@
     "@staratlas/factory": "^0.6.0",
     "@vueuse/core": "^10.6.1",
     "axios": "^1.2.1",
+    "bn.js": "^5.2.1",
     "konva": "^9.2.3",
     "minidenticons": "^4.2.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
@@ -43,8 +46,7 @@
     "vue": "^3.0.0",
     "vue-konva": "^3.0.2",
     "vue-router": "^4.0.0",
-    "webhook-discord": "^3.7.8",
-    "bn.js": "^5.2.1"
+    "webhook-discord": "^3.7.8"
   },
   "devDependencies": {
     "@coral-xyz/anchor": "^0.29.0",
@@ -58,11 +60,11 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^9.0.0",
     "execa": "^4.0.0",
+    "http-server": "14.1.1",
     "node-emoji": "^1.10.0",
     "prettier": "3.0.3",
     "quasar-app-extension-gh-pages-auto-deploy": "^0.4.0",
-    "typescript": "^4.5.4",
-    "http-server": "14.1.1"
+    "typescript": "^4.5.4"
   },
   "engines": {
     "node": "^18 || ^16 || ^14.19",

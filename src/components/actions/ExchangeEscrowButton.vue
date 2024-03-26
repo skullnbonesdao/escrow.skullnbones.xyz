@@ -138,6 +138,7 @@ async function build_tx() {
       message: 'Transaction confirmed!',
       timeout: 2500,
     });
+
     await useGlobalStore().load_escrow(props.escrow_address);
   } catch (err: any) {
     console.error(err);

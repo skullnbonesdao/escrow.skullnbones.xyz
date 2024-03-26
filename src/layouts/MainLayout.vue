@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="hHh lpr fFf">
     <q-header class="bg-dark">
       <q-toolbar class="q-ma-none q-pa-none">
         <q-btn
@@ -41,6 +41,16 @@
 
       <q-separator />
     </q-header>
+
+    <q-drawer
+      show-if-above
+      v-if="useGlobalStore().showLeftDrawer"
+      side="left"
+      bordered
+    >
+      <FilterEscrows />
+    </q-drawer>
+
     <q-drawer
       show-if-above
       v-if="useGlobalStore().showRightDrawer"
@@ -62,6 +72,7 @@ import { useWalletStore } from 'stores/WalletStore';
 import EscrowTakeDrawer from 'components/drawer/EscrowTakeDrawer.vue';
 import { useGlobalStore } from 'stores/GlobalStore';
 import LogoIcon from 'src/icons/LogoIcon.vue';
+import FilterEscrows from 'components/filters/FilterEscrows.vue';
 
 const tab = ref();
 </script>

@@ -9,7 +9,7 @@ export const FEE_ACCOUNT = new PublicKey(
   '9Q4ug2XNHsWXjS9MDRdsxwi7gmUmGCL3UqHSVmg6dt66',
 );
 export const ESCROW_PROGRAM_ID: PublicKey = new PublicKey(
-  'AfaC4LBuPC3NjWqsmhNwxov7dAeE9ymj7YXCwDwCAjPP',
+  'FoWdEuKLTx7R651twAQcCPWNeHn5W3fSoiBhm3QgbDBf',
 );
 
 export const WHITELIST_PROGRAM_ID: PublicKey = new PublicKey(

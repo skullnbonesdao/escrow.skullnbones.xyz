@@ -348,12 +348,12 @@ export type EscrowService = {
             type: 'bool';
           },
           {
-            name: 'whitelist';
-            type: 'publicKey';
-          },
-          {
             name: 'allowPartialFill';
             type: 'bool';
+          },
+          {
+            name: 'whitelist';
+            type: 'publicKey';
           },
         ];
       };
@@ -773,12 +773,12 @@ export const IDL: EscrowService = {
             type: 'bool',
           },
           {
-            name: 'whitelist',
-            type: 'publicKey',
-          },
-          {
             name: 'allowPartialFill',
             type: 'bool',
+          },
+          {
+            name: 'whitelist',
+            type: 'publicKey',
           },
         ],
       },

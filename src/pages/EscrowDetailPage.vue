@@ -9,6 +9,7 @@ import EscrowDetails from 'components/details/EscrowDetails.vue';
 import { useQuasar } from 'quasar';
 
 useGlobalStore().showRightDrawer = false;
+useGlobalStore().showLeftDrawer = false;
 
 onMounted(async () => {
   const address = new PublicKey(useRoute().params.account);

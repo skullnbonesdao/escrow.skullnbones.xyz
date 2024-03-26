@@ -24,6 +24,7 @@ const only_wallet = ref(false);
 const expire_toggle = ref(false);
 const allow_partial_fill = ref(false);
 const only_members = ref(false);
+const slippage = ref(1);
 const sa_list_enabled = ref(false);
 
 const recipient_address = ref<PublicKey>();
@@ -70,7 +71,6 @@ const recipient_address = ref<PublicKey>();
     <div>
       <q-card bordered flat>
         <q-expansion-item expand-separator icon="settings" label="Extra config">
-          <q-separator />
           <q-item>
             <div class="col q-gutter-y-sm">
               <div class="row">
@@ -131,6 +131,7 @@ const recipient_address = ref<PublicKey>();
               />
             </q-item-section>
           </q-item>
+
           <q-separator />
           <q-item>
             <q-item-section>
@@ -147,6 +148,29 @@ const recipient_address = ref<PublicKey>();
             </q-item-section>
           </q-item>
           <q-separator />
+
+          <q-item>
+            <div class="col q-gutter-y-sm">
+              <div class="row">
+                <q-item-section>
+                  <q-item-label>Slippage</q-item-label>
+                  <q-item-label caption
+                    >Due to decimal precision loss</q-item-label
+                  >
+                </q-item-section>
+                <q-item-section avatar class="col-3">
+                  <q-input
+                    suffix="%"
+                    dense
+                    filled
+                    square
+                    v-model="slippage"
+                    type="number"
+                  />
+                </q-item-section>
+              </div>
+            </div>
+          </q-item>
         </q-expansion-item>
       </q-card>
     </div>
@@ -164,6 +188,7 @@ const recipient_address = ref<PublicKey>();
       :only_whitelist="only_members"
       :recipient_address="recipient_address"
       :closing_timestamp="expire_toggle ? timestamp : 0"
+      :slippage="slippage"
     />
 
     <div>

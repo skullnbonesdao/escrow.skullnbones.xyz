@@ -32,11 +32,21 @@ export const useGlobalStore = defineStore('GlobalStore', {
     token_list: [] as I_Token[],
     connection: {} as Connection,
     showRightDrawer: false,
+    showLeftDrawer: false,
     escrows: undefined as Array<I_Escrows> | undefined,
     escrows_filtered: undefined as Array<I_Escrows> | undefined,
     escrow_selected: undefined as I_Escrows | undefined,
   }),
-  getters: {},
+  getters: {
+    remaining_percentage(state) {
+      return (
+        ((state.escrow_selected?.account.tokensDepositRemaining.toNumber() ??
+          0) /
+          (state.escrow_selected?.account.tokensDepositInit.toNumber() ?? 0)) *
+        100
+      );
+    },
+  },
   actions: {
     async init() {
       this.update_connection();

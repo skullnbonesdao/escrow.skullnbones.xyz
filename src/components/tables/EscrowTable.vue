@@ -6,7 +6,7 @@ import { useQuasar } from 'quasar';
 import { Escrow } from 'src/adapter/escrow_gen/accounts';
 import { amount2ui } from 'src/helper/tokenDecimalConversion';
 import { useWallet } from 'solana-wallets-vue';
-import { NULL_ADDRESS } from 'stores/constants';
+import { ACCOUNT_COST_ESCROW, NULL_ADDRESS } from 'stores/constants';
 import CancelEscrowButton from 'components/actions/CancelEscrowButton.vue';
 import ExchangeEscrowButton from 'components/actions/ExchangeEscrowButton.vue';
 import AsyncDecimalsComponent from 'components/asyncComponents/AsyncDecimalsComponent.vue';
@@ -17,8 +17,9 @@ import EscrowViewCard from 'components/cards/EscrowViewCard.vue';
 import SelectTokenDropdown from 'components/dropdowns/SelectTokenDropdown.vue';
 import { token } from '@metaplex-foundation/js';
 import EscrowTakeDrawer from 'components/drawer/EscrowTakeDrawer.vue';
+import EscrowStateElement from 'components/details/EscrowStateElement.vue';
 
-const props = defineProps(['title', 'escrow_filter']);
+const props = defineProps(['title', 'escrow_filter', 'show_close_button']);
 
 const $q = useQuasar();
 
@@ -85,7 +86,7 @@ onMounted(async () => {
   }
 });
 
-function handle_buy(escrow: any) {
+function handle_action(escrow: any) {
   if (escrow.publicKey != useGlobalStore().escrow_selected?.publicKey) {
     useGlobalStore().escrow_selected = escrow;
     useGlobalStore().showRightDrawer = true;
@@ -104,10 +105,11 @@ const columns = ref([
   { name: 'price', label: 'Price', align: 'center' },
   { name: 'icon_2', label: '', align: 'left' },
   { name: 'selling', label: 'Selling' },
-  { name: 'balance', label: '' },
-  { name: 'expire', label: '' },
-  { name: 'creator', label: '' },
-  { name: 'take', label: '' },
+  { name: 'balance', label: '', style: 'width: 20px' },
+  { name: 'expire', label: '', style: 'width: 20px' },
+  { name: 'creator', label: '', style: 'width: 20px' },
+  { name: 'state', label: '', style: 'width: 20px' },
+  { name: 'take', label: '', style: 'width: 20px' },
 ]);
 
 const options = ref([
@@ -126,186 +128,207 @@ const token_selected = ref();
 </script>
 
 <template>
-  <div class="q-pa-md">
-    <q-table
-      flat
-      :title="props.title"
-      :rows="useGlobalStore().escrows_filtered"
-      :columns="columns"
-      row-key="name"
-      :filter="filter"
-      v-model:pagination="pagination"
-    >
-      <template v-slot:top> </template>
+  <q-table
+    flat
+    :title="props.title"
+    :rows="useGlobalStore().escrows_filtered"
+    :columns="columns"
+    row-key="name"
+    :filter="filter"
+    v-model:pagination="pagination"
+  >
+    <template v-slot:top> </template>
 
-      <template v-slot:body="props">
-        <q-tr :props="props" @click="handle_buy(props.row)">
-          <q-td key="buying" :props="props" class="">
-            <div class="row items-center">
-              <b class="col text-right text-h6">
-                {{
-                  (
-                    props.row.account.tokensDepositRemaining *
-                    Math.pow(
-                      10,
-                      -useGlobalStore().token_list.find(
-                        (token) =>
-                          token.address ==
-                          props.row.account.depositToken.toString(),
-                      ).decimals,
-                    )
-                  ).toFixed(2)
-                }}
-              </b>
-            </div>
-          </q-td>
-
-          <q-td key="icon_1" :props="props">
-            <div class="row items-center">
-              <div class="col text-center">
-                <q-avatar size="md">
-                  <img
-                    :src="
-                      useGlobalStore().token_list.find(
-                        (token) =>
-                          token.address ==
-                          props.row.account.depositToken.toString(),
-                      )?.logoURI ?? 'unknown.png'
-                    "
-                  />
-                </q-avatar>
-                <p style="font-size: 10px">
-                  {{
-                    useGlobalStore().token_list.find(
-                      (token) =>
-                        token.address ==
-                        props.row.account.depositToken.toString(),
-                    ).symbol
-                  }}
-                </p>
-              </div>
-            </div>
-          </q-td>
-
-          <q-td key="price" :props="props">
-            <p class="text-subtitle1">
-              {{ props.row.account.price.toFixed(5) }}
-            </p>
-          </q-td>
-
-          <q-td key="icon_2" :props="props">
-            <div class="row items-center">
-              <div class="col text-center">
-                <q-avatar size="md">
-                  <img
-                    :src="
-                      useGlobalStore().token_list.find(
-                        (token) =>
-                          token.address ==
-                          props.row.account.requestToken.toString(),
-                      )?.logoURI ?? 'unknown.png'
-                    "
-                  />
-                </q-avatar>
-                <p style="font-size: 10px">
-                  {{
-                    useGlobalStore().token_list.find(
-                      (token) =>
-                        token.address ==
-                        props.row.account.requestToken.toString(),
-                    ).symbol
-                  }}
-                </p>
-              </div>
-            </div>
-          </q-td>
-          <q-td key="selling" :props="props" class="text-right">
-            <b class="text-h6">
+    <template v-slot:body="props">
+      <q-tr :props="props" @click="handle_action(props.row)">
+        <q-td key="buying" :props="props" class="">
+          <div class="row items-center">
+            <b class="col text-right text-h6">
               {{
                 (
                   props.row.account.tokensDepositRemaining *
-                  10 **
+                  Math.pow(
+                    10,
                     -useGlobalStore().token_list.find(
                       (token) =>
                         token.address ==
                         props.row.account.depositToken.toString(),
-                    )?.decimals *
-                  props.row.account.price
+                    ).decimals,
+                  )
                 ).toFixed(2)
               }}
             </b>
-          </q-td>
+          </div>
+        </q-td>
 
-          <q-td key="balance" :props="props">
-            <q-icon
-              size="sm"
-              name="balance"
-              :color="props.row.account.allowPartialFill ? 'purple' : 'grey'"
+        <q-td key="icon_1" :props="props">
+          <div class="row items-center">
+            <div class="col text-center">
+              <q-avatar size="md">
+                <img
+                  :src="
+                    useGlobalStore().token_list.find(
+                      (token) =>
+                        token.address ==
+                        props.row.account.depositToken.toString(),
+                    )?.logoURI ?? 'unknown.png'
+                  "
+                />
+              </q-avatar>
+              <p style="font-size: 10px">
+                {{
+                  useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address ==
+                      props.row.account.depositToken.toString(),
+                  ).symbol
+                }}
+              </p>
+            </div>
+          </div>
+        </q-td>
+
+        <q-td key="price" :props="props">
+          <p class="text-subtitle1">
+            {{ props.row.account.price.toFixed(5) }}
+          </p>
+        </q-td>
+
+        <q-td key="icon_2" :props="props">
+          <div class="row items-center">
+            <div class="col text-center">
+              <q-avatar size="md">
+                <img
+                  :src="
+                    useGlobalStore().token_list.find(
+                      (token) =>
+                        token.address ==
+                        props.row.account.requestToken.toString(),
+                    )?.logoURI ?? 'unknown.png'
+                  "
+                />
+              </q-avatar>
+              <p style="font-size: 10px">
+                {{
+                  useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address ==
+                      props.row.account.requestToken.toString(),
+                  ).symbol
+                }}
+              </p>
+            </div>
+          </div>
+        </q-td>
+        <q-td key="selling" :props="props" class="text-right">
+          <b class="text-h6">
+            {{
+              (
+                props.row.account.tokensDepositRemaining *
+                10 **
+                  -useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address ==
+                      props.row.account.depositToken.toString(),
+                  )?.decimals *
+                props.row.account.price
+              ).toFixed(2)
+            }}
+          </b>
+        </q-td>
+
+        <q-td key="balance" :props="props">
+          <q-icon
+            size="sm"
+            name="balance"
+            :color="props.row.account.allowPartialFill ? 'purple' : 'grey'"
+          >
+            <q-tooltip
+              >Partial fill
+              {{ props.row.account.allowPartialFill ? '' : 'NOT ' }}
+              allowed</q-tooltip
             >
-              <q-tooltip
-                >Partial fill
-                {{ props.row.account.allowPartialFill ? '' : 'NOT ' }}
-                allowed</q-tooltip
-              >
-            </q-icon>
-          </q-td>
-          <q-td key="expire" :props="props">
-            <q-icon
-              size="sm"
-              name="timer"
-              :color="props.row.account.expireTimestamp > 0 ? 'orange' : 'grey'"
+          </q-icon>
+        </q-td>
+        <q-td key="expire" :props="props">
+          <q-icon
+            size="sm"
+            name="timer"
+            :color="props.row.account.expireTimestamp > 0 ? 'orange' : 'grey'"
+          >
+            <q-tooltip
+              >Will
+              {{ props.row.account.expireTimestamp > 0 ? '' : 'NOT ' }}
+              expire</q-tooltip
             >
-              <q-tooltip
-                >Will
-                {{ props.row.account.expireTimestamp > 0 ? '' : 'NOT ' }}
-                expire</q-tooltip
-              >
-            </q-icon>
-          </q-td>
-          <q-td key="creator" :props="props">
-            <q-icon
-              size="sm"
-              name="design_services"
-              :color="
+          </q-icon>
+        </q-td>
+        <q-td key="creator" :props="props">
+          <q-icon
+            size="sm"
+            name="design_services"
+            :color="
+              props.row.account.maker.toString() ==
+              useWallet().publicKey.value?.toString()
+                ? 'orange'
+                : 'grey'
+            "
+          >
+            <q-tooltip
+              >You are
+              {{
                 props.row.account.maker.toString() ==
                 useWallet().publicKey.value?.toString()
-                  ? 'orange'
-                  : 'grey'
-              "
+                  ? ''
+                  : 'NOT '
+              }}
+              the creator</q-tooltip
             >
-              <q-tooltip
-                >You are
-                {{
-                  props.row.account.maker.toString() ==
-                  useWallet().publicKey.value?.toString()
-                    ? ''
-                    : 'NOT '
-                }}
-                the creator</q-tooltip
-              >
-            </q-icon>
-          </q-td>
-          <q-td key="take" :props="props">
-            <q-btn color="primary" icon="send" />
-          </q-td>
-        </q-tr>
-        <q-tr
-          no-hover
-          :props="props"
-          v-if="
-            useQuasar().screen.lt.md &&
-            useGlobalStore().showRightDrawer &&
-            props.row.publicKey ==
-              useGlobalStore().escrow_selected.publicKey.toString()
-          "
+          </q-icon>
+        </q-td>
+        <q-td key="state" :props="props">
+          <EscrowStateElement :escrow="props.row" />
+        </q-td>
+        <q-td v-if="!show_close_button" key="take" :props="props">
+          <q-btn color="primary" icon="send" />
+        </q-td>
+        <q-td v-if="show_close_button" key="take" :props="props">
+          <q-btn color="primary" icon="close" />
+        </q-td>
+      </q-tr>
+      <q-tr
+        no-hover
+        :props="props"
+        v-if="
+          useQuasar().screen.lt.md &&
+          useGlobalStore().showRightDrawer &&
+          props.row.publicKey ==
+            useGlobalStore().escrow_selected.publicKey.toString()
+        "
+      >
+        <q-td
+          v-if="!show_close_button"
+          colspan="100%"
+          class="bg-secondary q-ma-none q-pa-none"
         >
-          <q-td colspan="100%" class="bg-secondary q-ma-none q-pa-none">
-            <EscrowTakeDrawer />
-          </q-td>
-        </q-tr>
-      </template>
-    </q-table>
-  </div>
+          <EscrowTakeDrawer />
+        </q-td>
+        <q-td
+          v-if="show_close_button"
+          colspan="100%"
+          class="bg-secondary q-ma-none q-pa-none"
+        >
+          <CancelEscrowButton
+            class="full-width"
+            :escrow_address="props.row.publicKey"
+            :label="`${
+              props.row.account.tokensDepositRemaining > 0 ? 'cancel' : 'close'
+            } (+${ACCOUNT_COST_ESCROW}sol)`"
+          />
+        </q-td>
+      </q-tr>
+    </template>
+  </q-table>
 </template>
 
 <style lang="sass">

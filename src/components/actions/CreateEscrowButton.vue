@@ -32,6 +32,7 @@ const props = defineProps([
   'only_whitelist',
   'closing_timestamp',
   'recipient_address',
+  'slippage',
 ]);
 
 const $q = useQuasar();
@@ -93,7 +94,7 @@ async function build_tx() {
         new anchor.BN(props.closing_timestamp),
         props.allow_partial_fill,
         props.only_whitelist,
-        props.allow_partial_fill ? 1 : 0,
+        props.allow_partial_fill ? props.slippage : 0,
       )
       .accounts({
         maker: useWallet().publicKey!.value,

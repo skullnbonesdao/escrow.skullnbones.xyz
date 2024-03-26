@@ -348,12 +348,12 @@
             "type": "bool"
           },
           {
-            "name": "whitelist",
-            "type": "publicKey"
-          },
-          {
             "name": "allowPartialFill",
             "type": "bool"
+          },
+          {
+            "name": "whitelist",
+            "type": "publicKey"
           }
         ]
       }

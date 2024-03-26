@@ -2,6 +2,7 @@
 import { format_address } from '../../functions/format_address';
 import { useGlobalStore } from '../../stores/GlobalStore';
 import { computed } from 'vue';
+import EscrowStateElement from 'components/details/EscrowStateElement.vue';
 
 const remaining_percentage = computed(() => {
   return (
@@ -18,22 +19,8 @@ const remaining_percentage = computed(() => {
   <div class="col q-gutter-y-md">
     <div class="row items-center">
       <p class="text-h6 col">State</p>
-      <p class="col text-right" style="font-size: 10px"></p>
-      <q-badge
-        v-if="remaining_percentage == 0"
-        color="yellow"
-        label="FILLED"
-        outline
-      ></q-badge>
-      <p v-else class="q-mr-sm">{{ remaining_percentage }}%</p>
-      <q-circular-progress
-        v-if="remaining_percentage != 0"
-        :value="remaining_percentage"
-        size="30px"
-        :thickness="1"
-        track-color="black"
-        color="green"
-      />
+      <p class="q-mr-sm">{{ remaining_percentage }}%</p>
+      <EscrowStateElement :escrow="useGlobalStore().escrow_selected" />
     </div>
     <q-separator />
     <div class="col q-gutter-y-sm">
@@ -110,13 +97,18 @@ const remaining_percentage = computed(() => {
 
       <div class="row">
         <div class="col text-weight-light text-no-wrap">Recipient:</div>
-        <strong class="col-9 text-right">{{
-          useGlobalStore().escrow_selected?.account?.onlyRecipient
-            ? 'any'
-            : format_address(
-                useGlobalStore().escrow_selected?.account?.recipient.toString(),
-              )
-        }}</strong>
+        <q-badge
+          outline
+          :label="
+            !useGlobalStore().escrow_selected?.account?.onlyRecipient
+              ? 'any'
+              : format_address(
+                  useGlobalStore().escrow_selected?.account?.recipient.toString() ??
+                    '',
+                )
+          "
+        >
+        </q-badge>
       </div>
 
       <div class="row">

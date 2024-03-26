@@ -1,11 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import EscrowTableCloseable from 'components/tables/EscrowTableCloseable.vue';
 import CreateEscrowCard from 'components/cards/CreateEscrowCard.vue';
 import EscrowTableOpen from 'components/tables/EscrowTableOpen.vue';
 import { useWallet, WalletMultiButton } from 'solana-wallets-vue';
 import { useQuasar } from 'quasar';
+import EscrowTable from 'components/tables/EscrowTable.vue';
+import FilterEscrows from 'components/filters/FilterEscrows.vue';
+import { useGlobalStore } from 'stores/GlobalStore';
 const tab = ref('tab_create');
+
+watch(
+  () => tab.value,
+  () => {
+    switch (tab.value) {
+      case 'tab_view':
+        useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
+          (escrow) => {
+            return (
+              escrow.account.maker.toString() ==
+                useWallet().publicKey.value?.toString() &&
+              escrow.account.tokensDepositRemaining.toNumber() > 0
+            );
+          },
+        );
+        break;
+
+      case 'tab_empty':
+        useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
+          (escrow) => {
+            return (
+              escrow.account.maker.toString() ==
+                useWallet().publicKey.value?.toString() &&
+              escrow.account.tokensDepositRemaining.toNumber() == 0
+            );
+          },
+        );
+        break;
+    }
+  },
+);
 </script>
 
 <template>
@@ -24,9 +58,9 @@ const tab = ref('tab_create');
       >
         <q-tab name="tab_create" label="Create" />
         <q-separator vertical />
-        <q-tab name="tab_open" label="Open" />
+        <q-tab name="tab_view" label="View" />
         <q-separator vertical />
-        <q-tab name="tab_close" label="Close" />
+        <q-tab name="tab_empty" label="Empty" />
       </q-tabs>
       <q-separator />
 
@@ -39,12 +73,12 @@ const tab = ref('tab_create');
           </div>
         </q-tab-panel>
 
-        <q-tab-panel name="tab_open">
-          <EscrowTableOpen />
+        <q-tab-panel name="tab_view">
+          <EscrowTable show_close_button="true" />
         </q-tab-panel>
 
-        <q-tab-panel name="tab_close">
-          <EscrowTableCloseable />
+        <q-tab-panel name="tab_empty">
+          <EscrowTable show_close_button="true" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
