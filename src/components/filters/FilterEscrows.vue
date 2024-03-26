@@ -86,14 +86,14 @@ function apply_filter() {
   if (!extra_filter.value.some((filter) => filter == 'fill_full')) {
     useGlobalStore().escrows_filtered =
       useGlobalStore().escrows_filtered?.filter(
-        (escrow) => escrow.account.allowPartialFill == false,
+        (escrow) => escrow.account.allowPartialFill != false,
       );
   }
   //Filter partial
   if (!extra_filter.value.some((filter) => filter == 'fill_partial')) {
     useGlobalStore().escrows_filtered =
       useGlobalStore().escrows_filtered?.filter(
-        (escrow) => escrow.account.allowPartialFill == true,
+        (escrow) => escrow.account.allowPartialFill != true,
       );
   }
 
@@ -132,6 +132,17 @@ function apply_filter() {
           filter_sell.value.mint.toString(),
       );
   }
+
+  useGlobalStore().escrows_filtered = useGlobalStore().escrows_filtered?.sort(
+    (a, b) => {
+      if (a.account.price < b.account.price) {
+        return -1;
+      } else if (a.account.price > b.account.price) {
+        return 1;
+      }
+      return 0;
+    },
+  );
 }
 </script>
 

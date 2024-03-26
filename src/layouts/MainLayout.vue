@@ -62,17 +62,26 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <q-footer class="bg-dark">
+      <q-separator />
+      <q-toolbar>
+        <q-toolbar-title>
+          <div class="text-center text-subtitle2">Version: 0.1-beta</div>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
   </q-layout>
 </template>
 
 <script setup lang="ts">
 import { WalletMultiButton } from 'solana-wallets-vue';
-import { computed, onMounted, ref, watch } from 'vue';
+import { ref } from 'vue';
 import { useWalletStore } from 'stores/WalletStore';
 import EscrowTakeDrawer from 'components/drawer/EscrowTakeDrawer.vue';
 import { useGlobalStore } from 'stores/GlobalStore';
-import LogoIcon from 'src/icons/LogoIcon.vue';
 import FilterEscrows from 'components/filters/FilterEscrows.vue';
+
+const version = ref(__APP_VERSION__);
 
 const tab = ref();
 </script>

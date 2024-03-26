@@ -15,27 +15,31 @@ watch(
   () => {
     switch (tab.value) {
       case 'tab_view':
-        useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
-          (escrow) => {
-            return (
-              escrow.account.maker.toString() ==
-                useWallet().publicKey.value?.toString() &&
-              escrow.account.tokensDepositRemaining.toNumber() > 0
-            );
-          },
-        );
+        {
+          useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
+            (escrow) => {
+              return (
+                escrow.account.maker.toString() ==
+                  useWallet().publicKey.value?.toString() &&
+                escrow.account.tokensDepositRemaining.toNumber() > 0
+              );
+            },
+          );
+        }
         break;
 
       case 'tab_empty':
-        useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
-          (escrow) => {
-            return (
-              escrow.account.maker.toString() ==
-                useWallet().publicKey.value?.toString() &&
-              escrow.account.tokensDepositRemaining.toNumber() == 0
-            );
-          },
-        );
+        {
+          useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
+            (escrow) => {
+              return (
+                escrow.account.maker.toString() ==
+                  useWallet().publicKey.value?.toString() &&
+                escrow.account.tokensDepositRemaining.toNumber() == 0
+              );
+            },
+          );
+        }
         break;
     }
   },

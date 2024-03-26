@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import EscrowViews from 'components/EscrowViews.vue';
 import { useQuasar } from 'quasar';
 import FilterEscrows from 'components/filters/FilterEscrows.vue';
@@ -10,11 +10,15 @@ const tab = ref('open');
 onMounted(() => {
   useGlobalStore().showLeftDrawer = true;
 });
+
+onUnmounted(() => {
+  useGlobalStore().showLeftDrawer = false;
+});
 </script>
 
 <template>
   <q-page
-    :class="useQuasar().screen.lt.md ? 'q-ma-md' : 'q-pa-md'"
+    :class="useQuasar().screen.lt.md ? 'q-pa-md' : 'q-pa-md'"
     class="q-gutter-y-md"
   >
     <q-card

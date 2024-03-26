@@ -54,27 +54,45 @@ function calc_percent_amount(percentage: number) {
 
 <template>
   <q-card flat>
-    <q-card-section class="row items-center">
+    <q-card-section class="row">
       <div class="row">
-        <div>
-          <q-avatar size="40px">
-            <img :src="token_depostit_info?.logoURI" />
-          </q-avatar>
-          <q-avatar size="40px" class="overlapping" :style="`right: ${15}px`">
-            <img :src="token_request_info?.logoURI" />
-          </q-avatar>
-        </div>
-        <div class="row items-center q-gutter-x-xs">
-          <b>{{ token_depostit_info?.symbol }}</b>
-          <p>/</p>
-          <b>{{ token_request_info?.symbol }}</b>
-        </div>
+        <q-avatar size="40px">
+          <img :src="token_depostit_info?.logoURI" />
+        </q-avatar>
+        <q-avatar size="40px" class="overlapping" :style="`right: ${15}px`">
+          <img :src="token_request_info?.logoURI" />
+        </q-avatar>
       </div>
+      <div class="row items-center q-gutter-x-xs">
+        <b>{{ token_depostit_info?.symbol }}</b>
+        <p>/</p>
+        <b>{{ token_request_info?.symbol }}</b>
+      </div>
+      <q-space />
+      <q-icon
+        size="sm"
+        name="balance"
+        :color="
+          useGlobalStore().escrow_selected?.account.allowPartialFill
+            ? 'purple'
+            : 'grey'
+        "
+      >
+        <q-tooltip
+          >Partial fill
+          {{
+            useGlobalStore().escrow_selected?.account.allowPartialFill
+              ? ''
+              : 'NOT '
+          }}
+          allowed</q-tooltip
+        >
+      </q-icon>
     </q-card-section>
     <q-card-section class="row q-py-none items-center">
-      <p class="col">Price</p>
+      <p class="col">Price per Unit</p>
 
-      <p class="text-subtitle1">
+      <p class="text-h4">
         {{ useGlobalStore().escrow_selected?.account.price }}
       </p>
     </q-card-section>

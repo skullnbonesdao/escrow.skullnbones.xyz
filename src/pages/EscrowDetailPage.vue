@@ -10,6 +10,8 @@ import { useQuasar } from 'quasar';
 
 useGlobalStore().showRightDrawer = false;
 useGlobalStore().showLeftDrawer = false;
+const q = useQuasar();
+const r = useRouter();
 
 onMounted(async () => {
   const address = new PublicKey(useRoute().params.account);
@@ -23,6 +25,15 @@ watchDeep(
     await useGlobalStore().load_escrow(address);
   },
 );
+
+async function copy_to_clipboard() {
+  q.notify({
+    message: 'Copied to clipboard',
+  });
+  await navigator.clipboard.writeText(
+    'escrow.skullnbones.xyz' + r.currentRoute.value.fullPath,
+  );
+}
 </script>
 
 <template>
@@ -35,10 +46,10 @@ watchDeep(
           </q-avatar>
         </q-btn>
         <p class="text-h6 q-mr-sm">Offer:</p>
-        <p class="text-subtitle1">
+        <p class="text-subtitle1" @click="copy_to_clipboard">
           {{ useGlobalStore().escrow_selected?.publicKey }}
         </p>
-        <q-icon name="content_copy" />
+        <q-icon name="content_copy" @click="copy_to_clipboard" />
       </q-card-section>
     </q-card>
 
