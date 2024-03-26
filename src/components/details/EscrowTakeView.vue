@@ -38,7 +38,9 @@ watch(
 
 const amount_to_buy = ref(amount_to_buy_comp.value);
 const amount_to_sell = computed(() => {
-  return amount_to_buy.value * useGlobalStore().getSelectedEscrowPrice;
+  return (
+    amount_to_buy.value * (useGlobalStore().escrow_selected?.account.price ?? 0)
+  );
 });
 
 function calc_percent_amount(percentage: number) {
@@ -73,7 +75,7 @@ function calc_percent_amount(percentage: number) {
       <p class="col">Price</p>
 
       <p class="text-subtitle1">
-        {{ useGlobalStore().getSelectedEscrowPrice }}
+        {{ useGlobalStore().escrow_selected?.account.price }}
       </p>
     </q-card-section>
     <q-card-section class="q-gutter-y-md">
@@ -86,7 +88,7 @@ function calc_percent_amount(percentage: number) {
                 !useGlobalStore().escrow_selected?.account.allowPartialFill
               "
               dense
-              class="col"
+              class="col text-h6"
               borderless
               v-model="amount_to_buy"
               label="Amount"
@@ -181,10 +183,11 @@ function calc_percent_amount(percentage: number) {
           </p>
           <p style="font-size: 12px">Available</p>
         </div>
+
         <div class="row items-center">
           <q-input
             dense
-            class="col"
+            class="col text-h6"
             borderless
             v-model="amount_to_sell"
             label="Amount"

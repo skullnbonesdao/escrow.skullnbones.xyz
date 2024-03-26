@@ -8,7 +8,7 @@ import { useWalletStore } from 'stores/WalletStore';
 
 <template>
   <div class="col">
-    <q-tabs class="bg-dark">
+    <q-tabs class="bg-dark" align="justify">
       <q-route-tab
         name="tab_expand"
         icon="open_in_full"

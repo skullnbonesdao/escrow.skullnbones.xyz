@@ -127,29 +127,10 @@ const token_selected = ref();
 
 <template>
   <div class="q-pa-md">
-    <div class="row">
-      <SelectTokenDropdown
-        class="col full-width"
-        @mint_selected="(data) => (token_selected = data)"
-      />
-
-      <div class="bg-secondary">
-        <q-option-group
-          class="q-pa-sm q-pr-md"
-          name="accepted_genres"
-          v-model="accepted"
-          :options="options"
-          type="checkbox"
-          color="primary"
-          inline
-        />
-      </div>
-    </div>
-
     <q-table
       flat
       :title="props.title"
-      :rows="escrows"
+      :rows="useGlobalStore().escrows_filtered"
       :columns="columns"
       row-key="name"
       :filter="filter"
@@ -203,38 +184,17 @@ const token_selected = ref();
                   }}
                 </p>
               </div>
-
-              <q-icon class="col" name="arrow_forward"></q-icon>
             </div>
           </q-td>
 
           <q-td key="price" :props="props">
             <p class="text-subtitle1">
-              {{
-                (
-                  props.row.account.price *
-                  Math.pow(
-                    10,
-                    useGlobalStore().token_list.find(
-                      (token) =>
-                        token.address ==
-                        props.row.account.depositToken.toString(),
-                    ).decimals -
-                      useGlobalStore().token_list.find(
-                        (token) =>
-                          token.address ==
-                          props.row.account.requestToken.toString(),
-                      ).decimals,
-                  )
-                ).toFixed(2)
-              }}
+              {{ props.row.account.price.toFixed(5) }}
             </p>
           </q-td>
 
           <q-td key="icon_2" :props="props">
             <div class="row items-center">
-              <q-icon class="col" name="arrow_forward"></q-icon>
-
               <div class="col text-center">
                 <q-avatar size="md">
                   <img
@@ -264,14 +224,12 @@ const token_selected = ref();
               {{
                 (
                   props.row.account.tokensDepositRemaining *
-                  Math.pow(
-                    10,
+                  10 **
                     -useGlobalStore().token_list.find(
                       (token) =>
                         token.address ==
-                        props.row.account.requestToken.toString(),
-                    ).decimals,
-                  ) *
+                        props.row.account.depositToken.toString(),
+                    )?.decimals *
                   props.row.account.price
                 ).toFixed(2)
               }}
@@ -342,7 +300,7 @@ const token_selected = ref();
           "
         >
           <q-td colspan="100%" class="bg-secondary q-ma-none q-pa-none">
-            <EscrowTakeDrawer class="q-pb-md" />
+            <EscrowTakeDrawer />
           </q-td>
         </q-tr>
       </template>

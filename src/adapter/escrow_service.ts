@@ -110,6 +110,10 @@ export type EscrowService = {
           name: 'onlyWhitelist';
           type: 'bool';
         },
+        {
+          name: 'slippage';
+          type: 'f32';
+        },
       ];
     },
     {
@@ -304,6 +308,14 @@ export type EscrowService = {
             type: 'f64';
           },
           {
+            name: 'decimals';
+            type: 'i16';
+          },
+          {
+            name: 'slippage';
+            type: 'f32';
+          },
+          {
             name: 'seed';
             type: 'u64';
           },
@@ -402,6 +414,11 @@ export type EscrowService = {
       code: 6010;
       name: 'DecimalPrecisionLoss';
       msg: 'Decimal precision loss';
+    },
+    {
+      code: 6011;
+      name: 'SlippageLimitExceeded';
+      msg: 'Slippage limit exceeded';
     },
   ];
 };
@@ -517,6 +534,10 @@ export const IDL: EscrowService = {
         {
           name: 'onlyWhitelist',
           type: 'bool',
+        },
+        {
+          name: 'slippage',
+          type: 'f32',
         },
       ],
     },
@@ -712,6 +733,14 @@ export const IDL: EscrowService = {
             type: 'f64',
           },
           {
+            name: 'decimals',
+            type: 'i16',
+          },
+          {
+            name: 'slippage',
+            type: 'f32',
+          },
+          {
             name: 'seed',
             type: 'u64',
           },
@@ -810,6 +839,11 @@ export const IDL: EscrowService = {
       code: 6010,
       name: 'DecimalPrecisionLoss',
       msg: 'Decimal precision loss',
+    },
+    {
+      code: 6011,
+      name: 'SlippageLimitExceeded',
+      msg: 'Slippage limit exceeded',
     },
   ],
 };

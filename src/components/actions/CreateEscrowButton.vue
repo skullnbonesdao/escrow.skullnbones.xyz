@@ -93,6 +93,7 @@ async function build_tx() {
         new anchor.BN(props.closing_timestamp),
         props.allow_partial_fill,
         props.only_whitelist,
+        props.allow_partial_fill ? 1 : 0,
       )
       .accounts({
         maker: useWallet().publicKey!.value,

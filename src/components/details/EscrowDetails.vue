@@ -104,7 +104,7 @@ const remaining_percentage = computed(() => {
       <div class="row">
         <div class="col text-weight-light text-no-wrap">Price:</div>
         <strong class="col-9 text-right">{{
-          useGlobalStore().getSelectedEscrowPrice
+          useGlobalStore().escrow_selected?.account.price
         }}</strong>
       </div>
 

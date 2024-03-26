@@ -7,7 +7,7 @@ import { useGlobalStore } from 'stores/GlobalStore';
 import { I_Token } from 'stores/interfaces/I_TokenList';
 import { Account } from '@solana/spl-token';
 
-const props = defineProps(['label']);
+const props = defineProps(['label', 'is_dense']);
 const emit = defineEmits(['mint_selected']);
 const selected = ref();
 
@@ -87,6 +87,7 @@ watch(
     fill-input
     input-debounce="0"
     v-model="selected"
+    :dense="is_dense"
     :options="useWalletStore().accounts_mapped"
     :option-label="
       (opt) => (opt.symbol == 'unknown' ? opt.address : opt.symbol)

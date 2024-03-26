@@ -17,14 +17,14 @@
         <q-tabs v-model="tab" shrink stretch active-bg-color="primary">
           <q-route-tab
             name="tab_escrow"
-            label="Offers"
+            label="Take Offer"
             icon="countertops"
             to="/escrow"
           />
           <q-route-tab
             name="tab_create"
             icon="design_services"
-            label="Edit"
+            label="Make Offer"
             to="/create"
           />
         </q-tabs>

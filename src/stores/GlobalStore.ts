@@ -33,26 +33,10 @@ export const useGlobalStore = defineStore('GlobalStore', {
     connection: {} as Connection,
     showRightDrawer: false,
     escrows: undefined as Array<I_Escrows> | undefined,
+    escrows_filtered: undefined as Array<I_Escrows> | undefined,
     escrow_selected: undefined as I_Escrows | undefined,
   }),
-  getters: {
-    getSelectedEscrowPrice(state) {
-      return (
-        (state.escrow_selected?.account.price ?? 0) *
-        10 **
-          ((state.token_list.find(
-            (t) =>
-              t.address ==
-              state.escrow_selected?.account.depositToken.toString(),
-          )?.decimals ?? 0) -
-            (state.token_list.find(
-              (t) =>
-                t.address ==
-                state.escrow_selected?.account.requestToken.toString(),
-            )?.decimals ?? 0))
-      );
-    },
-  },
+  getters: {},
   actions: {
     async init() {
       this.update_connection();
@@ -79,6 +63,7 @@ export const useGlobalStore = defineStore('GlobalStore', {
       this.escrows =
         (await useWorkspace()?.pg_escrow.value.account.escrow.all()) as any;
       this.escrows = this.escrows?.sort((a, b) => a.publicKey > b.publicKey, 0);
+      //this.escrows_filtered = this.escrows;
     },
     async load_escrow(address: PublicKey) {
       console.log('load_escrow()');
