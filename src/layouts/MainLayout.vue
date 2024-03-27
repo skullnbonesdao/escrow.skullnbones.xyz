@@ -17,16 +17,17 @@
         <q-tabs v-model="tab" shrink stretch active-bg-color="primary">
           <q-route-tab
             name="tab_escrow"
-            label="Take Offer"
+            label="View"
             icon="countertops"
             to="/escrow"
           />
           <q-route-tab
-            name="tab_create"
+            name="tab_manage"
             icon="design_services"
-            label="Make Offer"
+            label="Manage"
             to="/create"
           />
+          <q-route-tab name="tab_faq" icon="quiz" label="FAQ" to="/faq" />
         </q-tabs>
 
         <q-space />
@@ -60,13 +61,15 @@
       <EscrowTakeDrawer />
     </q-drawer>
     <q-page-container>
+      <DisclaimerDialog class="col-1" />
+
       <router-view />
     </q-page-container>
     <q-footer class="bg-dark">
       <q-separator />
       <q-toolbar>
         <q-toolbar-title>
-          <div class="text-center text-subtitle2">Version: 0.1-beta</div>
+          <div class="text-center text-subtitle2">Version:{{ version }}</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
@@ -80,8 +83,9 @@ import { useWalletStore } from 'stores/WalletStore';
 import EscrowTakeDrawer from 'components/drawer/EscrowTakeDrawer.vue';
 import { useGlobalStore } from 'stores/GlobalStore';
 import FilterEscrows from 'components/filters/FilterEscrows.vue';
+import DisclaimerDialog from 'components/dialogs/DisclaimerDialog.vue';
 
-const version = ref(__APP_VERSION__);
+import { version } from 'src/../package.json';
 
 const tab = ref();
 </script>

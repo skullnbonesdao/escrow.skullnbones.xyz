@@ -112,7 +112,7 @@ const columns = ref([
   { name: 'amounts', label: 'Amounts' },
   { name: 'icons', label: 'Tokens', align: 'center', style: 'width: 50px' },
 
-  { name: 'price', label: 'Price', align: 'center' },
+  { name: 'price', label: 'Price per Unit', align: 'center' },
 
   { name: 'balance', label: '', style: 'width: 20px' },
   { name: 'expire', label: '', style: 'width: 20px' },
@@ -326,7 +326,9 @@ const token_selected = ref();
             class="full-width"
             :escrow_address="props.row.publicKey"
             :label="`${
-              props.row.account.tokensDepositRemaining > 0 ? 'cancel' : 'close'
+              props.row.account.tokensDepositRemaining > 0
+                ? 'Cancel Offer'
+                : 'Close Accounts'
             } (+${ACCOUNT_COST_ESCROW}sol)`"
           />
         </q-td>
@@ -345,7 +347,7 @@ const token_selected = ref();
         <q-td
           v-if="!show_close_button"
           colspan="100%"
-          class="bg-secondary q-ma-none q-pa-none"
+          class="bg-dark q-ma-none q-pa-none"
         >
           <EscrowTakeDrawer />
         </q-td>

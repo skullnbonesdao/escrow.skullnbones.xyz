@@ -4,6 +4,7 @@ import EscrowViews from 'components/EscrowViews.vue';
 import { useQuasar } from 'quasar';
 import FilterEscrows from 'components/filters/FilterEscrows.vue';
 import { useGlobalStore } from 'stores/GlobalStore';
+import DisclaimerDialog from 'components/dialogs/DisclaimerDialog.vue';
 
 const tab = ref('open');
 
@@ -21,13 +22,7 @@ onUnmounted(() => {
     :class="useQuasar().screen.lt.md ? 'q-pa-md' : 'q-pa-md'"
     class="q-gutter-y-md"
   >
-    <q-card
-      flat
-      class="full-width"
-      @click="
-        useGlobalStore().showLeftDrawer = !useGlobalStore().showLeftDrawer
-      "
-    >
+    <q-card flat class="full-width" v-if="useQuasar().screen.lt.md">
       <q-list>
         <q-expansion-item
           group="somegroup"
@@ -35,7 +30,7 @@ onUnmounted(() => {
           label="Filters"
           header-class="text-teal"
         >
-          <FilterEscrows v-if="useQuasar().screen.lt.md" />
+          <FilterEscrows />
         </q-expansion-item>
       </q-list>
     </q-card>

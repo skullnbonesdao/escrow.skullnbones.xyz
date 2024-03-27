@@ -149,21 +149,27 @@ function apply_filter() {
 <template>
   <q-card>
     <q-card-section :class="useQuasar().screen.lt.md ? 'row' : 'col'">
-      <div class="col-2 text-overline">Assets</div>
+      <div class="col-2 text-overline">Filter Sides</div>
 
       <div class="col">
         <q-list>
           <q-item tag="label" v-ripple>
-            <div class="col">
-              <div>Buy</div>
+            <div class="col q-gutter-y-xs">
+              <div class="row">
+                <q-space class="col" />
+                <q-badge outline label="BUY" color="green" rounded />
+              </div>
               <SelectTokenDropdown
                 @mint_selected="(data) => (filter_buy = data)"
               />
             </div>
           </q-item>
           <q-item tag="label" v-ripple class="col items-center">
-            <div class="col">
-              <div>Sell</div>
+            <div class="col q-gutter-y-xs">
+              <div class="row">
+                <q-space class="col" />
+                <q-badge outline label="SELL" color="red" rounded />
+              </div>
               <SelectTokenDropdown
                 @mint_selected="(data) => (filter_sell = data)"
               />
@@ -182,7 +188,7 @@ function apply_filter() {
             <q-item-section>
               <q-item-label>Public Offers</q-item-label>
               <q-item-label caption
-                >Offer can only be filled by 100%</q-item-label
+                >Offers can be filled by any recipient</q-item-label
               >
             </q-item-section>
             <q-item-section avatar>
@@ -193,7 +199,7 @@ function apply_filter() {
             <q-item-section>
               <q-item-label>Private Offers</q-item-label>
               <q-item-label caption
-                >Offer can be filled by the recipient</q-item-label
+                >Offer can only be filled by the recipient</q-item-label
               >
             </q-item-section>
             <q-item-section avatar>
@@ -230,9 +236,9 @@ function apply_filter() {
         <q-list>
           <q-item tag="label" v-ripple>
             <q-item-section>
-              <q-item-label>100% Fill</q-item-label>
+              <q-item-label>One-Time Fill</q-item-label>
               <q-item-label caption
-                >Offer can only be filled by 100%</q-item-label
+                >Offer can only be taken as a whole</q-item-label
               >
             </q-item-section>
             <q-item-section avatar>

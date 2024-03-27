@@ -60,11 +60,11 @@ watch(
         active-bg-color="primary"
         class="bg-dark"
       >
-        <q-tab name="tab_create" label="Create" />
+        <q-tab name="tab_create" label="Create New" />
         <q-separator vertical />
-        <q-tab name="tab_view" label="View" />
+        <q-tab name="tab_view" label="View created" />
         <q-separator vertical />
-        <q-tab name="tab_empty" label="Empty" />
+        <q-tab name="tab_empty" label="Close filled" />
       </q-tabs>
       <q-separator />
 

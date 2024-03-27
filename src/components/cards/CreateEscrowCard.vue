@@ -70,7 +70,11 @@ const recipient_address = ref<PublicKey>();
     </div>
     <div>
       <q-card bordered flat>
-        <q-expansion-item expand-separator icon="settings" label="Extra config">
+        <q-expansion-item
+          expand-separator
+          icon="settings"
+          label="Advanced settings"
+        >
           <q-item>
             <div class="col q-gutter-y-sm">
               <div class="row">

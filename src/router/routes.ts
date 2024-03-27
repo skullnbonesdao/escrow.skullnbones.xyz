@@ -30,6 +30,11 @@ const routes: RouteRecordRaw[] = [
   },
 
   {
+    path: '/faq',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/FAQPage.vue') }],
+  },
+  {
     path: '/settings',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/SettingsPage.vue') }],

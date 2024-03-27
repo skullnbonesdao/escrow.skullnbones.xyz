@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGlobalStore } from 'stores/GlobalStore';
 import { computed } from 'vue';
+import { useWallet } from 'solana-wallets-vue';
 
 const props = defineProps(['escrow']);
 
@@ -28,7 +29,9 @@ const remaining_percentage = computed(() => {
     :thickness="1"
     track-color="black"
     color="green"
-  />
+  ></q-circular-progress>
+
+  <q-tooltip>Tokens remaining: {{ remaining_percentage }}%</q-tooltip>
 </template>
 
 <style scoped lang="sass"></style>
