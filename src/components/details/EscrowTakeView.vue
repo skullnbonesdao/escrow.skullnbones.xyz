@@ -90,8 +90,8 @@ function calc_percent_amount(percentage: number) {
       </q-icon>
     </q-card-section>
     <q-card-section class="row q-py-none items-center">
-      <p class="col">Price per Unit</p>
-
+      <q-badge outline label="Price per Unit" color="yellow" rounded />
+      <q-space class="col" />
       <p class="text-h4">
         {{ useGlobalStore().escrow_selected?.account.price.toFixed(4) }}
       </p>

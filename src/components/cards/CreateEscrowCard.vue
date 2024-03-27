@@ -3,7 +3,7 @@ import SelectTokenDropdown from 'components/dropdowns/SelectTokenDropdown.vue';
 import CreateEscrowButton from 'components/actions/CreateEscrowButton.vue';
 import InputAndCheckPubkey from 'components/inputs/InputAndCheckPubkey.vue';
 
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { PublicKey } from '@solana/web3.js';
 
 import InputTimestamp from 'components/inputs/InputTimestamp.vue';
@@ -18,6 +18,7 @@ const token_requested = ref();
 
 const token_provided_amount = ref(0);
 const token_requested_amount = ref(0);
+
 const timestamp = ref(0);
 
 const only_wallet = ref(false);
@@ -31,49 +32,67 @@ const recipient_address = ref<PublicKey>();
 </script>
 
 <template>
-  <q-card flat class="bg-dark q-pa-md q-gutter-y-sm">
-    <div class="">
-      <q-card flat class="row items-center bg-secondary">
-        <div class="col-1 row q-mx-sm justify-center">
-          <q-badge outline label="SELL" color="red" rounded />
-        </div>
-        <q-separator vertical />
-        <SelectTokenDropdown
-          label="Token provided"
-          class="col"
-          @mint_selected="(data) => (token_provided = data)"
-        />
-        <q-separator vertical />
-        <q-input
-          standout
-          class="col-3"
-          v-model="token_provided_amount"
-          label="Amount"
-          type="number"
-        />
-      </q-card>
-    </div>
-    <div>
-      <q-card flat class="row items-center bg-secondary">
-        <div class="col-1 row q-mx-sm justify-center">
-          <q-badge outline label="BUY" color="green" rounded />
-        </div>
-        <q-separator vertical />
-        <SelectTokenDropdown
-          label="Token requested"
-          class="col"
-          @mint_selected="(data) => (token_requested = data)"
-        />
-        <q-separator vertical />
-        <q-input
-          standout
-          class="col-3"
-          v-model="token_requested_amount"
-          label="Amount"
-          type="number"
-        />
-      </q-card>
-    </div>
+  <q-card square flat class="bg-dark q-pa-md q-gutter-y-sm">
+    <q-card flat class="row items-center bg-secondary">
+      <div class="col-1 row q-mx-sm justify-center">
+        <q-badge outline label="SELL" color="red" rounded />
+      </div>
+      <q-separator vertical />
+      <SelectTokenDropdown
+        label="Token provided"
+        class="col"
+        @mint_selected="(data) => (token_provided = data)"
+      />
+      <q-separator vertical />
+      <q-input
+        square
+        standout
+        class="col-3"
+        v-model="token_provided_amount"
+        label="Amount"
+        type="number"
+      />
+    </q-card>
+
+    <q-card flat square class="row items-center bg-secondary">
+      <div class="col-1 row q-mx-sm justify-center">
+        <q-badge outline label="BUY" color="green" rounded />
+      </div>
+      <q-separator vertical />
+      <SelectTokenDropdown
+        label="Token requested"
+        class="col"
+        @mint_selected="(data) => (token_requested = data)"
+      />
+      <q-separator vertical />
+      <q-input
+        standout
+        square
+        class="col-3"
+        v-model="token_requested_amount"
+        label="Amount"
+        type="number"
+      />
+    </q-card>
+
+    <q-card flat square class="row items-center bg-secondary">
+      <div class="col-1 row q-mx-sm justify-center">
+        <q-badge outline label="Price" color="yellow" rounded />
+      </div>
+      <q-separator vertical />
+      <div class="col text-center">Price per Unit = BUY/SELL</div>
+      <q-separator vertical />
+
+      <q-input
+        disable
+        standout
+        square
+        class="col-3"
+        :label="token_requested_amount / token_provided_amount"
+        type="number"
+      />
+    </q-card>
+
     <div>
       <q-card bordered flat class="bg-secondary">
         <q-expansion-item

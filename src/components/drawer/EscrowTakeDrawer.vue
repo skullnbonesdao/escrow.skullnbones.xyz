@@ -8,9 +8,8 @@ import { useWalletStore } from 'stores/WalletStore';
 
 <template>
   <div class="col">
-    <q-tabs class="bg-dark" align="justify">
+    <q-tabs class="bg-primary" align="justify">
       <q-route-tab
-        class="bg-secondary"
         name="tab_expand"
         icon="open_in_full"
         :to="'view/' + useGlobalStore().escrow_selected?.publicKey"
@@ -18,7 +17,6 @@ import { useWalletStore } from 'stores/WalletStore';
       <q-separator vertical />
       <q-tab
         name="tab_create"
-        class="bg-secondary"
         icon="cancel"
         @click="useGlobalStore().showRightDrawer = false"
       />
