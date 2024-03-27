@@ -2,14 +2,66 @@
 import IconFromSeed from 'components/icons/IconFromSeed.vue';
 import { WalletMultiButton } from 'solana-wallets-vue';
 import { useGlobalStore } from '../stores/globalStore';
+import { useQuasar } from 'quasar';
 </script>
 
 <template>
-  <q-page class="row items-center justify-evenly">
-    <div>
-      <p class="text-h1">Escrow</p>
-      <p class="text-h1">Service</p>
-      <h4>by Skull&Bones</h4>
+  <q-page class="row items-center justify-evenly q-pa-xl">
+    <div class="q-gutter-y-xl">
+      <div>
+        <p class="text-h1">Escrow Service</p>
+      </div>
+      <div
+        :class="
+          useQuasar().screen.lt.md ? 'col q-gutter-y-md' : 'row q-gutter-x-md'
+        "
+      >
+        <q-card flat class="col">
+          <q-card-section class="text-h4"
+            >Secure Exchange Environment</q-card-section
+          >
+          <q-separator />
+          <q-card-section
+            ><p>
+              The Escrow service provides a secure environment for transactions,
+              holding funds in a safe account until all conditions of the
+              agreement are met. This reduces the risk of fraud or non-payment,
+              ensuring that buyers receive their purchased goods or services and
+              sellers receive their payments.
+            </p></q-card-section
+          >
+        </q-card>
+        <q-card flat class="col">
+          <q-card-section class="text-h4"
+            >Conditional Release of Funds
+          </q-card-section>
+          <q-separator />
+          <q-card-section
+            ><p>
+              Funds are only released when all the conditions agreed upon by
+              both parties in the transaction are fully met. These conditions
+              may include exchanged tokens, amounts, or other options. This
+              ensures fairness and fulfillment of terms for both the buyer and
+              the seller.
+            </p></q-card-section
+          >
+        </q-card>
+        <q-card flat class="col">
+          <q-card-section class="text-h4">Third-Party Mediation</q-card-section>
+          <q-separator />
+          <q-card-section
+            ><p>
+              The escrow service acts as a neutral mediator that holds and
+              regulates the payment of the funds required for two parties
+              involved in a given transaction. Funds are released for both
+              parties immediately.
+            </p></q-card-section
+          >
+        </q-card>
+      </div>
+      <div>
+        <h4>by Skull&Bones</h4>
+      </div>
     </div>
   </q-page>
 </template>

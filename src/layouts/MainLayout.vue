@@ -62,8 +62,9 @@
     </q-drawer>
     <q-page-container>
       <DisclaimerDialog class="col-1" />
-
-      <router-view />
+      <router-view
+        style="background: linear-gradient(to right, #1e005e, #2b1045)"
+      />
     </q-page-container>
     <q-footer class="bg-dark">
       <q-separator />
