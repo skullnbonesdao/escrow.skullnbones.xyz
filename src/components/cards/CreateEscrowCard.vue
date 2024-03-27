@@ -11,7 +11,7 @@ import { useGlobalStore } from '../../stores/GlobalStore';
 import { useWallet } from 'solana-wallets-vue';
 import { useWalletStore } from '../../stores/WalletStore';
 import CancelEscrowButton from 'components/actions/CancelEscrowButton.vue';
-import { ACCOUNT_COST_ESCROW } from 'stores/constants';
+import { ACCOUNT_COST_ESCROW, MAKER_FEE } from 'stores/constants';
 
 const token_provided = ref();
 const token_requested = ref();
@@ -225,7 +225,7 @@ const recipient_address = ref<PublicKey>();
     <div>
       <p class="text-right text-weight-thin">
         Accounts + Fee = {{ ACCOUNT_COST_ESCROW }} +
-        {{ useWalletStore().is_whitelisted ? 0.01 / 2 : 0.01 }}sol
+        {{ useWalletStore().is_whitelisted ? MAKER_FEE / 2 : MAKER_FEE }}sol
       </p>
     </div>
   </q-card>

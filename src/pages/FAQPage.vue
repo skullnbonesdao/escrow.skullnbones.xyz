@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { useGlobalStore } from 'stores/GlobalStore';
+
+onMounted(() => {
+  useGlobalStore().showLeftDrawer = false;
+  useGlobalStore().showRightDrawer = false;
+});
+</script>
 
 <template>
   <q-page class="q-pa-md q-gutter-y-md">
@@ -46,23 +54,24 @@
       <q-card-section class="">
         <div class="text-h4">Advanced offer options explained</div>
         <div>
-          <b>Direct:</b>
-          Used for direct trades with a peer so no other can fill that order<br />
+          <b>Direct:</b><br />Used for direct trades with a peer so no other can
+          fill that order<br />
           <br />
-          <b>Expire:</b> Whenever a escrow should only be exchangeable for a
-          limited timespan<br />
+          <b>Expire:</b><br />Whenever a escrow should only be exchangeable for
+          a limited timespan<br />
           <br />
-          <b>Partial/Full-FIll:</b> Decide weather the taker of an offer can
-          fill that order by 100% or by any percentage of that (only limited by
-          slippage and token decimals)<br />
+          <b>Partial/Full-FIll:</b><br />
+          Decide weather the taker of an offer can fill that order by 100% or by
+          any percentage of that (only limited by slippage and token
+          decimals)<br />
           <br />
-          <b>Member Deal:</b> This option enables private listing to a group
-          here S&B Members<br />
+          <b>Member Deal:</b><br />
+          This option enables private listing to a group here S&B Members<br />
           <br />
-          <b>Slippage:</b> Defines how many correct decimals are required for
-          token decimal rounding. Example: 0.9999 will get accepted as 1 by the
-          program if the token decimal is 0 and the slippage is set to 1%/1000 -
-          Slippage can also be set to 0 but may can not get filled!<br />
+          <b>Slippage:</b><br />Defines how many correct decimals are required
+          for token decimal rounding. Example: 0.9999 will get accepted as 1 by
+          the program if the token decimal is 0 and the slippage is set to
+          1%/1000 - Slippage can also be set to 0 but may can not get filled!<br />
         </div>
       </q-card-section>
       <q-separator />
@@ -98,10 +107,10 @@
         <div class="text-h4">What are the fees?</div>
         <div>
           <b>MAKE:</b>
-          0.005 SOL<br />
+          0.01 SOL<br />
 
           <b>TAKE:</b>
-          0.003 SOL<br />
+          0.006 SOL<br />
         </div>
       </q-card-section>
 

@@ -10,36 +10,39 @@ import { Account } from '@solana/spl-token';
 const props = defineProps(['label', 'is_dense']);
 const emit = defineEmits(['mint_selected']);
 const selected = ref();
-
+const options = ref(useWalletStore().accounts_mapped);
 watch(
   () => selected.value,
   () => emit('mint_selected', selected.value),
 );
 
-// function filterFn(val: any, update: any, abort: any) {
-//   // call abort() at any time if you can't retrieve data somehow
-//
-//   setTimeout(() => {
-//     update(
-//       () => {
-//         if (val === '') {
-//           options.value = useWalletStore().accounts_mapped;
-//         } else {
-//           const needle = val.toLowerCase();
-//           options.value = useWalletStore().accounts_mapped.filter(
-//             (v) => v.symbol.toLowerCase().indexOf(needle) > -1,
-//           );
-//         }
-//       },
-//       (ref: any) => {
-//         if (val !== '' && ref.options.length > 0) {
-//           ref.setOptionIndex(-1); // reset optionIndex in case there is something selected
-//           ref.moveOptionSelection(1, true); // focus the first selectable option and do not update the input-value
-//         }
-//       },
-//     );
-//   }, 300);
-// }
+function filterFn(val: any, update: any, abort: any) {
+  // call abort() at any time if you can't retrieve data somehow
+
+  setTimeout(() => {
+    update(
+      () => {
+        if (val === '') {
+          options.value = useWalletStore().accounts_mapped;
+        } else {
+          const needle = val.toLowerCase();
+          options.value = useWalletStore().accounts_mapped.filter(
+            (v) =>
+              v.symbol.toLowerCase().indexOf(needle) > -1 ||
+              v.name.toLowerCase().indexOf(needle) > -1 ||
+              v.mint.toLowerCase().indexOf(needle) > -1,
+          );
+        }
+      },
+      (ref: any) => {
+        if (val !== '' && ref.options.length > 0) {
+          ref.setOptionIndex(-1); // reset optionIndex in case there is something selected
+          ref.moveOptionSelection(1, true); // focus the first selectable option and do not update the input-value
+        }
+      },
+    );
+  }, 300);
+}
 //
 // function filterFnAutoselect(val: any, update: any, abort: any) {
 //   // call abort() at any time if you can't retrieve data somehow
@@ -88,7 +91,8 @@ watch(
     input-debounce="0"
     v-model="selected"
     :dense="is_dense"
-    :options="useWalletStore().accounts_mapped"
+    :options="options"
+    @filter="filterFn"
     :option-label="
       (opt) => (opt.symbol == 'unknown' ? opt.address : opt.symbol)
     "

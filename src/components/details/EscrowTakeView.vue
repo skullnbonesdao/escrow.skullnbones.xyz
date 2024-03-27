@@ -3,6 +3,7 @@ import { useGlobalStore } from 'stores/GlobalStore';
 import { computed, ref, watch } from 'vue';
 import ExchangeEscrowButton from 'components/actions/ExchangeEscrowButton.vue';
 import { useWalletStore } from 'stores/WalletStore';
+import { TAKER_FEE } from '../../stores/constants';
 
 const token_depostit_info = computed(() => {
   return useGlobalStore().token_list.find(
@@ -226,7 +227,7 @@ function calc_percent_amount(percentage: number) {
       />
       <p class="text-right q-mt-sm text-weight-thin">
         Fee:
-        {{ useWalletStore().is_whitelisted ? 0.006 / 2 : 0.006 }}sol
+        {{ useWalletStore().is_whitelisted ? TAKER_FEE / 2 : TAKER_FEE }}sol
       </p>
     </q-card-section>
   </q-card>

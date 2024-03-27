@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onUnmounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import EscrowTableCloseable from 'components/tables/EscrowTableCloseable.vue';
 import CreateEscrowCard from 'components/cards/CreateEscrowCard.vue';
 import EscrowTableOpen from 'components/tables/EscrowTableOpen.vue';
@@ -10,8 +10,9 @@ import FilterEscrows from 'components/filters/FilterEscrows.vue';
 import { useGlobalStore } from 'stores/GlobalStore';
 const tab = ref('tab_create');
 
-onUnmounted(() => {
+onMounted(() => {
   useGlobalStore().showLeftDrawer = false;
+  useGlobalStore().showRightDrawer = false;
 });
 
 watch(
