@@ -93,10 +93,50 @@ function calc_percent_amount(percentage: number) {
       <p class="col">Price per Unit</p>
 
       <p class="text-h4">
-        {{ useGlobalStore().escrow_selected?.account.price }}
+        {{ useGlobalStore().escrow_selected?.account.price.toFixed(4) }}
       </p>
     </q-card-section>
     <q-card-section class="q-gutter-y-md">
+      <q-card disabled="" bordered class="q-pa-sm bg-secondary" flat>
+        <div class="row q-gutter-x-xs items-center">
+          <q-badge outline label="SELLING" color="red" rounded />
+
+          <p class="col text-subtitle2 text-right">
+            {{
+              (
+                useWalletStore().accounts_mapped.find(
+                  (a) =>
+                    a.mint ==
+                    useGlobalStore().escrow_selected?.account.requestToken.toString(),
+                )?.amount *
+                10 **
+                  -useWalletStore().accounts_mapped.find(
+                    (a) =>
+                      a.mint ==
+                      useGlobalStore().escrow_selected?.account.requestToken.toString(),
+                  )?.decimals
+              ).toFixed(2)
+            }}
+          </p>
+          <p style="font-size: 12px">Available</p>
+        </div>
+
+        <div class="row items-center">
+          <q-input
+            dense
+            disable
+            class="col text-h6"
+            borderless
+            v-model="amount_to_sell"
+            label="Amount"
+            type="number"
+          />
+          <q-avatar size="30px" class="overlapping">
+            <img :src="token_request_info?.logoURI" />
+          </q-avatar>
+        </div>
+      </q-card>
+
       <q-card bordered class="q-pa-sm bg-secondary" flat>
         <div><q-badge outline label="BUYING" color="green" rounded /></div>
         <div class="col">
@@ -176,44 +216,6 @@ function calc_percent_amount(percentage: number) {
               @click="calc_percent_amount(1)"
             />
           </div>
-        </div>
-      </q-card>
-      <q-card disabled="" bordered class="q-pa-sm bg-secondary" flat>
-        <div class="row q-gutter-x-xs items-center">
-          <q-badge outline label="SELLING" color="red" rounded />
-
-          <p class="col text-subtitle2 text-right">
-            {{
-              (
-                useWalletStore().accounts_mapped.find(
-                  (a) =>
-                    a.mint ==
-                    useGlobalStore().escrow_selected?.account.requestToken.toString(),
-                )?.amount *
-                10 **
-                  -useWalletStore().accounts_mapped.find(
-                    (a) =>
-                      a.mint ==
-                      useGlobalStore().escrow_selected?.account.requestToken.toString(),
-                  )?.decimals
-              ).toFixed(2)
-            }}
-          </p>
-          <p style="font-size: 12px">Available</p>
-        </div>
-
-        <div class="row items-center">
-          <q-input
-            dense
-            class="col text-h6"
-            borderless
-            v-model="amount_to_sell"
-            label="Amount"
-            type="number"
-          />
-          <q-avatar size="30px" class="overlapping">
-            <img :src="token_request_info?.logoURI" />
-          </q-avatar>
         </div>
       </q-card>
     </q-card-section>

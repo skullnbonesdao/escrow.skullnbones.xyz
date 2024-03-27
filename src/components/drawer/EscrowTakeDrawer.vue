@@ -13,7 +13,7 @@ import { useWalletStore } from 'stores/WalletStore';
         class="bg-secondary"
         name="tab_expand"
         icon="open_in_full"
-        :to="'details/' + useGlobalStore().escrow_selected?.publicKey"
+        :to="'view/' + useGlobalStore().escrow_selected?.publicKey"
       />
       <q-separator vertical />
       <q-tab

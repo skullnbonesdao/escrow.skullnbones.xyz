@@ -419,6 +419,11 @@
       "code": 6011,
       "name": "SlippageLimitExceeded",
       "msg": "Slippage limit exceeded"
+    },
+    {
+      "code": 6012,
+      "name": "ConvertToFloat",
+      "msg": "Error converting to float"
     }
   ]
 }

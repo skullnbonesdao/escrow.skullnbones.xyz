@@ -33,17 +33,20 @@ const recipient_address = ref<PublicKey>();
 <template>
   <q-card flat class="bg-dark q-pa-md q-gutter-y-sm">
     <div class="">
-      <q-card bordered flat class="row">
+      <q-card flat class="row items-center bg-secondary">
+        <div class="col-1 row q-mx-sm justify-center">
+          <q-badge outline label="SELL" color="red" rounded />
+        </div>
+        <q-separator vertical />
         <SelectTokenDropdown
           label="Token provided"
           class="col"
           @mint_selected="(data) => (token_provided = data)"
         />
-        <q-space />
+        <q-separator vertical />
         <q-input
           standout
-          square
-          class="col-2"
+          class="col-3"
           v-model="token_provided_amount"
           label="Amount"
           type="number"
@@ -51,17 +54,20 @@ const recipient_address = ref<PublicKey>();
       </q-card>
     </div>
     <div>
-      <q-card bordered flat class="row">
+      <q-card flat class="row items-center bg-secondary">
+        <div class="col-1 row q-mx-sm justify-center">
+          <q-badge outline label="BUY" color="green" rounded />
+        </div>
+        <q-separator vertical />
         <SelectTokenDropdown
           label="Token requested"
           class="col"
           @mint_selected="(data) => (token_requested = data)"
         />
-        <q-space />
+        <q-separator vertical />
         <q-input
-          square
           standout
-          class="col-2"
+          class="col-3"
           v-model="token_requested_amount"
           label="Amount"
           type="number"
@@ -69,7 +75,7 @@ const recipient_address = ref<PublicKey>();
       </q-card>
     </div>
     <div>
-      <q-card bordered flat>
+      <q-card bordered flat class="bg-secondary">
         <q-expansion-item
           expand-separator
           icon="settings"
@@ -79,9 +85,9 @@ const recipient_address = ref<PublicKey>();
             <div class="col q-gutter-y-sm">
               <div class="row">
                 <q-item-section>
-                  <q-item-label>P2P</q-item-label>
+                  <q-item-label>Direct</q-item-label>
                   <q-item-label caption
-                    >Only a single address can fill</q-item-label
+                    >Only a single address/account can fill</q-item-label
                   >
                 </q-item-section>
                 <q-item-section avatar>
@@ -139,8 +145,10 @@ const recipient_address = ref<PublicKey>();
           <q-separator />
           <q-item>
             <q-item-section>
-              <q-item-label>Deal</q-item-label>
-              <q-item-label caption>Only whitelisted can fill</q-item-label>
+              <q-item-label>S&B member deal</q-item-label>
+              <q-item-label caption
+                >Only whitelisted account can fill</q-item-label
+              >
             </q-item-section>
             <q-item-section avatar>
               <q-toggle
@@ -162,9 +170,9 @@ const recipient_address = ref<PublicKey>();
                     >Due to decimal precision loss</q-item-label
                   >
                 </q-item-section>
-                <q-item-section avatar class="col-3">
+                <q-item-section avatar class="col-4">
                   <q-input
-                    suffix="%"
+                    suffix="%/1000"
                     dense
                     filled
                     square

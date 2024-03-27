@@ -1,15 +1,21 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import SelectTokenDropdown from 'components/dropdowns/SelectTokenDropdown.vue';
 import { useGlobalStore } from 'stores/GlobalStore';
 import { NULL_ADDRESS } from 'stores/constants';
 import { useWallet } from 'solana-wallets-vue';
 import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const filter_type = ref('type_public');
 const extra_filter = ref(['self', 'fill_partial', 'fill_full']);
 const filter_buy = ref('');
 const filter_sell = ref('');
+const r = useRouter();
+
+const disable_input = computed(() => {
+  return r.currentRoute.value.path == '/manage';
+});
 
 watch(
   () => useGlobalStore().escrows,
@@ -147,35 +153,36 @@ function apply_filter() {
 </script>
 
 <template>
-  <q-card>
+  <q-card flat>
     <q-card-section :class="useQuasar().screen.lt.md ? 'row' : 'col'">
-      <div class="col-2 text-overline">Filter Sides</div>
+      <div class="col-2 text-overline">Filter Side</div>
 
-      <div class="col">
-        <q-list>
-          <q-item tag="label" v-ripple>
-            <div class="col q-gutter-y-xs">
-              <div class="row">
-                <q-space class="col" />
-                <q-badge outline label="BUY" color="green" rounded />
-              </div>
-              <SelectTokenDropdown
-                @mint_selected="(data) => (filter_buy = data)"
-              />
+      <div class="col q-gutter-y-sm">
+        <div>
+          <div class="row items-center bg-secondary">
+            <div class="col-2 row q-mx-sm justify-center">
+              <q-badge outline label="SELL" color="red" rounded />
             </div>
-          </q-item>
-          <q-item tag="label" v-ripple class="col items-center">
-            <div class="col q-gutter-y-xs">
-              <div class="row">
-                <q-space class="col" />
-                <q-badge outline label="SELL" color="red" rounded />
-              </div>
-              <SelectTokenDropdown
-                @mint_selected="(data) => (filter_sell = data)"
-              />
+            <q-separator vertical />
+            <SelectTokenDropdown
+              class="col"
+              @mint_selected="(data) => (filter_sell = data)"
+            />
+          </div>
+        </div>
+
+        <div>
+          <div class="row items-center bg-secondary">
+            <div class="col-2 row q-mx-sm justify-center">
+              <q-badge outline label="BUY" color="green" rounded />
             </div>
-          </q-item>
-        </q-list>
+            <q-separator vertical />
+            <SelectTokenDropdown
+              class="col"
+              @mint_selected="(data) => (filter_buy = data)"
+            />
+          </div>
+        </div>
       </div>
     </q-card-section>
     <q-separator />
@@ -199,7 +206,8 @@ function apply_filter() {
             <q-item-section>
               <q-item-label>Private Offers</q-item-label>
               <q-item-label caption
-                >Offer can only be filled by the recipient</q-item-label
+                >Offer can only be filled by the specified
+                recipient</q-item-label
               >
             </q-item-section>
             <q-item-section avatar>
@@ -243,6 +251,7 @@ function apply_filter() {
             </q-item-section>
             <q-item-section avatar>
               <q-checkbox
+                :disable="disable_input"
                 v-model="extra_filter"
                 val="fill_full"
                 color="accent"
@@ -256,6 +265,7 @@ function apply_filter() {
             </q-item-section>
             <q-item-section avatar>
               <q-checkbox
+                :disable="disable_input"
                 v-model="extra_filter"
                 val="fill_partial"
                 color="accent"
@@ -266,6 +276,7 @@ function apply_filter() {
       </div>
     </q-card-section>
     <q-separator />
+
     <q-card-section :class="useQuasar().screen.lt.md ? 'row' : 'col'">
       <div class="col-2 text-overline">Options</div>
       <div class="col">
@@ -276,7 +287,12 @@ function apply_filter() {
               <q-item-label caption>Show self created Offers</q-item-label>
             </q-item-section>
             <q-item-section avatar>
-              <q-checkbox v-model="extra_filter" val="self" color="accent" />
+              <q-checkbox
+                :disable="disable_input"
+                v-model="extra_filter"
+                val="self"
+                color="accent"
+              />
             </q-item-section>
           </q-item>
           <q-item tag="label" v-ripple>
@@ -287,7 +303,12 @@ function apply_filter() {
               >
             </q-item-section>
             <q-item-section avatar>
-              <q-checkbox v-model="extra_filter" val="filled" color="accent" />
+              <q-checkbox
+                :disable="disable_input"
+                v-model="extra_filter"
+                val="filled"
+                color="accent"
+              />
             </q-item-section>
           </q-item>
         </q-list>

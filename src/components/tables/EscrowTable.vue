@@ -104,7 +104,7 @@ function handle_action(escrow: any) {
 }
 
 const pagination = ref({
-  page: 1,
+  rowsPerPage: 0,
 });
 
 const columns = ref([
@@ -145,6 +145,7 @@ const token_selected = ref();
     row-key="name"
     :filter="filter"
     v-model:pagination="pagination"
+    :rows-per-page-options="[0]"
   >
     <template v-slot:top> </template>
 
@@ -152,16 +153,31 @@ const token_selected = ref();
       <q-tr :props="props" @click="handle_action(props.row)">
         <q-td key="sides" :props="props">
           <div class="col items-center">
-            <q-badge outline label="BUY" color="green" rounded />
-
-            <div class="q-my-md" />
-
             <q-badge outline label="SELL" color="red" rounded />
+            <div class="q-my-md" />
+            <q-badge outline label="BUY" color="green" rounded />
           </div>
         </q-td>
 
         <q-td key="amounts" :props="props">
           <div class="col">
+            <div class="text-right text-h6">
+              {{
+                (
+                  props.row.account.tokensDepositRemaining *
+                  10 **
+                    -useGlobalStore().token_list.find(
+                      (token) =>
+                        token.address ==
+                        props.row.account.depositToken.toString(),
+                    )?.decimals *
+                  props.row.account.price
+                ).toFixed(2)
+              }}
+            </div>
+
+            <q-separator class="q-my-sm" />
+
             <div class="col text-right text-h6">
               {{
                 (
@@ -177,25 +193,32 @@ const token_selected = ref();
                 ).toFixed(2)
               }}
             </div>
-            <q-separator class="q-my-sm" />
-            <div class="text-right text-h6">
-              {{
-                (
-                  props.row.account.tokensDepositRemaining *
-                  10 **
-                    -useGlobalStore().token_list.find(
-                      (token) =>
-                        token.address ==
-                        props.row.account.depositToken.toString(),
-                    )?.decimals *
-                  props.row.account.price
-                ).toFixed(2)
-              }}
-            </div>
           </div>
         </q-td>
 
         <q-td key="icons" :props="props">
+          <div class="col items-center q-gutter-x-sm">
+            <q-avatar size="md">
+              <q-img
+                :src="
+                  useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address ==
+                      props.row.account.requestToken.toString(),
+                  )?.logoURI ?? 'unknown.png'
+                "
+              />
+            </q-avatar>
+            <p style="font-size: 10px">
+              {{
+                useGlobalStore().token_list.find(
+                  (token) =>
+                    token.address == props.row.account.requestToken.toString(),
+                ).symbol
+              }}
+            </p>
+          </div>
+
           <div class="col items-center q-gutter-x-sm">
             <q-avatar size="md">
               <q-img
@@ -217,28 +240,6 @@ const token_selected = ref();
                 ).symbol
               }}
             </div>
-          </div>
-
-          <div class="col items-center q-gutter-x-sm">
-            <q-avatar size="md">
-              <q-img
-                :src="
-                  useGlobalStore().token_list.find(
-                    (token) =>
-                      token.address ==
-                      props.row.account.requestToken.toString(),
-                  )?.logoURI ?? 'unknown.png'
-                "
-              />
-            </q-avatar>
-            <p style="font-size: 10px">
-              {{
-                useGlobalStore().token_list.find(
-                  (token) =>
-                    token.address == props.row.account.requestToken.toString(),
-                ).symbol
-              }}
-            </p>
           </div>
         </q-td>
 
@@ -309,7 +310,7 @@ const token_selected = ref();
         </q-td>
 
         <q-td v-if="show_close_button" key="take" :props="props">
-          <q-btn color="primary" icon="close" />
+          <q-btn color="primary" icon="info" />
         </q-td>
       </q-tr>
 
@@ -322,15 +323,26 @@ const token_selected = ref();
         "
       >
         <q-td colspan="100%">
-          <CancelEscrowButton
-            class="full-width"
-            :escrow_address="props.row.publicKey"
-            :label="`${
-              props.row.account.tokensDepositRemaining > 0
-                ? 'Cancel Offer'
-                : 'Close Accounts'
-            } (+${ACCOUNT_COST_ESCROW}sol)`"
-          />
+          <q-tabs class="bg-dark" align="justify">
+            <q-btn
+              class="col"
+              color="primary"
+              label="Expand offer"
+              name="tab_expand"
+              icon="open_in_full"
+              :to="'view/' + useGlobalStore().escrow_selected?.publicKey"
+            />
+
+            <q-separator vertical />
+            <CancelEscrowButton
+              :escrow_address="props.row.publicKey"
+              :label="`${
+                props.row.account.tokensDepositRemaining > 0
+                  ? 'Cancel Offer'
+                  : 'Close Accounts'
+              } (+${ACCOUNT_COST_ESCROW}sol)`"
+            />
+          </q-tabs>
         </q-td>
       </q-tr>
 

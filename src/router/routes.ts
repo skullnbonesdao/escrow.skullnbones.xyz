@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
   },
 
   {
-    path: '/details/:account',
+    path: '/view/:account',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/EscrowDetailPage.vue') },
@@ -22,10 +22,10 @@ const routes: RouteRecordRaw[] = [
   },
 
   {
-    path: '/create',
+    path: '/manage',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/EditEscrowPage.vue') },
+      { path: '', component: () => import('pages/EscrowManagePage.vue') },
     ],
   },
 

@@ -420,6 +420,11 @@ export type EscrowService = {
       name: 'SlippageLimitExceeded';
       msg: 'Slippage limit exceeded';
     },
+    {
+      code: 6012;
+      name: 'ConvertToFloat';
+      msg: 'Error converting to float';
+    },
   ];
 };
 
@@ -844,6 +849,11 @@ export const IDL: EscrowService = {
       code: 6011,
       name: 'SlippageLimitExceeded',
       msg: 'Slippage limit exceeded',
+    },
+    {
+      code: 6012,
+      name: 'ConvertToFloat',
+      msg: 'Error converting to float',
     },
   ],
 };

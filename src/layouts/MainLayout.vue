@@ -25,7 +25,7 @@
             name="tab_manage"
             icon="design_services"
             label="Manage"
-            to="/create"
+            to="/manage"
           />
           <q-route-tab name="tab_faq" icon="quiz" label="FAQ" to="/faq" />
         </q-tabs>
@@ -68,8 +68,9 @@
     <q-footer class="bg-dark">
       <q-separator />
       <q-toolbar>
-        <q-toolbar-title>
-          <div class="text-center text-subtitle2">Version:{{ version }}</div>
+        <q-toolbar-title class="row items-center">
+          <q-img src="sa-powered_by_the_people.png" width="100px" />
+          <div class="text-right col text-subtitle2">v{{ version }}</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>

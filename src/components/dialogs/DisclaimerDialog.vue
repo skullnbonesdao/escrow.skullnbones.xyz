@@ -2,11 +2,10 @@
   <q-dialog
     v-model="persistent"
     persistent
-    square
     transition-show="scale"
     transition-hide="scale"
   >
-    <q-card class="text-white" style="width: 500px">
+    <q-card flat class="text-white" style="width: 500px">
       <q-card-section class="bg-secondary">
         <div class="text-h6">Disclaimer</div>
       </q-card-section>
@@ -46,6 +45,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useLocalStorage } from '@vueuse/core';
 const checked = ref(false);
-const persistent = ref(true);
+const persistent = ref(useLocalStorage('disclaimer_ack', true));
 </script>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { onUnmounted, ref, watch } from 'vue';
 import EscrowTableCloseable from 'components/tables/EscrowTableCloseable.vue';
 import CreateEscrowCard from 'components/cards/CreateEscrowCard.vue';
 import EscrowTableOpen from 'components/tables/EscrowTableOpen.vue';
@@ -10,40 +10,55 @@ import FilterEscrows from 'components/filters/FilterEscrows.vue';
 import { useGlobalStore } from 'stores/GlobalStore';
 const tab = ref('tab_create');
 
+onUnmounted(() => {
+  useGlobalStore().showLeftDrawer = false;
+});
+
+watch(
+  () => useGlobalStore().escrows_filtered,
+  () => {
+    apply_filter2();
+  },
+);
+
 watch(
   () => tab.value,
   () => {
-    switch (tab.value) {
-      case 'tab_view':
-        {
-          useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
-            (escrow) => {
-              return (
-                escrow.account.maker.toString() ==
-                  useWallet().publicKey.value?.toString() &&
-                escrow.account.tokensDepositRemaining.toNumber() > 0
-              );
-            },
-          );
-        }
-        break;
-
-      case 'tab_empty':
-        {
-          useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
-            (escrow) => {
-              return (
-                escrow.account.maker.toString() ==
-                  useWallet().publicKey.value?.toString() &&
-                escrow.account.tokensDepositRemaining.toNumber() == 0
-              );
-            },
-          );
-        }
-        break;
-    }
+    apply_filter2();
   },
 );
+
+function apply_filter2() {
+  switch (tab.value) {
+    case 'tab_view':
+      {
+        useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
+          (escrow) => {
+            return (
+              escrow.account.maker.toString() ==
+                useWallet().publicKey.value?.toString() &&
+              escrow.account.tokensDepositRemaining.toNumber() > 0
+            );
+          },
+        );
+      }
+      break;
+
+    case 'tab_empty':
+      {
+        useGlobalStore().escrows_filtered = useGlobalStore().escrows?.filter(
+          (escrow) => {
+            return (
+              escrow.account.maker.toString() ==
+                useWallet().publicKey.value?.toString() &&
+              escrow.account.tokensDepositRemaining.toNumber() == 0
+            );
+          },
+        );
+      }
+      break;
+  }
+}
 </script>
 
 <template>
@@ -78,10 +93,34 @@ watch(
         </q-tab-panel>
 
         <q-tab-panel name="tab_view">
+          <q-card flat class="full-width" v-if="useQuasar().screen.lt.md">
+            <q-list>
+              <q-expansion-item
+                group="somegroup"
+                icon="search"
+                label="Filters"
+                header-class="text-teal"
+              >
+                <FilterEscrows />
+              </q-expansion-item>
+            </q-list>
+          </q-card>
           <EscrowTable show_close_button="true" />
         </q-tab-panel>
 
         <q-tab-panel name="tab_empty">
+          <q-card flat class="full-width" v-if="useQuasar().screen.lt.md">
+            <q-list>
+              <q-expansion-item
+                group="somegroup"
+                icon="search"
+                label="Filters"
+                header-class="text-teal"
+              >
+                <FilterEscrows />
+              </q-expansion-item>
+            </q-list>
+          </q-card>
           <EscrowTable show_close_button="true" />
         </q-tab-panel>
       </q-tab-panels>

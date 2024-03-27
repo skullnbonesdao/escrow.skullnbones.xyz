@@ -117,6 +117,7 @@ async function build_tx() {
 
 <template>
   <q-btn
+    icon="close"
     class="col"
     color="primary"
     :label="label"
