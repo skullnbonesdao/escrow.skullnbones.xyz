@@ -3,7 +3,7 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import { useLocalStorage } from '@vueuse/core';
 import { I_Extensions, I_Token, I_TokenList } from './interfaces/I_TokenList';
 import axios from 'axios';
-import * as token_list_local from './tokenlist.json';
+import * as token_list_local from './local_tokenlist.json';
 import { Escrow } from 'src/adapter/escrow_gen/accounts';
 import { EscrowAccounts, useWorkspace } from 'src/adapter/adapterPrograms';
 import { useStaratlasAPIStore } from 'stores/StaratlasAPIStore';
@@ -60,16 +60,16 @@ export const useGlobalStore = defineStore('GlobalStore', {
       });
     },
     async load_token_list() {
-      //this.token_list = token_list_local.tokens;
-      axios
-        .get(
-          'https://cdn.jsdelivr.net/gh/solflare-wallet/token-list@latest/solana-tokenlist.json',
-        )
-        .then((response) => {
-          const data: I_TokenList = response.data;
-          this.token_list = data.tokens;
-        });
-      await useStaratlasAPIStore().update();
+      this.token_list = token_list_local.tokens;
+      // axios
+      //   .get(
+      //     'https://cdn.jsdelivr.net/gh/solflare-wallet/token-list@latest/solana-tokenlist.json',
+      //   )
+      //   .then((response) => {
+      //     const data: I_TokenList = response.data;
+      //     this.token_list = data.tokens;
+      //   });
+      // await useStaratlasAPIStore().update();
       this.token_list = [
         ...this.token_list,
         ...useStaratlasAPIStore().raw.flatMap((element) => {

@@ -47,6 +47,8 @@ async function build_tx() {
       window.crypto.getRandomValues(new Uint8Array(8)),
     );
 
+    console.log(seed);
+
     const [auth, auth_bump] = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from('auth')],
       pg_escrow.value.programId,
@@ -85,6 +87,10 @@ async function build_tx() {
       whitelist = useWalletStore().whitelist_account;
       entry = useWalletStore().entry_account;
     }
+
+    console.log(auth.toString());
+    console.log(escrow.toString());
+    console.log(vault.toString());
 
     let signature = await pg_escrow.value.methods
       .initialize(

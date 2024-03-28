@@ -188,7 +188,7 @@ const token_selected = ref();
                       (token) =>
                         token.address ==
                         props.row.account.depositToken.toString(),
-                    ).decimals,
+                    )?.decimals,
                   )
                 ).toFixed(2)
               }}
@@ -237,7 +237,7 @@ const token_selected = ref();
                 useGlobalStore().token_list.find(
                   (token) =>
                     token.address == props.row.account.depositToken.toString(),
-                ).symbol
+                )?.symbol
               }}
             </div>
           </div>

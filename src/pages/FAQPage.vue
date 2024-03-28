@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useGlobalStore } from 'stores/GlobalStore';
+import { MAKER_FEE, TAKER_FEE } from '../stores/constants';
 
 onMounted(() => {
   useGlobalStore().showLeftDrawer = false;
@@ -107,18 +108,12 @@ onMounted(() => {
         <div class="text-h4">What are the fees?</div>
         <div>
           <b>MAKE:</b>
-          0.01 SOL<br />
+          {{ MAKER_FEE }} SOL<br />
 
           <b>TAKE:</b>
-          0.006 SOL<br />
+          {{ TAKER_FEE }} SOL<br />
         </div>
       </q-card-section>
-
-      <!--      Describe Opening/Closing Offers - empty accounts Time limit means the-->
-      <!--      offer can no longer be filled Explain partial fill vs full fill Fee-->
-      <!--      structure Explain that all assets tradable are whitelisted from the-->
-      <!--      staratlas asset list Assets do not need to be claimed upon completion of a-->
-      <!--      contract. They will be sent directly to the buyer/selle-->
     </q-card>
   </q-page>
 </template>

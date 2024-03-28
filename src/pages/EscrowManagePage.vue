@@ -16,13 +16,6 @@ onMounted(() => {
 });
 
 watch(
-  () => useGlobalStore().escrows_filtered,
-  () => {
-    apply_filter2();
-  },
-);
-
-watch(
   () => tab.value,
   () => {
     apply_filter2();
