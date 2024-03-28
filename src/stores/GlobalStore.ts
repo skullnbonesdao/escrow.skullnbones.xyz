@@ -29,7 +29,7 @@ export interface I_Escrows {
 export const useGlobalStore = defineStore('GlobalStore', {
   state: () => ({
     is_initialized: false,
-    rpc_selected: useLocalStorage('rpc_selected', RPC_NETWORKS[0]),
+    rpc_selected: RPC_NETWORKS[0], //useLocalStorage('rpc_selected', RPC_NETWORKS[0]),
     token_list: [] as I_Token[],
     connection: {} as Connection,
     showRightDrawer: false,

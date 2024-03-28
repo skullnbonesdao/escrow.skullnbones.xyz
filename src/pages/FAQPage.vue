@@ -13,7 +13,7 @@ onMounted(() => {
   <q-page class="q-pa-md q-gutter-y-md">
     <q-card flat>
       <q-card-section class="text-center">
-        <h4>FAQ</h4>
+        <div class="text-h3">FAQ</div>
       </q-card-section>
     </q-card>
 
@@ -62,7 +62,7 @@ onMounted(() => {
           a limited timespan<br />
           <br />
           <b>Partial/Full-FIll:</b><br />
-          Decide weather the taker of an offer can fill that order by 100% or by
+          Decide wether the taker of an offer can fill that order by 100% or by
           any percentage of that (only limited by slippage and token
           decimals)<br />
           <br />

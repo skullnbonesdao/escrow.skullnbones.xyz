@@ -7,10 +7,23 @@ import { useGlobalStore } from 'stores/GlobalStore';
 import { I_Token } from 'stores/interfaces/I_TokenList';
 import { Account } from '@solana/spl-token';
 
-const props = defineProps(['label', 'is_dense']);
+const props = defineProps(['label', 'is_dense', 'filter']);
 const emit = defineEmits(['mint_selected']);
 const selected = ref();
-const options = ref(useWalletStore().accounts_mapped);
+const options_pre_filtered = ref(useWalletStore().accounts_mapped);
+const options = ref();
+
+switch (props.filter) {
+  case 'filter_zero':
+    options_pre_filtered.value = useWalletStore().accounts_mapped.filter(
+      (option) => option.amount > 0,
+    );
+    break;
+  default:
+    options_pre_filtered.value = useWalletStore().accounts_mapped;
+    break;
+}
+
 watch(
   () => selected.value,
   () => emit('mint_selected', selected.value),
@@ -23,10 +36,10 @@ function filterFn(val: any, update: any, abort: any) {
     update(
       () => {
         if (val === '') {
-          options.value = useWalletStore().accounts_mapped;
+          options.value = options_pre_filtered.value;
         } else {
           const needle = val.toLowerCase();
-          options.value = useWalletStore().accounts_mapped.filter(
+          options.value = options_pre_filtered.value.filter(
             (v) =>
               v.symbol.toLowerCase().indexOf(needle) > -1 ||
               v.name.toLowerCase().indexOf(needle) > -1 ||
@@ -43,41 +56,6 @@ function filterFn(val: any, update: any, abort: any) {
     );
   }, 300);
 }
-//
-// function filterFnAutoselect(val: any, update: any, abort: any) {
-//   // call abort() at any time if you can't retrieve data somehow
-//
-//   setTimeout(() => {
-//     update(
-//       () => {
-//         if (val === '') {
-//           options.value = useWalletStore().accounts_mapped;
-//         } else {
-//           const needle = val.toLowerCase();
-//           options.value = useWalletStore().accounts_mapped.filter(
-//             (v) => v.symbol.toLowerCase().indexOf(needle) > -1,
-//           );
-//         }
-//       },
-//
-//       // "ref" is the Vue reference to the QSelect
-//       (ref: any) => {
-//         if (
-//           val !== '' &&
-//           ref.options.length > 0 &&
-//           ref.getOptionIndex() === -1
-//         ) {
-//           ref.moveOptionSelection(1, true); // focus the first selectable option and do not update the input-value
-//           ref.toggleOption(ref.options[ref.optionIndex], true); // toggle the focused option
-//         }
-//       },
-//     );
-//   }, 300);
-// }
-//
-// function abortFilterFn() {
-//   // console.log('delayed filter aborted')
-// }
 </script>
 
 <template>
@@ -101,8 +79,10 @@ function filterFn(val: any, update: any, abort: any) {
     <template v-slot:option="scope">
       <q-item v-bind="scope.itemProps">
         <q-item-section avatar>
-          <q-img v-if="scope.opt.image" :src="scope.opt.image" />
-          <q-img v-else src="unknown.png" />
+          <q-avatar>
+            <q-img v-if="scope.opt.image" :src="scope.opt.image" />
+            <q-img v-else src="unknown.png" />
+          </q-avatar>
         </q-item-section>
         <q-item-section>
           <q-item-label class="row q-gutter-x-sm">

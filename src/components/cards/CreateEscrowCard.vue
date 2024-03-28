@@ -40,6 +40,7 @@ const recipient_address = ref<PublicKey>();
       <q-separator vertical />
       <SelectTokenDropdown
         label="Token provided"
+        filter="filter_zero"
         class="col"
         @mint_selected="(data) => (token_provided = data)"
       />

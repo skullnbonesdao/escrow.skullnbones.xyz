@@ -26,7 +26,7 @@ interface AccountMap {
   mint: string;
   name: string;
   symbol: string;
-  amount: string;
+  amount: number;
   decimals: number;
   image: string;
 }
@@ -115,7 +115,9 @@ export const useWalletStore = defineStore('WalletStore', {
               )?.media.thumbnailUrl ??
               '',
             decimals: account.account.data.parsed.info.tokenAmount.decimals,
-            amount: account.account.data.parsed.info.tokenAmount.amount,
+            amount: parseInt(
+              account.account.data.parsed.info.tokenAmount.amount,
+            ),
           } as AccountMap;
         });
 
@@ -127,11 +129,13 @@ export const useWalletStore = defineStore('WalletStore', {
               name: token.name,
               image: token.logoURI,
               decimals: token.decimals,
-              amount: this.accounts.find(
-                (account) =>
-                  account.account.data.parsed.info.mint.toString() ==
-                  token.address,
-              )?.account.data.parsed.info.tokenAmount.amount,
+              amount: parseFloat(
+                this.accounts.find(
+                  (account) =>
+                    account.account.data.parsed.info.mint.toString() ==
+                    token.address,
+                )?.account.data.parsed.info.tokenAmount.amount,
+              ),
             } as AccountMap;
           },
         );
