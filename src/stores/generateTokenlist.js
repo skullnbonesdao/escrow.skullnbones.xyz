@@ -19,20 +19,23 @@ const load_data = async () => {
   let tokens = [];
 
   //SA TOKENS
-  api_data.forEach((asset) => {
-    tokens.push({
-      chainId: 0,
-      name: asset.name,
-      symbol: asset.symbol,
-      address: asset.mint,
-      decimals: 0,
-      logoURI: 'tokens/webp/' + asset.mint + '.webp',
-      tags: [],
-      verified: true,
-      holders: null,
-      extensions: undefined,
+  api_data
+    .filter((asset) => asset.symbol != 'ATLAS')
+    .filter((asset) => asset.symbol != 'POLIS')
+    .forEach((asset) => {
+      tokens.push({
+        chainId: 0,
+        name: asset.name,
+        symbol: asset.symbol,
+        address: asset.mint,
+        decimals: 0,
+        logoURI: 'tokens/webp/' + asset.mint + '.webp',
+        tags: [],
+        verified: true,
+        holders: null,
+        extensions: undefined,
+      });
     });
-  });
 
   //SOLANA TOKENS
   let solfare_tokens = [];
@@ -48,7 +51,15 @@ const load_data = async () => {
   const usdc = solfare_tokens.find(
     (token) => token.address == 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
   );
+  const atlas = solfare_tokens.find(
+    (token) => token.address == 'ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx',
+  );
+  const polis = solfare_tokens.find(
+    (token) => token.address == 'poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk',
+  );
   tokens.push(usdc);
+  tokens.push(atlas);
+  tokens.push(polis);
 
   token_list.tokens = tokens;
   //console.log(token_list);

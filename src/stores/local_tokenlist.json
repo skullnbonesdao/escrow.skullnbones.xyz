@@ -2183,17 +2183,6 @@
     },
     {
       "chainId": 0,
-      "name": "Atlas",
-      "symbol": "ATLAS",
-      "address": "ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx",
-      "decimals": 0,
-      "logoURI": "tokens/webp/ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx.webp",
-      "tags": [],
-      "verified": true,
-      "holders": null
-    },
-    {
-      "chainId": 0,
       "name": "Armstrong IMP Tip",
       "symbol": "IMP1",
       "address": "DTbNmLWfu1pm4AuXRKYTApnDNfxMz73VET7nW5wizG5t",
@@ -2298,17 +2287,6 @@
       "address": "C8MEmuEZ45JQXjPyWwSzebLEuNhGAYvb9T1qFCKaDEB3",
       "decimals": 0,
       "logoURI": "tokens/webp/C8MEmuEZ45JQXjPyWwSzebLEuNhGAYvb9T1qFCKaDEB3.webp",
-      "tags": [],
-      "verified": true,
-      "holders": null
-    },
-    {
-      "chainId": 0,
-      "name": "Polis",
-      "symbol": "POLIS",
-      "address": "poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk",
-      "decimals": 0,
-      "logoURI": "tokens/webp/poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk.webp",
       "tags": [],
       "verified": true,
       "holders": null
@@ -2930,6 +2908,34 @@
       "holders": 100000,
       "extensions": {
         "coingeckoId": "usd-coin"
+      }
+    },
+    {
+      "chainId": 101,
+      "name": "Star Atlas",
+      "symbol": "ATLAS",
+      "address": "ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx",
+      "decimals": 8,
+      "logoURI": "https://assets.coingecko.com/coins/images/17659/large/Icon_Reverse.png?1696517190",
+      "tags": [],
+      "verified": true,
+      "holders": 232276,
+      "extensions": {
+        "coingeckoId": "star-atlas"
+      }
+    },
+    {
+      "chainId": 101,
+      "name": "Star Atlas DAO",
+      "symbol": "POLIS",
+      "address": "poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk",
+      "decimals": 8,
+      "logoURI": "https://assets.coingecko.com/coins/images/17789/large/POLIS.jpg?1696517312",
+      "tags": [],
+      "verified": true,
+      "holders": 116127,
+      "extensions": {
+        "coingeckoId": "star-atlas-dao"
       }
     }
   ]
