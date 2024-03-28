@@ -14,8 +14,8 @@ export default boot(({ app }) => {
   // something to do
   const walletOptions = {
     wallets: [
-      new PhantomWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
-      new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+      new PhantomWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
+      new SolflareWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
     ],
     autoConnect: true,
   };

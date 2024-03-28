@@ -5,10 +5,10 @@ export const TAKER_FEE = 0.0006;
 export const WHITELISTS = ['trader'];
 export const NULL_ADDRESS = new PublicKey('11111111111111111111111111111111');
 export const FEE_ACCOUNT = new PublicKey(
-  '9Q4ug2XNHsWXjS9MDRdsxwi7gmUmGCL3UqHSVmg6dt66',
+  'feeLpAUDSsYBMwpxvVr5hwwDQE32BcWXRfAd3A6agWx',
 );
 export const ESCROW_PROGRAM_ID: PublicKey = new PublicKey(
-  'FoWdEuKLTx7R651twAQcCPWNeHn5W3fSoiBhm3QgbDBf',
+  'esccxeEDYUXQaeMwq1ZwWAvJaHVYfsXNva13JYb2Chs',
 );
 
 export const WHITELIST_PROGRAM_ID: PublicKey = new PublicKey(

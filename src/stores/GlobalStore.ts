@@ -8,15 +8,15 @@ import { Escrow } from 'src/adapter/escrow_gen/accounts';
 import { EscrowAccounts, useWorkspace } from 'src/adapter/adapterPrograms';
 export const RPC_NETWORKS = [
   {
-    name: 'devent',
+    name: 'RPC1',
     url: import.meta.env.VITE_RPC_1,
   },
   {
-    name: 'alchemy2',
+    name: 'RPC2',
     url: import.meta.env.VITE_RPC_2,
   },
   {
-    name: 'alchemy3',
+    name: 'RPC3',
     url: import.meta.env.VITE_RPC_3,
   },
 ];
