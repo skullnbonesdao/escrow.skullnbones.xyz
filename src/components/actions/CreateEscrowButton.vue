@@ -165,6 +165,7 @@ async function build_tx() {
         request_amount > 0
       )
     "
+    disabled="true"
     :label="useWalletStore().is_whitelisted ? 'Create as Member' : `Create`"
     class="full-width"
     color="primary"
