@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { useLocalStorage } from '@vueuse/core';
-import { I_Token, I_TokenList } from './interfaces/I_TokenList';
+import { I_Extensions, I_Token, I_TokenList } from './interfaces/I_TokenList';
 import axios from 'axios';
 import * as token_list_local from './tokenlist.json';
 import { Escrow } from 'src/adapter/escrow_gen/accounts';
 import { EscrowAccounts, useWorkspace } from 'src/adapter/adapterPrograms';
+import { useStaratlasAPIStore } from 'stores/StaratlasAPIStore';
 export const RPC_NETWORKS = [
   {
     name: 'RPC1',
@@ -59,15 +60,33 @@ export const useGlobalStore = defineStore('GlobalStore', {
       });
     },
     async load_token_list() {
-      this.token_list = token_list_local.tokens;
-      // axios
-      //   .get(
-      //     'https://cdn.jsdelivr.net/gh/solflare-wallet/token-list@latest/solana-tokenlist.json',
-      //   )
-      //   .then((response) => {
-      //     const data: I_TokenList = response.data;
-      //     this.token_list = data.tokens;
-      //   });
+      //this.token_list = token_list_local.tokens;
+      axios
+        .get(
+          'https://cdn.jsdelivr.net/gh/solflare-wallet/token-list@latest/solana-tokenlist.json',
+        )
+        .then((response) => {
+          const data: I_TokenList = response.data;
+          this.token_list = data.tokens;
+        });
+      await useStaratlasAPIStore().update();
+      this.token_list = [
+        ...this.token_list,
+        ...useStaratlasAPIStore().raw.flatMap((element) => {
+          return {
+            chainId: 0,
+            name: element.name,
+            symbol: element.symbol,
+            address: element.mint,
+            decimals: 0,
+            logoURI: element.media.thumbnailUrl,
+            tags: [],
+            verified: true,
+            holders: 0,
+            extensions: undefined,
+          } as I_Token;
+        }),
+      ];
     },
     async load_all_escrows() {
       this.escrows =

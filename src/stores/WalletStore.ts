@@ -156,6 +156,9 @@ export const useWalletStore = defineStore('WalletStore', {
         //   } as AccountMap;
         // });
         this.accounts_mapped = [...wallet_accounts_mapped2];
+        this.accounts_mapped = this.accounts_mapped.filter(
+          (accounts) => accounts.amount != undefined,
+        );
       }
     },
   },
