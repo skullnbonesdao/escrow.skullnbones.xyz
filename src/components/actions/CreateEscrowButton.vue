@@ -49,10 +49,9 @@ async function build_tx() {
 
     console.log(seed);
 
-    const [auth, auth_bump] = anchor.web3.PublicKey.findProgramAddressSync(
-      [Buffer.from('auth')],
-      pg_escrow.value.programId,
-    );
+    console.log(1);
+
+    console.log(useWallet().publicKey);
 
     const escrow = anchor.web3.PublicKey.findProgramAddressSync(
       [
@@ -63,8 +62,15 @@ async function build_tx() {
       pg_escrow.value.programId,
     )[0];
 
+    console.log(2);
+
     const vault = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from('vault'), escrow.toBuffer()],
+      pg_escrow.value.programId,
+    )[0];
+
+    const auth = anchor.web3.PublicKey.findProgramAddressSync(
+      [Buffer.from('auth'), escrow.toBuffer()],
       pg_escrow.value.programId,
     )[0];
 
@@ -143,6 +149,7 @@ async function build_tx() {
       timeout: 2500,
     });
   } catch (err: any) {
+    console.error(err);
     notification_process({
       type: 'negative',
       icon: 'error',
@@ -165,7 +172,6 @@ async function build_tx() {
         request_amount > 0
       )
     "
-    disabled="true"
     :label="useWalletStore().is_whitelisted ? 'Create as Member' : `Create`"
     class="full-width"
     color="primary"

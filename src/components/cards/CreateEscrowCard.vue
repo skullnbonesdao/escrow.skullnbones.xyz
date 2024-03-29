@@ -39,7 +39,7 @@ const recipient_address = ref<PublicKey>();
         <q-badge outline label="SELL" color="red" rounded />
       </div>
       <div class="col-1 row q-mx-md justify-center">
-        <q-avatar size="md" outline label="BUY">
+        <q-avatar size="md" outline label="BUY" class="bg-dark">
           <q-img
             :src="
               useGlobalStore().token_list?.find(
@@ -73,7 +73,7 @@ const recipient_address = ref<PublicKey>();
       </div>
 
       <div class="col-1 row q-mx-md justify-center">
-        <q-avatar size="md" outline label="BUY">
+        <q-avatar size="md" outline label="BUY" class="bg-dark">
           <q-img
             :src="
               useGlobalStore().token_list?.find(

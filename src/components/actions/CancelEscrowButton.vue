@@ -18,7 +18,7 @@ const props = defineProps(['escrow_address', 'label']);
 const $q = useQuasar();
 
 async function build_tx() {
-  const pg_escrow = useWorkspace()!.pg_escrow;
+  const { pg_escrow } = useWorkspace();
 
   let notification_process: any;
 
@@ -36,23 +36,22 @@ async function build_tx() {
 
     const seed = escrow_account.seed;
 
-    const auth = anchor.web3.PublicKey.findProgramAddressSync(
-      [Buffer.from('auth')],
-      pg_escrow.value.programId,
-    )[0];
-
-    const escrow = anchor.web3.PublicKey.findProgramAddressSync(
+    const escrow = PublicKey.findProgramAddressSync(
       [
         Buffer.from('escrow'),
         useWallet().publicKey.value!.toBytes(),
-        seed.toArrayLike(Buffer).reverse(),
-        ,
+        seed.toBuffer().reverse(),
       ],
       pg_escrow.value.programId,
     )[0];
 
-    const vault = anchor.web3.PublicKey.findProgramAddressSync(
+    const vault = PublicKey.findProgramAddressSync(
       [Buffer.from('vault'), escrow.toBuffer()],
+      pg_escrow.value.programId,
+    )[0];
+
+    const auth = PublicKey.findProgramAddressSync(
+      [Buffer.from('auth'), escrow.toBuffer()],
       pg_escrow.value.programId,
     )[0];
 

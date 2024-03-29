@@ -37,24 +37,20 @@ async function build_tx() {
     );
 
     const seed = escrow_account.seed;
-
-    const auth = anchor.web3.PublicKey.findProgramAddressSync(
-      [Buffer.from('auth')],
-      pg_escrow.value.programId,
-    )[0];
-
     const creator = escrow_account.maker;
-    const escrow = anchor.web3.PublicKey.findProgramAddressSync(
-      [
-        Buffer.from('escrow'),
-        creator.toBytes(),
-        seed.toArrayLike(Buffer).reverse(),
-      ],
+
+    const escrow = PublicKey.findProgramAddressSync(
+      [Buffer.from('escrow'), creator.toBytes(), seed.toBuffer().reverse()],
       pg_escrow.value.programId,
     )[0];
 
-    const vault = anchor.web3.PublicKey.findProgramAddressSync(
+    const vault = PublicKey.findProgramAddressSync(
       [Buffer.from('vault'), escrow.toBuffer()],
+      pg_escrow.value.programId,
+    )[0];
+
+    const auth = PublicKey.findProgramAddressSync(
+      [Buffer.from('auth'), escrow.toBuffer()],
       pg_escrow.value.programId,
     )[0];
 
