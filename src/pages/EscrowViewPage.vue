@@ -8,6 +8,7 @@ import EscrowTakeView from 'components/details/EscrowTakeView.vue';
 import EscrowDetails from 'components/details/EscrowDetails.vue';
 import { useQuasar } from 'quasar';
 import { copy_to_clipboard } from 'src/functions/copy_to_clipboard';
+import { make_discord_message } from 'src/functions/make_discord_message';
 
 useGlobalStore().showRightDrawer = false;
 useGlobalStore().showLeftDrawer = false;
@@ -32,18 +33,13 @@ watchDeep(
   <q-page class="q-gutter-y-sm">
     <q-card flat>
       <q-card-section class="row q-gutter-x-sm items-center">
-        <q-btn color="primary" to="/escrow">
-          <q-avatar>
-            <q-icon name="arrow_left" />
-          </q-avatar>
-        </q-btn>
-        <p class="text-h6 q-mr-sm">Offer:</p>
+        <p class="text-h4 q-pa-sm">Offer</p>
+        <q-space />
         <p
-          class="text-subtitle1"
+          class="text-h6"
           @click="
             copy_to_clipboard(
-              'https://escrow.skullnbones.xyz/#/view/' +
-                useGlobalStore().escrow_selected?.publicKey.toString(),
+              useGlobalStore().escrow_selected?.publicKey.toString() ?? '',
             )
           "
         >
@@ -52,15 +48,27 @@ watchDeep(
             'not-found'
           }}
         </p>
-        <q-icon
-          name="content_copy"
-          @click="
-            copy_to_clipboard(
-              'https://escrow.skullnbones.xyz/#/view/' +
-                useGlobalStore().escrow_selected?.publicKey.toString(),
-            )
-          "
-        />
+        <q-space />
+
+        <q-btn flat size="lg">
+          <q-tooltip>Copy link</q-tooltip>
+          <q-icon
+            name="share"
+            @click="
+              copy_to_clipboard(
+                'https://escrow.skullnbones.xyz/#/view/' +
+                  useGlobalStore().escrow_selected?.publicKey.toString(),
+              )
+            "
+          />
+        </q-btn>
+        <q-btn flat size="lg">
+          <q-tooltip>Copy discord message</q-tooltip>
+          <q-icon
+            name="discord"
+            @click="copy_to_clipboard(make_discord_message())"
+          />
+        </q-btn>
       </q-card-section>
     </q-card>
 

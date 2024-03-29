@@ -2,42 +2,23 @@
   <q-layout view="hHh lpr fFf">
     <q-header class="bg-dark">
       <q-toolbar class="q-ma-none q-pa-none">
-        <q-btn
-          class="q-mx-sm"
-          round
-          to="/"
-          :class="useWalletStore().is_whitelisted ? 'bg-blue' : ''"
-        >
-          <q-avatar size="50px">
-            <q-img src="logo.svg" />
-          </q-avatar>
-        </q-btn>
-
-        <q-space />
         <q-tabs v-model="tab" shrink stretch active-bg-color="primary">
           <q-route-tab
-            name="tab_escrow"
-            label="View"
-            icon="countertops"
-            to="/escrow"
-          />
-          <q-route-tab
-            name="tab_manage"
-            icon="design_services"
-            label="Manage"
-            to="/manage"
-          />
-          <q-route-tab name="tab_faq" icon="quiz" label="FAQ" to="/faq" />
+            to="/"
+            :class="useWalletStore().is_whitelisted ? 'bg-blue' : ''"
+          >
+            <q-avatar>
+              <q-img src="logo.svg" />
+            </q-avatar>
+          </q-route-tab>
+          <q-route-tab name="tab_escrow" icon="countertops" to="/escrow" />
+          <q-route-tab name="tab_manage" icon="design_services" to="/manage" />
+          <q-route-tab name="tab_faq" icon="quiz" to="/faq" />
         </q-tabs>
 
         <q-space />
 
         <WalletMultiButton dark />
-        <q-btn class="q-mx-sm" round to="/settings">
-          <q-avatar size="30px">
-            <q-icon name="settings" />
-          </q-avatar>
-        </q-btn>
       </q-toolbar>
 
       <q-separator />
@@ -72,6 +53,11 @@
         <q-toolbar-title class="row items-center">
           <q-img src="sa-powered_by_the_people.png" width="100px" />
           <div class="text-right col text-subtitle2">v{{ version }}</div>
+          <q-btn class="q-mx-sm" round to="/settings">
+            <q-avatar size="30px">
+              <q-icon name="settings" />
+            </q-avatar>
+          </q-btn>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>

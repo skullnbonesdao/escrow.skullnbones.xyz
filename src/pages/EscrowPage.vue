@@ -18,7 +18,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <q-page :class="useQuasar().screen.lt.md ? 'q-pa-md' : 'q-pa-md'">
+  <q-page
+    :class="useQuasar().screen.lt.md ? 'q-pa-md' : 'q-pa-md'"
+    class="q-gutter-y-sm"
+  >
     <q-card flat class="full-width" v-if="useQuasar().screen.lt.md">
       <q-list>
         <q-expansion-item

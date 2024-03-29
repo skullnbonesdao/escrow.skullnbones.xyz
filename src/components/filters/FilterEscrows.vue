@@ -6,6 +6,7 @@ import { NULL_ADDRESS } from 'stores/constants';
 import { useWallet } from 'solana-wallets-vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import { useWalletStore } from 'stores/WalletStore';
 
 const filter_type = ref('type_public');
 const extra_filter = ref(['self', 'fill_partial', 'fill_full']);

@@ -10,14 +10,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <q-page class="q-pa-md q-gutter-y-md">
-    <q-card flat>
+  <q-page class="row items-center justify-evenly q-pa-md q-gutter-y-md">
+    <q-card flat class="col">
       <q-card-section class="text-center">
         <div class="text-h3">FAQ</div>
       </q-card-section>
     </q-card>
 
-    <q-card flat>
+    <q-card flat class="q-gutter-y-md">
       <q-card-section class="">
         <div class="text-h4">How to create an offer?</div>
         <div>

@@ -23,7 +23,7 @@ const timestamp = ref(0);
 
 const only_wallet = ref(false);
 const expire_toggle = ref(false);
-const allow_partial_fill = ref(false);
+const allow_partial_fill = ref(true);
 const only_members = ref(false);
 const slippage = ref(1);
 const sa_list_enabled = ref(false);
@@ -44,14 +44,19 @@ const recipient_address = ref<PublicKey>();
             :src="
               useGlobalStore().token_list?.find(
                 (token) => token.address == token_provided?.mint.toString(),
-              )?.logoURI
+              )?.logoURI ?? 'unknown.png'
             "
           />
         </q-avatar>
       </div>
       <q-separator vertical />
       <SelectTokenDropdown
-        label="Token provided"
+        :label="
+          token_provided
+            ? 'Available: ' +
+              token_provided.amount * 10 ** -token_provided.decimals
+            : 'Token provided'
+        "
         filter="filter_zero"
         class="col"
         @mint_selected="(data) => (token_provided = data)"
@@ -78,14 +83,19 @@ const recipient_address = ref<PublicKey>();
             :src="
               useGlobalStore().token_list?.find(
                 (token) => token.address == token_requested?.mint.toString(),
-              )?.logoURI
+              )?.logoURI ?? 'unknown.png'
             "
           />
         </q-avatar>
       </div>
       <q-separator vertical />
       <SelectTokenDropdown
-        label="Token requested"
+        :label="
+          token_requested
+            ? 'Available: ' +
+              token_requested.amount * 10 ** -token_requested.decimals
+            : 'Token requested'
+        "
         class="col"
         @mint_selected="(data) => (token_requested = data)"
       />
@@ -222,8 +232,8 @@ const recipient_address = ref<PublicKey>();
             </q-item-section>
           </q-item>
 
-          <q-separator />
-          <q-item>
+          <q-separator v-if="useWalletStore().is_whitelisted" />
+          <q-item v-if="useWalletStore().is_whitelisted">
             <q-item-section>
               <q-item-label>S&B member deal</q-item-label>
               <q-item-label caption
