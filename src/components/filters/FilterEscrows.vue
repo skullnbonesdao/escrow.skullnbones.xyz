@@ -165,6 +165,7 @@ function apply_filter() {
             </div>
             <q-separator vertical />
             <SelectTokenDropdown
+              filter="filter_zero"
               class="col"
               @mint_selected="(data) => (filter_sell = data)"
             />

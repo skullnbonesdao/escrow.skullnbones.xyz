@@ -27,15 +27,27 @@ const allow_partial_fill = ref(false);
 const only_members = ref(false);
 const slippage = ref(1);
 const sa_list_enabled = ref(false);
+const flipped_side = ref(false);
 
 const recipient_address = ref<PublicKey>();
 </script>
 
 <template>
-  <q-card square flat class="bg-dark q-pa-md q-gutter-y-sm">
-    <q-card flat class="row items-center bg-secondary">
-      <div class="col-1 row q-mx-sm justify-center">
+  <q-card flat class="bg-dark q-pa-md q-gutter-y-sm">
+    <q-card square class="row items-center bg-secondary">
+      <div class="col-2 row justify-center">
         <q-badge outline label="SELL" color="red" rounded />
+      </div>
+      <div class="col-1 row q-mx-md justify-center">
+        <q-avatar size="md" outline label="BUY">
+          <q-img
+            :src="
+              useGlobalStore().token_list?.find(
+                (token) => token.address == token_provided?.mint.toString(),
+              )?.logoURI
+            "
+          />
+        </q-avatar>
       </div>
       <q-separator vertical />
       <SelectTokenDropdown
@@ -56,8 +68,20 @@ const recipient_address = ref<PublicKey>();
     </q-card>
 
     <q-card flat square class="row items-center bg-secondary">
-      <div class="col-1 row q-mx-sm justify-center">
+      <div class="col-2 row justify-center">
         <q-badge outline label="BUY" color="green" rounded />
+      </div>
+
+      <div class="col-1 row q-mx-md justify-center">
+        <q-avatar size="md" outline label="BUY">
+          <q-img
+            :src="
+              useGlobalStore().token_list?.find(
+                (token) => token.address == token_requested?.mint.toString(),
+              )?.logoURI
+            "
+          />
+        </q-avatar>
       </div>
       <q-separator vertical />
       <SelectTokenDropdown
@@ -66,6 +90,7 @@ const recipient_address = ref<PublicKey>();
         @mint_selected="(data) => (token_requested = data)"
       />
       <q-separator vertical />
+
       <q-input
         standout
         square
@@ -76,12 +101,41 @@ const recipient_address = ref<PublicKey>();
       />
     </q-card>
 
-    <q-card flat square class="row items-center bg-secondary">
-      <div class="col-1 row q-mx-sm justify-center">
+    <q-card
+      flat
+      class="row items-center bg-secondary"
+      @click="flipped_side = !flipped_side"
+    >
+      <div class="col-2 row justify-center">
         <q-badge outline label="Price" color="yellow" rounded />
       </div>
-      <q-separator vertical />
-      <div class="col text-center">Price per Unit = BUY/SELL</div>
+      <div class="row justify-center q-mx-sm">=</div>
+
+      <div class="col row justify-center q-gutter-x-xs">
+        <q-badge
+          outline
+          :label="flipped_side ? 'SELL' : 'BUY'"
+          :color="flipped_side ? 'red' : 'green'"
+          rounded
+        />
+
+        <div>/</div>
+
+        <q-badge
+          outline
+          :label="flipped_side ? 'BUY' : 'SELL'"
+          :color="flipped_side ? 'green' : 'red'"
+          rounded
+        />
+      </div>
+
+      <div class="col text-center"></div>
+      <q-btn
+        flat
+        stretch
+        class=""
+        :icon="flipped_side ? 'switch_left' : 'switch_right'"
+      />
       <q-separator vertical />
 
       <q-input
@@ -89,18 +143,24 @@ const recipient_address = ref<PublicKey>();
         standout
         square
         class="col-3"
-        :label="token_requested_amount / token_provided_amount"
+        :label="
+          flipped_side
+            ? token_provided_amount / token_requested_amount
+            : token_requested_amount / token_provided_amount
+        "
         type="number"
       />
     </q-card>
 
     <div>
-      <q-card bordered flat class="bg-secondary">
+      <q-card bordered square flat class="bg-secondary">
         <q-expansion-item
+          default-opened
           expand-separator
           icon="settings"
-          label="Advanced settings"
+          label="Additional settings"
         >
+          <q-separator />
           <q-item>
             <div class="col q-gutter-y-sm">
               <div class="row">
@@ -183,6 +243,11 @@ const recipient_address = ref<PublicKey>();
 
           <q-item>
             <div class="col q-gutter-y-sm">
+              <q-tooltip
+                >In rare cases 'slippage' in exchange amounts can occur. You
+                usually even safe to set it to zero. (more info in
+                FAQ)</q-tooltip
+              >
               <div class="row">
                 <q-item-section>
                   <q-item-label>Slippage</q-item-label>
@@ -192,7 +257,7 @@ const recipient_address = ref<PublicKey>();
                 </q-item-section>
                 <q-item-section avatar class="col-4">
                   <q-input
-                    suffix="%/1000"
+                    suffix="milli%"
                     dense
                     filled
                     square

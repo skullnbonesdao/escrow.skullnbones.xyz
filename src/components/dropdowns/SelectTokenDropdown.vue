@@ -13,6 +13,22 @@ const selected = ref();
 const options_pre_filtered = ref(useWalletStore().accounts_mapped);
 const options = ref();
 
+watch(
+  () => useWalletStore().accounts_mapped,
+  () => {
+    switch (props.filter) {
+      case 'filter_zero':
+        options_pre_filtered.value = useWalletStore().accounts_mapped.filter(
+          (option) => option.amount > 0,
+        );
+        break;
+      default:
+        options_pre_filtered.value = useWalletStore().accounts_mapped;
+        break;
+    }
+  },
+);
+
 switch (props.filter) {
   case 'filter_zero':
     options_pre_filtered.value = useWalletStore().accounts_mapped.filter(
@@ -65,6 +81,7 @@ function filterFn(val: any, update: any, abort: any) {
     clearable
     use-input
     hide-selected
+    options-cover
     fill-input
     input-debounce="0"
     v-model="selected"

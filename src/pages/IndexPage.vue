@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import IconFromSeed from 'components/icons/IconFromSeed.vue';
-import { WalletMultiButton } from 'solana-wallets-vue';
-import { useGlobalStore } from '../stores/GlobalStore';
 import { useQuasar } from 'quasar';
 </script>
 
 <template>
   <q-page class="row items-center justify-evenly q-pa-xl">
-    {{ useGlobalStore().escrows }}dsdas
     <div class="q-gutter-y-xl">
       <div>
         <p class="text-h1">Escrow Service</p>

@@ -62,7 +62,7 @@ onMounted(() => {
           a limited timespan<br />
           <br />
           <b>Partial/Full-FIll:</b><br />
-          Decide wether the taker of an offer can fill that order by 100% or by
+          Decide whether the taker of an offer can fill that order by 100% or by
           any percentage of that (only limited by slippage and token
           decimals)<br />
           <br />
@@ -77,7 +77,7 @@ onMounted(() => {
       </q-card-section>
       <q-separator />
       <q-card-section class="">
-        <div class="text-h4">When do i get my exchanged tokens?</div>
+        <div class="text-h4">When do I get my exchanged tokens?</div>
         <div>
           Every asset exchange happens immediately for both exchanging parties.
           Which means that once a order gets filled partially or fully both

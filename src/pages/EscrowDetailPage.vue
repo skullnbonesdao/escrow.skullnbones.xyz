@@ -7,6 +7,7 @@ import { watchDeep } from '@vueuse/core';
 import EscrowTakeView from 'components/details/EscrowTakeView.vue';
 import EscrowDetails from 'components/details/EscrowDetails.vue';
 import { useQuasar } from 'quasar';
+import { copy_to_clipboard } from 'src/functions/copy_to_clipboard';
 
 useGlobalStore().showRightDrawer = false;
 useGlobalStore().showLeftDrawer = false;
@@ -25,15 +26,6 @@ watchDeep(
     await useGlobalStore().load_escrow(address);
   },
 );
-
-async function copy_to_clipboard() {
-  q.notify({
-    message: 'Copied to clipboard',
-  });
-  await navigator.clipboard.writeText(
-    'escrow.skullnbones.xyz' + r.currentRoute.value.fullPath,
-  );
-}
 </script>
 
 <template>
@@ -46,10 +38,29 @@ async function copy_to_clipboard() {
           </q-avatar>
         </q-btn>
         <p class="text-h6 q-mr-sm">Offer:</p>
-        <p class="text-subtitle1" @click="copy_to_clipboard">
-          {{ useGlobalStore().escrow_selected?.publicKey }}
+        <p
+          class="text-subtitle1"
+          @click="
+            copy_to_clipboard(
+              'https://escrow.skullnbones.xyz/#/view/' +
+                useGlobalStore().escrow_selected?.publicKey.toString(),
+            )
+          "
+        >
+          {{
+            useGlobalStore().escrow_selected?.publicKey.toString() ??
+            'not-found'
+          }}
         </p>
-        <q-icon name="content_copy" @click="copy_to_clipboard" />
+        <q-icon
+          name="content_copy"
+          @click="
+            copy_to_clipboard(
+              'https://escrow.skullnbones.xyz/#/view/' +
+                useGlobalStore().escrow_selected?.publicKey.toString(),
+            )
+          "
+        />
       </q-card-section>
     </q-card>
 
