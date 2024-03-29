@@ -47,12 +47,6 @@ async function build_tx() {
       window.crypto.getRandomValues(new Uint8Array(8)),
     );
 
-    console.log(seed);
-
-    console.log(1);
-
-    console.log(useWallet().publicKey);
-
     const escrow = anchor.web3.PublicKey.findProgramAddressSync(
       [
         Buffer.from('escrow'),
@@ -61,8 +55,6 @@ async function build_tx() {
       ],
       pg_escrow.value.programId,
     )[0];
-
-    console.log(2);
 
     const vault = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from('vault'), escrow.toBuffer()],
