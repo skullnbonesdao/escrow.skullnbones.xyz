@@ -44,7 +44,15 @@
     <q-page-container>
       <DisclaimerDialog class="col-1" />
       <router-view
-        style="background: linear-gradient(to right, #1e005e, #2b1045)"
+        style="
+          background: rgb(124, 2, 57);
+          background: linear-gradient(
+            339deg,
+            rgba(124, 2, 57, 1) 0%,
+            rgba(17, 45, 79, 1) 60%,
+            rgba(20, 71, 130, 1) 100%
+          );
+        "
       />
     </q-page-container>
     <q-footer class="bg-dark">

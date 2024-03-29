@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
+import { onMounted } from 'vue';
+import { useGlobalStore } from 'stores/GlobalStore';
+onMounted(() => {
+  useGlobalStore().showLeftDrawer = false;
+  useGlobalStore().showRightDrawer = false;
+});
 </script>
 
 <template>
@@ -57,7 +63,7 @@ import { useQuasar } from 'quasar';
         </q-card>
       </div>
       <div>
-        <h4>by Skull&Bones</h4>
+        <h4>by Skull & Bones</h4>
       </div>
     </div>
   </q-page>

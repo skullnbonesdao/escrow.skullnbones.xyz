@@ -7,13 +7,13 @@ export function make_discord_message() {
     (useGlobalStore().token_list.find(
       (token) =>
         token.address ==
-        useGlobalStore().escrow_selected?.account.depositToken.toString(),
+        useGlobalStore().escrow_selected?.account.requestToken.toString(),
     )?.symbol ?? '???') +
     ' -> ' +
     (useGlobalStore().token_list.find(
       (token) =>
         token.address ==
-        useGlobalStore().escrow_selected?.account.requestToken.toString(),
+        useGlobalStore().escrow_selected?.account.depositToken.toString(),
     )?.symbol ?? '???') +
     '](' +
     'https://escrow.skullnbones.xyz/#/view/' +
@@ -22,14 +22,24 @@ export function make_discord_message() {
 
   const table_data = [
     ['Side', 'ASSET', 'Total', 'Price per Unit'],
+
     [
       'Takes',
       useGlobalStore().token_list.find(
         (token) =>
           token.address ==
-          useGlobalStore().escrow_selected?.account.depositToken.toString(),
+          useGlobalStore().escrow_selected?.account.requestToken.toString(),
       )?.symbol ?? '???',
-      useGlobalStore().escrow_selected?.account.tokensDepositInit.toNumber(),
+
+      ((useGlobalStore().escrow_selected?.account.price ?? 0) *
+        (useGlobalStore().escrow_selected?.account.tokensDepositInit.toNumber() ??
+          0)) /
+        10 **
+          (useGlobalStore().token_list.find(
+            (t) =>
+              t.address.toString() ==
+              useGlobalStore().escrow_selected?.account.depositToken.toString(),
+          )?.decimals ?? 0),
 
       '[' +
         (useGlobalStore().token_list.find(
@@ -51,11 +61,17 @@ export function make_discord_message() {
       useGlobalStore().token_list.find(
         (token) =>
           token.address ==
-          useGlobalStore().escrow_selected?.account.requestToken.toString(),
+          useGlobalStore().escrow_selected?.account.depositToken.toString(),
       )?.symbol ?? '???',
-      (useGlobalStore().escrow_selected?.account.price ?? 0) *
-        (useGlobalStore().escrow_selected?.account.tokensDepositInit.toNumber() ??
-          0),
+
+      (useGlobalStore().escrow_selected?.account.tokensDepositInit.toNumber() ??
+        0) /
+        10 **
+          (useGlobalStore().token_list.find(
+            (t) =>
+              t.address.toString() ==
+              useGlobalStore().escrow_selected?.account.depositToken.toString(),
+          )?.decimals ?? 0),
 
       '[' +
         (useGlobalStore().token_list.find(
