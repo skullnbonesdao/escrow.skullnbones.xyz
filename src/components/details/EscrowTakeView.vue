@@ -57,10 +57,15 @@ function calc_percent_amount(percentage: number) {
   <q-card flat>
     <q-card-section class="row">
       <div class="row">
-        <q-avatar size="40px">
+        <q-avatar size="40px" color="white">
           <img :src="token_depostit_info?.logoURI" />
         </q-avatar>
-        <q-avatar size="40px" class="overlapping" :style="`right: ${15}px`">
+        <q-avatar
+          size="40px"
+          class="overlapping"
+          :style="`right: ${15}px`"
+          color="white"
+        >
           <img :src="token_request_info?.logoURI" />
         </q-avatar>
       </div>

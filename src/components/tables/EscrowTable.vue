@@ -109,11 +109,15 @@ const pagination = ref({
 });
 
 const columns = ref([
-  { name: 'sides', label: '', style: 'width: 20px' },
+  { name: 'sides', label: '' },
   { name: 'amounts', label: 'Amounts' },
   { name: 'icons', label: 'Tokens', align: 'center', style: 'width: 50px' },
 
-  { name: 'price', label: 'Price per Unit', align: 'center' },
+  {
+    name: 'price',
+    label: 'Price per Unit',
+    align: 'center',
+  },
 
   { name: 'balance', label: '', style: 'width: 20px' },
   { name: 'expire', label: '', style: 'width: 20px' },
@@ -207,7 +211,7 @@ const token_selected = ref();
 
         <q-td key="icons" :props="props">
           <div class="col items-center q-gutter-x-sm">
-            <q-avatar size="md">
+            <q-avatar size="md" color="white">
               <q-img
                 :src="
                   useGlobalStore().token_list.find(
@@ -229,7 +233,7 @@ const token_selected = ref();
           </div>
 
           <div class="col items-center q-gutter-x-sm">
-            <q-avatar size="md">
+            <q-avatar size="md" color="white">
               <q-img
                 :src="
                   useGlobalStore().token_list.find(
@@ -252,39 +256,43 @@ const token_selected = ref();
           </div>
         </q-td>
 
-        <q-td key="price" :props="props">
-          <div class="row items-center justify-end q-gutter-x-sm">
-            <div class="text-subtitle1 text-weight-bold text-right">
-              {{ props.row.account.price.toFixed(5) }}
+        <q-td key="price" :props="props" class="col q-gutter-x-sm">
+          <div class="row q-gutter-x-sm">
+            <div class="col text-subtitle1 text-weight-bold text-right">
+              {{ props.row.account.price.toFixed(3) }}
             </div>
 
-            <q-avatar size="sm">
-              <q-img
-                :src="
-                  useGlobalStore().token_list.find(
-                    (token) =>
-                      token.address ==
-                      props.row.account.requestToken.toString(),
-                  )?.logoURI ?? 'unknown.png'
-                "
-              />
-            </q-avatar>
-          </div>
-          <div class="row items-center justify-end q-gutter-x-sm">
-            <div class="text-subtitle1 text-weight-bold text-right">
-              {{ (1 / props.row.account.price).toFixed(5) }}
+            <div class="col">
+              <q-avatar size="sm" color="white">
+                <q-img
+                  :src="
+                    useGlobalStore().token_list.find(
+                      (token) =>
+                        token.address ==
+                        props.row.account.requestToken.toString(),
+                    )?.logoURI ?? 'unknown.png'
+                  "
+                />
+              </q-avatar>
             </div>
-            <q-avatar size="sm">
-              <q-img
-                :src="
-                  useGlobalStore().token_list.find(
-                    (token) =>
-                      token.address ==
-                      props.row.account.depositToken.toString(),
-                  )?.logoURI ?? 'unknown.png'
-                "
-              />
-            </q-avatar>
+          </div>
+          <div class="row q-gutter-x-sm">
+            <div class="col text-subtitle1 text-weight-bold text-right">
+              {{ (1 / props.row.account.price).toFixed(3) }}
+            </div>
+            <div class="col">
+              <q-avatar size="sm" color="white">
+                <q-img
+                  :src="
+                    useGlobalStore().token_list.find(
+                      (token) =>
+                        token.address ==
+                        props.row.account.depositToken.toString(),
+                    )?.logoURI ?? 'unknown.png'
+                  "
+                />
+              </q-avatar>
+            </div>
           </div>
         </q-td>
 
