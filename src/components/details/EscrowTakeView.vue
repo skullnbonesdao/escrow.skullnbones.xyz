@@ -97,10 +97,48 @@ function calc_percent_amount(percentage: number) {
     </q-card-section>
     <q-card-section class="row q-py-none items-center">
       <q-badge outline label="Price per Unit" color="yellow" rounded />
-      <q-space class="col" />
-      <p class="text-h4">
-        {{ useGlobalStore().escrow_selected?.account.price.toFixed(4) }}
-      </p>
+
+      <div class="col q-gutter-y-xs">
+        <div class="row q-gutter-x-sm">
+          <div class="col text-subtitle1 text-weight-bold text-right">
+            {{ useGlobalStore().escrow_selected?.account.price.toFixed(3) }}
+          </div>
+
+          <div>
+            <q-avatar size="sm" color="white">
+              <q-img
+                :src="
+                  useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address ==
+                      useGlobalStore().escrow_selected?.account.requestToken.toString(),
+                  )?.logoURI ?? 'unknown.png'
+                "
+              />
+            </q-avatar>
+          </div>
+        </div>
+        <div class="row q-gutter-x-sm">
+          <div class="col text-subtitle1 text-weight-bold text-right">
+            {{
+              (1 / useGlobalStore().escrow_selected?.account.price).toFixed(3)
+            }}
+          </div>
+          <div>
+            <q-avatar size="sm" color="white">
+              <q-img
+                :src="
+                  useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address ==
+                      useGlobalStore().escrow_selected?.account.depositToken.toString(),
+                  )?.logoURI ?? 'unknown.png'
+                "
+              />
+            </q-avatar>
+          </div>
+        </div>
+      </div>
     </q-card-section>
     <q-card-section class="q-gutter-y-md">
       <q-card disabled="" bordered class="q-pa-sm bg-secondary" flat>
