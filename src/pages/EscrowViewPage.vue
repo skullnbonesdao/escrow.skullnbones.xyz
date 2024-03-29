@@ -9,6 +9,8 @@ import EscrowDetails from 'components/details/EscrowDetails.vue';
 import { useQuasar } from 'quasar';
 import { copy_to_clipboard } from 'src/functions/copy_to_clipboard';
 import { make_discord_message } from 'src/functions/make_discord_message';
+import CopyEscrowLinkButton from 'components/actions/CopyEscrowLinkButton.vue';
+import DiscordLinkButton from 'components/actions/DiscordLinkButton.vue';
 
 useGlobalStore().showRightDrawer = false;
 useGlobalStore().showLeftDrawer = false;
@@ -50,25 +52,8 @@ watchDeep(
         </p>
         <q-space />
 
-        <q-btn flat size="lg">
-          <q-tooltip>Copy link</q-tooltip>
-          <q-icon
-            name="share"
-            @click="
-              copy_to_clipboard(
-                'https://escrow.skullnbones.xyz/#/view/' +
-                  useGlobalStore().escrow_selected?.publicKey.toString(),
-              )
-            "
-          />
-        </q-btn>
-        <q-btn flat size="lg">
-          <q-tooltip>Copy discord message</q-tooltip>
-          <q-icon
-            name="discord"
-            @click="copy_to_clipboard(make_discord_message())"
-          />
-        </q-btn>
+        <CopyEscrowLinkButton />
+        <DiscordLinkButton />
       </q-card-section>
     </q-card>
 

@@ -19,6 +19,7 @@ import { token } from '@metaplex-foundation/js';
 import EscrowTakeDrawer from 'components/drawer/EscrowTakeDrawer.vue';
 import EscrowStateElement from 'components/details/EscrowStateElement.vue';
 import { useRoute } from 'vue-router';
+import { decimal } from '@solana/buffer-layout-utils';
 
 const props = defineProps(['title', 'escrow_filter', 'show_close_button']);
 
@@ -153,9 +154,17 @@ const token_selected = ref();
       <q-tr :props="props" @click="handle_action(props.row)">
         <q-td key="sides" :props="props">
           <div class="col items-center">
-            <q-badge outline label="SELL" color="red" rounded />
+            <div class="row">
+              <q-space />
+              <q-badge outline label="SELL" color="red" rounded />
+              <q-space />
+            </div>
             <div class="q-my-md" />
-            <q-badge outline label="BUY" color="green" rounded />
+            <div class="row">
+              <q-space />
+              <q-badge outline label="BUY" color="green" rounded />
+              <q-space />
+            </div>
           </div>
         </q-td>
 
@@ -244,8 +253,38 @@ const token_selected = ref();
         </q-td>
 
         <q-td key="price" :props="props">
-          <div class="text-h5 text-weight-bold">
-            {{ props.row.account.price.toFixed(5) }}
+          <div class="row items-center justify-end q-gutter-x-sm">
+            <div class="text-subtitle1 text-weight-bold text-right">
+              {{ props.row.account.price.toFixed(5) }}
+            </div>
+
+            <q-avatar size="sm">
+              <q-img
+                :src="
+                  useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address ==
+                      props.row.account.requestToken.toString(),
+                  )?.logoURI ?? 'unknown.png'
+                "
+              />
+            </q-avatar>
+          </div>
+          <div class="row items-center justify-end q-gutter-x-sm">
+            <div class="text-subtitle1 text-weight-bold text-right">
+              {{ (1 / props.row.account.price).toFixed(5) }}
+            </div>
+            <q-avatar size="sm">
+              <q-img
+                :src="
+                  useGlobalStore().token_list.find(
+                    (token) =>
+                      token.address ==
+                      props.row.account.depositToken.toString(),
+                  )?.logoURI ?? 'unknown.png'
+                "
+              />
+            </q-avatar>
           </div>
         </q-td>
 

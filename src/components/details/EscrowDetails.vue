@@ -3,6 +3,7 @@ import { format_address } from '../../functions/format_address';
 import { useGlobalStore } from '../../stores/GlobalStore';
 import { computed } from 'vue';
 import EscrowStateElement from 'components/details/EscrowStateElement.vue';
+import { copy_to_clipboard } from 'src/functions/copy_to_clipboard';
 
 const remaining_percentage = computed(() => {
   return (
@@ -29,6 +30,17 @@ const remaining_percentage = computed(() => {
         <strong class="style-right">{{
           format_address(useGlobalStore().escrow_selected?.publicKey.toString())
         }}</strong>
+        <q-icon
+          flat
+          class="q-pl-xs"
+          size="xs"
+          name="content_copy"
+          @click="
+            copy_to_clipboard(
+              useGlobalStore().escrow_selected?.publicKey.toString() ?? '',
+            )
+          "
+        />
       </div>
 
       <div class="row">
@@ -38,24 +50,59 @@ const remaining_percentage = computed(() => {
             useGlobalStore().escrow_selected?.account.maker.toString(),
           )
         }}</strong>
+        <q-icon
+          flat
+          class="q-pl-xs"
+          size="xs"
+          name="content_copy"
+          @click="
+            copy_to_clipboard(
+              useGlobalStore().escrow_selected?.account.maker.toString() ?? '',
+            )
+          "
+        />
       </div>
 
       <div class="row">
-        <div class="col text-weight-light text-no-wrap">Deposited mint:</div>
+        <div class="col text-weight-light text-no-wrap">Deposited:</div>
         <strong class="col-9 text-right">{{
           format_address(
             useGlobalStore().escrow_selected?.account?.depositToken?.toString(),
           )
         }}</strong>
+        <q-icon
+          flat
+          class="q-pl-xs"
+          size="xs"
+          name="content_copy"
+          @click="
+            copy_to_clipboard(
+              useGlobalStore().escrow_selected?.account.depositToken.toString() ??
+                '',
+            )
+          "
+        />
       </div>
 
       <div class="row">
-        <div class="col text-weight-light text-no-wrap">Request mint:</div>
+        <div class="col text-weight-light text-no-wrap">Request:</div>
         <strong class="col-9 text-right">{{
           format_address(
             useGlobalStore().escrow_selected?.account?.requestToken?.toString(),
           )
         }}</strong>
+        <q-icon
+          flat
+          class="q-pl-xs"
+          size="xs"
+          name="content_copy"
+          @click="
+            copy_to_clipboard(
+              useGlobalStore().escrow_selected?.account.requestToken.toString() ??
+                '',
+            )
+          "
+        />
       </div>
 
       <div class="row">

@@ -21,7 +21,7 @@ export function make_discord_message() {
     ') :link:';
 
   const table_data = [
-    ['Side', 'ASSET', 'Price per Unit', 'Total'],
+    ['Side', 'ASSET', 'Total', 'Price per Unit'],
     [
       'Takes',
       useGlobalStore().token_list.find(
@@ -29,8 +29,22 @@ export function make_discord_message() {
           token.address ==
           useGlobalStore().escrow_selected?.account.depositToken.toString(),
       )?.symbol ?? '???',
-      useGlobalStore().escrow_selected?.account.price.toString(),
       useGlobalStore().escrow_selected?.account.tokensDepositInit.toNumber(),
+
+      '[' +
+        (useGlobalStore().token_list.find(
+          (token) =>
+            token.address ==
+            useGlobalStore().escrow_selected?.account.requestToken.toString(),
+        )?.symbol ?? '???') +
+        '/' +
+        (useGlobalStore().token_list.find(
+          (token) =>
+            token.address ==
+            useGlobalStore().escrow_selected?.account.depositToken.toString(),
+        )?.symbol ?? '???') +
+        '] ' +
+        useGlobalStore().escrow_selected?.account.price.toFixed(5),
     ],
     [
       'Gives',
@@ -39,14 +53,24 @@ export function make_discord_message() {
           token.address ==
           useGlobalStore().escrow_selected?.account.requestToken.toString(),
       )?.symbol ?? '???',
-      ((useGlobalStore().escrow_selected?.account.tokensDepositInit.toNumber() ??
-        0) /
-        (useGlobalStore().escrow_selected?.account.price ?? 0)) *
-        (useGlobalStore().escrow_selected?.account.tokensDepositInit.toNumber() ??
-          0),
       (useGlobalStore().escrow_selected?.account.price ?? 0) *
         (useGlobalStore().escrow_selected?.account.tokensDepositInit.toNumber() ??
           0),
+
+      '[' +
+        (useGlobalStore().token_list.find(
+          (token) =>
+            token.address ==
+            useGlobalStore().escrow_selected?.account.depositToken.toString(),
+        )?.symbol ?? '???') +
+        '/' +
+        (useGlobalStore().token_list.find(
+          (token) =>
+            token.address ==
+            useGlobalStore().escrow_selected?.account.requestToken.toString(),
+        )?.symbol ?? '???') +
+        '] ' +
+        (1 / (useGlobalStore().escrow_selected?.account.price ?? 0)).toFixed(5),
     ],
   ];
 

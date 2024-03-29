@@ -4,6 +4,8 @@ import EscrowDetails from 'components/details/EscrowDetails.vue';
 import EscrowTakeView from 'components/details/EscrowTakeView.vue';
 import { ACCOUNT_COST_ESCROW } from 'stores/constants';
 import { useWalletStore } from 'stores/WalletStore';
+import CopyEscrowLinkButton from 'components/actions/CopyEscrowLinkButton.vue';
+import DiscordLinkButton from 'components/actions/DiscordLinkButton.vue';
 </script>
 
 <template>
@@ -14,7 +16,11 @@ import { useWalletStore } from 'stores/WalletStore';
         icon="open_in_full"
         :to="'view/' + useGlobalStore().escrow_selected?.publicKey"
       />
-      <q-separator vertical />
+      <q-space />
+      <CopyEscrowLinkButton />
+      <q-space />
+      <DiscordLinkButton />
+      <q-space />
       <q-tab
         name="tab_create"
         icon="cancel"
