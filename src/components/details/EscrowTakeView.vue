@@ -101,7 +101,7 @@ function calc_percent_amount(percentage: number) {
       <div class="col q-gutter-y-xs">
         <div class="row q-gutter-x-sm">
           <div class="col text-subtitle1 text-weight-bold text-right">
-            {{ useGlobalStore().escrow_selected?.account.price.toFixed(3) }}
+            {{ useGlobalStore().escrow_selected?.account.price.toFixed(5) }}
           </div>
 
           <div>
@@ -121,7 +121,7 @@ function calc_percent_amount(percentage: number) {
         <div class="row q-gutter-x-sm">
           <div class="col text-subtitle1 text-weight-bold text-right">
             {{
-              (1 / useGlobalStore().escrow_selected?.account.price).toFixed(3)
+              (1 / useGlobalStore().escrow_selected?.account.price).toFixed(5)
             }}
           </div>
           <div>

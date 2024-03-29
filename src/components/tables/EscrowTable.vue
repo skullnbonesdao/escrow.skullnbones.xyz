@@ -262,7 +262,7 @@ const token_selected = ref();
               {{ props.row.account.price.toFixed(3) }}
             </div>
 
-            <div class="col">
+            <div class="col-1">
               <q-avatar size="sm" color="white">
                 <q-img
                   :src="
@@ -280,7 +280,7 @@ const token_selected = ref();
             <div class="col text-subtitle1 text-weight-bold text-right">
               {{ (1 / props.row.account.price).toFixed(3) }}
             </div>
-            <div class="col">
+            <div class="col-1">
               <q-avatar size="sm" color="white">
                 <q-img
                   :src="
