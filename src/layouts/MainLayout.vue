@@ -61,7 +61,7 @@
         <q-toolbar-title class="row items-center">
           <q-img src="sa-powered_by_the_people.png" width="100px" />
           <div class="text-right col text-subtitle2">v{{ version }}</div>
-          <q-btn class="q-mx-sm" round to="/settings">
+          <q-btn flat class="q-mx-sm" round to="/settings">
             <q-avatar size="30px">
               <q-icon name="settings" />
             </q-avatar>
