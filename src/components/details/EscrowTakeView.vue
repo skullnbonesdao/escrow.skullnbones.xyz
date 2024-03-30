@@ -315,7 +315,7 @@ function calculate_side(side: 'buy' | 'sell') {
     <q-card-section class="q-gutter-y-sm">
       <q-card flat class="bg-secondary">
         <q-card-section>
-          <div class="text-h6 text-center">Wallet-Balance Changes</div>
+          <div class="text-h6 text-center">Your Wallet-Changes</div>
           <q-separator />
           <div class="row items-center text-subtitle2">
             <div class="col">
