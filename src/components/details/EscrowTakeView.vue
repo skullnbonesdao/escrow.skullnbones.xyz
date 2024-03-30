@@ -83,7 +83,7 @@ function calculate_side(side: 'buy' | 'sell') {
     <q-card-section class="row">
       <div class="row">
         <q-avatar size="40px" color="white">
-          <img :src="token_depostit_info?.logoURI" />
+          <img :src="token_request_info?.logoURI" />
         </q-avatar>
         <q-avatar
           size="40px"
@@ -91,13 +91,13 @@ function calculate_side(side: 'buy' | 'sell') {
           :style="`right: ${15}px`"
           color="white"
         >
-          <img :src="token_request_info?.logoURI" />
+          <img :src="token_depostit_info?.logoURI" />
         </q-avatar>
       </div>
       <div class="row items-center q-gutter-x-xs">
-        <b>{{ token_depostit_info?.symbol }}</b>
-        <p>/</p>
         <b>{{ token_request_info?.symbol }}</b>
+        <q-icon size="sm" name="chevron_right" />
+        <b>{{ token_depostit_info?.symbol }}</b>
       </div>
       <q-space />
       <q-icon
@@ -205,7 +205,6 @@ function calculate_side(side: 'buy' | 'sell') {
           <q-avatar size="30px" class="overlapping" color="white">
             <img :src="token_request_info?.logoURI" />
           </q-avatar>
-          <q-btn @click="calculate_side('buy')" icon="home"></q-btn>
         </div>
       </q-card>
 
