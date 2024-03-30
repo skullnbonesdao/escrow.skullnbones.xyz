@@ -160,13 +160,13 @@ const token_selected = ref();
           <div class="col items-center">
             <div class="row">
               <q-space />
-              <q-badge outline label="SELL" color="red" rounded />
+              <q-badge outline label="TAKES" color="red" rounded />
               <q-space />
             </div>
             <div class="q-my-md" />
             <div class="row">
               <q-space />
-              <q-badge outline label="BUY" color="green" rounded />
+              <q-badge outline label="GIVES" color="green" rounded />
               <q-space />
             </div>
           </div>
