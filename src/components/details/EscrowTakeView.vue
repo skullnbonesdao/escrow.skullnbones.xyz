@@ -312,6 +312,30 @@ function calculate_side(side: 'buy' | 'sell') {
         </div>
       </q-card>
     </q-card-section>
+    <q-card-section class="q-gutter-y-sm">
+      <q-card flat class="bg-secondary">
+        <q-card-section>
+          <div class="text-h6 text-center">Wallet-Balance Changes</div>
+          <q-separator />
+          <div class="row items-center text-subtitle2">
+            <div class="col">
+              {{ token_request_info?.symbol }}
+            </div>
+            <div class="text-subtitle1 text-bold text-red">
+              -{{ amount_to_sell }}
+            </div>
+          </div>
+          <div class="row items-center">
+            <div class="col text-subtitle2">
+              {{ token_depostit_info?.symbol }}
+            </div>
+            <div class="text-subtitle1 text-bold text-green">
+              +{{ amount_to_buy }}
+            </div>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-card-section>
     <q-card-section class="">
       <ExchangeEscrowButton
         :escrow_address="useGlobalStore().escrow_selected?.publicKey"
