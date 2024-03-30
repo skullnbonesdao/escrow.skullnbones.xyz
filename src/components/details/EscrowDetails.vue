@@ -20,7 +20,7 @@ const remaining_percentage = computed(() => {
   <div class="col q-gutter-y-md">
     <div class="row items-center">
       <p class="text-h6 col">State</p>
-      <p class="q-mr-sm">{{ remaining_percentage }}%</p>
+      <p class="q-mr-sm">{{ remaining_percentage.toFixed(1) }}%</p>
       <EscrowStateElement :escrow="useGlobalStore().escrow_selected" />
     </div>
     <q-separator />
