@@ -48,6 +48,19 @@ const load_data = async () => {
       solfare_tokens = data.tokens;
     });
 
+  solfare_tokens.push({
+    chainId: 101,
+    name: 'Puri Token',
+    symbol: 'PURI',
+    address: 'CzLWmvjtj5bp9YEWkzzBnuWovVtogeuchFu5GeFh68hB',
+    decimals: 9,
+    logoURI:
+      'https://gateway.irys.xyz/ILXdxJTexpeuGPKMjPtP4wBmvg4x3GlI3nc0n4V9RIU',
+    tags: [],
+    verified: true,
+    holders: null,
+  });
+
   const usdc = solfare_tokens.find(
     (token) => token.address == 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
   );
@@ -57,9 +70,13 @@ const load_data = async () => {
   const polis = solfare_tokens.find(
     (token) => token.address == 'poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk',
   );
+  const puri = solfare_tokens.find(
+    (token) => token.address == 'CzLWmvjtj5bp9YEWkzzBnuWovVtogeuchFu5GeFh68hB',
+  );
   tokens.push(usdc);
   tokens.push(atlas);
   tokens.push(polis);
+  tokens.push(puri);
 
   token_list.tokens = tokens;
   //console.log(token_list);
