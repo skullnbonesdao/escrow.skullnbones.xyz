@@ -6,12 +6,14 @@ import { useGlobalStore } from 'stores/GlobalStore';
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   getAssociatedTokenAddressSync,
+  getOrCreateAssociatedTokenAccount,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { useWallet } from 'solana-wallets-vue';
 import { useWorkspace } from 'src/adapter/adapterPrograms';
 import { useQuasar } from 'quasar';
 import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionConfirmation';
+import { check_and_make_ata, make_ata } from 'src/functions/check_and_make_ata';
 
 const props = defineProps(['escrow_address', 'label']);
 
@@ -63,6 +65,15 @@ async function build_tx() {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
+    if (
+      !(await check_and_make_ata(
+        new PublicKey(escrow_account.depositToken),
+        useWallet().publicKey.value!,
+      ))
+    ) {
+      await make_ata(maker_ata, new PublicKey(escrow_account.depositToken));
+    }
+
     const maker_ata_request = getAssociatedTokenAddressSync(
       new PublicKey(escrow_account.requestToken),
       useWallet().publicKey.value as PublicKey,
@@ -70,6 +81,18 @@ async function build_tx() {
       TOKEN_PROGRAM_ID,
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
+
+    if (
+      !(await check_and_make_ata(
+        new PublicKey(escrow_account.requestToken),
+        useWallet().publicKey.value!,
+      ))
+    ) {
+      await make_ata(
+        maker_ata_request,
+        new PublicKey(escrow_account.requestToken),
+      );
+    }
 
     let signature = await pg_escrow.value.methods.cancel().accounts({
       maker: useWallet().publicKey!.value,
