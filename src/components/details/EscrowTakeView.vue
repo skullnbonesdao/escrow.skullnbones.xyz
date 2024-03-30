@@ -168,7 +168,7 @@ function calculate_side(side: 'buy' | 'sell') {
     <q-card-section class="q-gutter-y-md">
       <q-card bordered class="q-pa-sm bg-secondary" flat>
         <div class="row q-gutter-x-xs items-center">
-          <q-badge outline label="SELLING" color="red" rounded />
+          <q-badge outline label="GIVING" color="red" rounded />
 
           <p class="col text-subtitle2 text-right">
             {{
@@ -232,7 +232,7 @@ function calculate_side(side: 'buy' | 'sell') {
       </q-card>
 
       <q-card bordered class="q-pa-sm bg-secondary" flat>
-        <div><q-badge outline label="BUYING" color="green" rounded /></div>
+        <div><q-badge outline label="RECEIVING" color="green" rounded /></div>
         <div class="col">
           <div class="row items-center">
             <q-input
