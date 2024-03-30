@@ -60,6 +60,10 @@
       <q-toolbar>
         <q-toolbar-title class="row items-center">
           <q-img src="sa-powered_by_the_people.png" width="100px" />
+          <div class="col text-center text-subtitle2">
+            budkxEapRhWjRYXSEurLjyT9jpsd92y1smqMYzSBgTC
+          </div>
+
           <div class="text-right col text-subtitle2">v{{ version }}</div>
           <q-btn flat class="q-mx-sm" round to="/settings">
             <q-avatar size="30px">
