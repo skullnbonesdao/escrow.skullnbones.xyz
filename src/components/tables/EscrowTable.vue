@@ -185,7 +185,7 @@ const token_selected = ref();
                         props.row.account.depositToken.toString(),
                     )?.decimals *
                   props.row.account.price
-                ).toFixed(2)
+                ).toFixed(3)
               }}
             </div>
 
@@ -203,7 +203,7 @@ const token_selected = ref();
                         props.row.account.depositToken.toString(),
                     )?.decimals,
                   )
-                ).toFixed(2)
+                ).toFixed(3)
               }}
             </div>
           </div>
@@ -259,7 +259,7 @@ const token_selected = ref();
         <q-td key="price" :props="props" class="col q-gutter-x-sm">
           <div class="row q-gutter-x-sm">
             <div class="col text-subtitle1 text-weight-bold text-right">
-              {{ props.row.account.price.toFixed(3) }}
+              {{ props.row.account.price.toFixed(5) }}
             </div>
 
             <div class="col-1">
@@ -278,7 +278,7 @@ const token_selected = ref();
           </div>
           <div class="row q-gutter-x-sm">
             <div class="col text-subtitle1 text-weight-bold text-right">
-              {{ (1 / props.row.account.price).toFixed(3) }}
+              {{ (1 / props.row.account.price).toFixed(5) }}
             </div>
             <div class="col-1">
               <q-avatar size="sm" color="white">
