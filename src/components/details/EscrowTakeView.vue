@@ -4,6 +4,7 @@ import { computed, ref, watch } from 'vue';
 import ExchangeEscrowButton from 'components/actions/ExchangeEscrowButton.vue';
 import { useWalletStore } from 'stores/WalletStore';
 import { TAKER_FEE } from '../../stores/constants';
+import { watchArray } from '@vueuse/core';
 
 const token_depostit_info = computed(() => {
   return useGlobalStore().token_list.find(
@@ -33,23 +34,47 @@ const amount_to_buy_comp = computed(() => {
 watch(
   () => amount_to_buy_comp.value,
   () => {
-    amount_to_buy.value = amount_to_buy_comp.value;
+    calculate_side('sell');
   },
 );
 
 const amount_to_buy = ref(amount_to_buy_comp.value);
-const amount_to_sell = computed(() => {
-  return (
-    amount_to_buy.value * (useGlobalStore().escrow_selected?.account.price ?? 0)
-  );
-});
+const amount_to_sell = ref(0);
+calculate_side('sell');
 
-function calc_percent_amount(percentage: number) {
-  amount_to_buy.value =
-    (useGlobalStore().escrow_selected?.account.tokensDepositRemaining.toNumber() ??
-      0) *
-    Math.pow(10, -(token_depostit_info.value?.decimals ?? 0)) *
-    percentage;
+watch(
+  () => useGlobalStore().escrow_selected,
+  () => {
+    amount_to_buy.value = amount_to_buy_comp.value;
+    calculate_side('sell');
+  },
+);
+
+// function calc_percent_amount(percentage: number) {
+//   amount_to_buy.value =
+//     (useGlobalStore().escrow_selected?.account.tokensDepositRemaining.toNumber() ??
+//       0) *
+//     Math.pow(10, -(token_depostit_info.value?.decimals ?? 0)) *
+//     percentage;
+// }
+
+function calculate_side(side: 'buy' | 'sell') {
+  console.log(side);
+
+  switch (side) {
+    case 'buy':
+      amount_to_buy.value =
+        amount_to_sell.value /
+        (useGlobalStore().escrow_selected?.account.price ?? 0);
+      break;
+    case 'sell':
+      amount_to_sell.value =
+        amount_to_buy.value *
+        (useGlobalStore().escrow_selected?.account.price ?? 0);
+  }
+
+  console.log(amount_to_buy.value);
+  console.log(amount_to_sell.value);
 }
 </script>
 
@@ -141,7 +166,7 @@ function calc_percent_amount(percentage: number) {
       </div>
     </q-card-section>
     <q-card-section class="q-gutter-y-md">
-      <q-card disabled="" bordered class="q-pa-sm bg-secondary" flat>
+      <q-card bordered class="q-pa-sm bg-secondary" flat>
         <div class="row q-gutter-x-xs items-center">
           <q-badge outline label="SELLING" color="red" rounded />
 
@@ -167,18 +192,43 @@ function calc_percent_amount(percentage: number) {
 
         <div class="row items-center">
           <q-input
+            :disable="
+              !useGlobalStore().escrow_selected?.account.allowPartialFill
+            "
             dense
-            disable
             class="col text-h6"
             borderless
             v-model="amount_to_sell"
             label="Amount"
             type="number"
           />
-          <q-avatar size="30px" class="overlapping">
+          <q-avatar size="30px" class="overlapping" color="white">
             <img :src="token_request_info?.logoURI" />
           </q-avatar>
+          <q-btn @click="calculate_side('buy')" icon="home"></q-btn>
         </div>
+      </q-card>
+
+      <q-card flat>
+        <q-card-section class="">
+          <div class="row items-center">
+            <q-btn
+              color="primary"
+              class="col"
+              @click="calculate_side('buy')"
+              icon="arrow_downward"
+            ></q-btn>
+            <q-btn class="col" icon="calculate">
+              <q-tooltip>Calculate side</q-tooltip>
+            </q-btn>
+            <q-btn
+              color="primary"
+              class="col"
+              @click="calculate_side('sell')"
+              icon="arrow_upward"
+            ></q-btn>
+          </div>
+        </q-card-section>
       </q-card>
 
       <q-card bordered class="q-pa-sm bg-secondary" flat>
@@ -196,7 +246,7 @@ function calc_percent_amount(percentage: number) {
               label="Amount"
               type="number"
             />
-            <q-avatar size="30px">
+            <q-avatar size="30px" color="white">
               <img :src="token_depostit_info?.logoURI" />
             </q-avatar>
           </div>

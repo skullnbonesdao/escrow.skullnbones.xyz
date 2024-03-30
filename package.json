@@ -1,6 +1,6 @@
 {
   "name": "escrow-web",
-  "version": "0.2.2-beta",
+  "version": "0.2.3-beta",
   "description": "S&B Escrow",
   "productName": "EscrowService",
   "author": "snb",
