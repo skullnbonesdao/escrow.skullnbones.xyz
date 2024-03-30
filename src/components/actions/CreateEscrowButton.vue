@@ -22,6 +22,7 @@ import { waitForTransactionConfirmation } from 'src/helper/waitForTransactionCon
 import { FEE_ACCOUNT, WHITELIST_PROGRAM_ID } from 'stores/constants';
 import { computed } from 'vue';
 import { useWalletStore } from 'stores/WalletStore';
+import { check_and_make_ata, make_ata } from 'src/functions/check_and_make_ata';
 
 const props = defineProps([
   'deposit_mint',
@@ -69,10 +70,36 @@ async function build_tx() {
     const maker_ata = getAssociatedTokenAddressSync(
       new PublicKey(props.deposit_mint),
       useWallet().publicKey.value as PublicKey,
-      true,
+      undefined,
       TOKEN_PROGRAM_ID,
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
+
+    if (
+      !(await check_and_make_ata(
+        new PublicKey(props.deposit_mint),
+        useWallet().publicKey.value!,
+      ))
+    ) {
+      await make_ata(maker_ata, new PublicKey(props.deposit_mint));
+    }
+
+    const maker_ata_request = getAssociatedTokenAddressSync(
+      new PublicKey(props.request_mint),
+      useWallet().publicKey.value as PublicKey,
+      undefined,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID,
+    );
+
+    if (
+      !(await check_and_make_ata(
+        new PublicKey(props.request_mint),
+        useWallet().publicKey.value!,
+      ))
+    ) {
+      await make_ata(maker_ata_request, new PublicKey(props.request_mint));
+    }
 
     const recipient = props.recipient_address ? props.recipient_address : null;
 
