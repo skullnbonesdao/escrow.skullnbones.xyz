@@ -63,7 +63,11 @@ onMounted(() => {
         </q-card>
       </div>
       <div>
-        <h4>by Skull & Bones</h4>
+        <div class="text-h4">by Skull & Bones without buddies and links</div>
+
+        <div class="text-center text-subtitle2">
+          feeLpAUDSsYBMwpxvVr5hwwDQE32BcWXRfAd3A6agWx
+        </div>
       </div>
     </div>
   </q-page>

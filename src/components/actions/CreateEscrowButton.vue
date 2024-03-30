@@ -86,10 +86,6 @@ async function build_tx() {
       entry = useWalletStore().entry_account;
     }
 
-    console.log(auth.toString());
-    console.log(escrow.toString());
-    console.log(vault.toString());
-
     let signature = await pg_escrow.value.methods
       .initialize(
         seed,
