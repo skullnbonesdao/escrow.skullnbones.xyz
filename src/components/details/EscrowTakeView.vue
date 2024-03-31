@@ -5,6 +5,7 @@ import ExchangeEscrowButton from 'components/actions/ExchangeEscrowButton.vue';
 import { useWalletStore } from 'stores/WalletStore';
 import { TAKER_FEE } from '../../stores/constants';
 import { watchArray } from '@vueuse/core';
+import { useQuasar } from 'quasar';
 
 const token_depostit_info = computed(() => {
   return useGlobalStore().token_list.find(
@@ -122,8 +123,13 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
     </q-card-section>
     <q-card-section class="">
       <q-card flat bordered>
-        <q-card-section class="row items-center bg-secondary">
-          <q-badge outline label="Price per Unit" color="yellow" rounded />
+        <q-card-section class="items-center bg-secondary">
+          <div class="row">
+            <q-space class="col" />
+            <q-badge outline label="Price per Unit" color="yellow" rounded />
+            <q-space class="col" />
+          </div>
+          <q-separator class="q-my-sm" />
 
           <div class="col q-gutter-y-xs">
             <div class="row q-gutter-x-sm items-center">
@@ -131,7 +137,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
                 {{ useGlobalStore().escrow_selected?.account.price.toFixed(5) }}
               </div>
 
-              <q-avatar size="sm" color="white">
+              <q-avatar size="xs" color="white">
                 <q-img
                   :src="
                     useGlobalStore().token_list.find(
@@ -143,7 +149,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
                 />
               </q-avatar>
 
-              <div class="text-subtitle2 col-2">
+              <div class="text-subtitle2 col">
                 {{
                   useGlobalStore().token_list.find(
                     (token) =>
@@ -161,7 +167,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
                   )
                 }}
               </div>
-              <q-avatar size="sm" color="white">
+              <q-avatar size="xs" color="white">
                 <q-img
                   :src="
                     useGlobalStore().token_list.find(
@@ -172,7 +178,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
                   "
                 />
               </q-avatar>
-              <div class="text-subtitle2 col-2">
+              <div class="text-subtitle2 col">
                 {{
                   useGlobalStore().token_list.find(
                     (token) =>
@@ -188,8 +194,8 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
     </q-card-section>
     <q-card-section class="q-gutter-y-sm">
       <q-card bordered class="q-pa-sm bg-secondary" flat>
-        <div class="row q-gutter-x-xs items-center">
-          <q-badge outline label="TAKES" color="red" rounded />
+        <div class="row items-center q-gutter-x-xs">
+          <q-badge outline label="YOU GIVE" color="red" rounded />
           <p class="col text-subtitle2 text-right">
             {{
               (
@@ -238,7 +244,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
             ]"
           />
 
-          <q-avatar size="30px" class="overlapping" color="white">
+          <q-avatar size="sm" class="overlapping" color="white">
             <img :src="token_request_info?.logoURI" />
           </q-avatar>
           <q-slider
@@ -261,10 +267,9 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
           />
         </div>
       </q-card>
-
       <q-card bordered class="q-pa-sm bg-secondary" flat>
         <div class="row q-gutter-x-xs items-center">
-          <q-badge outline label="GIVES" color="green" rounded />
+          <q-badge outline label="YOU RECEIVE" color="green" rounded />
           <p class="col text-subtitle2 text-right">
             {{
               (
@@ -284,7 +289,6 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
           </p>
           <p style="font-size: 12px">Wallet-Balance</p>
         </div>
-
         <div class="row items-center">
           <q-input
             :disable="
@@ -298,7 +302,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
             label="Amount"
             type="number"
           />
-          <q-avatar size="30px" color="white">
+          <q-avatar size="sm" color="white">
             <img :src="token_depostit_info?.logoURI" />
           </q-avatar>
           <q-slider
@@ -320,7 +324,6 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
             markers
           />
         </div>
-
         <div class="q-px-sm row">
           <q-btn
             :disable="
@@ -368,7 +371,16 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
     <q-card-section class="q-gutter-y-sm">
       <q-card flat bordered class="bg-secondary">
         <q-card-section class="q-gutter-y-sm">
-          <div class="text-h6 text-center">Your Wallet-Changes</div>
+          <div class="row">
+            <q-space class="col" />
+            <q-badge
+              outline
+              label="Your wallet balance change"
+              color="blue"
+              rounded
+            />
+            <q-space class="col" />
+          </div>
           <q-separator />
           <div class="row items-center text-subtitle2 q-gutter-x-sm">
             <div class="col">
@@ -382,7 +394,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
                 ).toFixed(2)
               }}
             </div>
-            <q-avatar size="30px" color="white">
+            <q-avatar size="sm" color="white">
               <img :src="token_request_info?.logoURI" />
             </q-avatar>
           </div>
@@ -393,7 +405,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
             <div class="text-subtitle1 text-bold text-green">
               +{{ Math.round(amount_to_buy).toFixed(2) }}
             </div>
-            <q-avatar size="30px" color="white">
+            <q-avatar size="sm" color="white">
               <img :src="token_depostit_info?.logoURI" />
             </q-avatar>
           </div>
