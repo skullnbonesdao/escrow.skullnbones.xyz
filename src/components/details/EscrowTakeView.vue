@@ -356,8 +356,10 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
             </div>
             <div class="text-subtitle1 text-bold text-red">
               -{{
-                Math.round(amount_to_buy) *
-                useGlobalStore().escrow_selected?.account.price
+                (
+                  Math.round(amount_to_buy) *
+                  useGlobalStore().escrow_selected?.account.price
+                ).toFixed(2)
               }}
             </div>
           </div>
@@ -366,7 +368,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
               {{ token_depostit_info?.symbol }}
             </div>
             <div class="text-subtitle1 text-bold text-green">
-              +{{ Math.round(amount_to_buy) }}
+              +{{ Math.round(amount_to_buy).toFixed(2) }}
             </div>
           </div>
         </q-card-section>
