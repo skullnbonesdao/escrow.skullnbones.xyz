@@ -34,43 +34,43 @@ const amount_to_buy_comp = computed(() => {
 watch(
   () => amount_to_buy_comp.value,
   () => {
-    calculate_side('sell');
+    calculate_side('sell', amount_to_buy.value);
   },
 );
 
-const amount_to_buy = ref(amount_to_buy_comp.value);
+const amount_to_buy = ref<number>(amount_to_buy_comp.value);
 const amount_to_sell = ref(0);
-calculate_side('sell');
+calculate_side('sell', amount_to_buy.value);
 
 watch(
   () => useGlobalStore().escrow_selected,
   () => {
     amount_to_buy.value = amount_to_buy_comp.value;
-    calculate_side('sell');
+    calculate_side('sell', amount_to_buy.value);
   },
 );
 
-// function calc_percent_amount(percentage: number) {
-//   amount_to_buy.value =
-//     (useGlobalStore().escrow_selected?.account.tokensDepositRemaining.toNumber() ??
-//       0) *
-//     Math.pow(10, -(token_depostit_info.value?.decimals ?? 0)) *
-//     percentage;
-// }
+function calc_percent_amount(percentage: number) {
+  amount_to_buy.value =
+    (useGlobalStore().escrow_selected?.account.tokensDepositRemaining.toNumber() ??
+      0) *
+    Math.pow(10, -(token_depostit_info.value?.decimals ?? 0)) *
+    percentage;
 
-function calculate_side(side: 'buy' | 'sell') {
+  calculate_side('sell', amount_to_buy.value);
+}
+
+function calculate_side(side: 'buy' | 'sell', other: number) {
   console.log(side);
 
   switch (side) {
     case 'buy':
       amount_to_buy.value =
-        amount_to_sell.value /
-        (useGlobalStore().escrow_selected?.account.price ?? 0);
+        other / (useGlobalStore().escrow_selected?.account.price ?? 0);
       break;
     case 'sell':
       amount_to_sell.value =
-        amount_to_buy.value *
-        (useGlobalStore().escrow_selected?.account.price ?? 0);
+        other * (useGlobalStore().escrow_selected?.account.price ?? 0);
   }
 
   console.log(amount_to_buy.value);
@@ -165,11 +165,10 @@ function calculate_side(side: 'buy' | 'sell') {
         </div>
       </div>
     </q-card-section>
-    <q-card-section class="q-gutter-y-md">
+    <q-card-section class="q-gutter-y-sm">
       <q-card bordered class="q-pa-sm bg-secondary" flat>
         <div class="row q-gutter-x-xs items-center">
           <q-badge outline label="TAKES" color="red" rounded />
-
           <p class="col text-subtitle2 text-right">
             {{
               (
@@ -187,7 +186,82 @@ function calculate_side(side: 'buy' | 'sell') {
               ).toFixed(2)
             }}
           </p>
-          <p style="font-size: 12px">Available</p>
+          <p style="font-size: 12px">Wallet-Balance</p>
+        </div>
+        <div class="row items-center">
+          <q-input
+            :disable="
+              !useGlobalStore().escrow_selected?.account.allowPartialFill
+            "
+            @update:model-value="(data) => calculate_side('buy', data)"
+            dense
+            class="col text-h6"
+            borderless
+            v-model="amount_to_sell"
+            label="Amount"
+            type="number"
+            :rules="[
+              (val) =>
+                val <=
+                  useWalletStore().accounts_mapped.find(
+                    (a) =>
+                      a.mint ==
+                      useGlobalStore().escrow_selected?.account.requestToken.toString(),
+                  )?.amount *
+                    10 **
+                      -useWalletStore().accounts_mapped.find(
+                        (a) =>
+                          a.mint ==
+                          useGlobalStore().escrow_selected?.account.requestToken.toString(),
+                      )?.decimals || 'You dont have enough tokens to exchange!',
+            ]"
+          />
+
+          <q-avatar size="30px" class="overlapping" color="white">
+            <img :src="token_request_info?.logoURI" />
+          </q-avatar>
+          <q-slider
+            class="q-px-sm"
+            dense
+            v-model="amount_to_sell"
+            @update:model-value="(data) => calculate_side('buy', data)"
+            :disable="
+              !useGlobalStore().escrow_selected?.account.allowPartialFill
+            "
+            :min="0"
+            :max="
+              useGlobalStore().escrow_selected?.account.tokensDepositRemaining.toNumber() *
+              useGlobalStore().escrow_selected?.account.price
+            "
+            color="blue"
+            track-size="10px"
+            thumb-color="black"
+            markers
+          />
+        </div>
+      </q-card>
+
+      <q-card bordered class="q-pa-sm bg-secondary" flat>
+        <div class="row q-gutter-x-xs items-center">
+          <q-badge outline label="GIVES" color="green" rounded />
+          <p class="col text-subtitle2 text-right">
+            {{
+              (
+                useWalletStore().accounts_mapped.find(
+                  (a) =>
+                    a.mint ==
+                    useGlobalStore().escrow_selected?.account.depositToken.toString(),
+                )?.amount *
+                10 **
+                  -useWalletStore().accounts_mapped.find(
+                    (a) =>
+                      a.mint ==
+                      useGlobalStore().escrow_selected?.account.depositToken.toString(),
+                  )?.decimals
+              ).toFixed(2)
+            }}
+          </p>
+          <p style="font-size: 12px">Wallet-Balance</p>
         </div>
 
         <div class="row items-center">
@@ -195,65 +269,22 @@ function calculate_side(side: 'buy' | 'sell') {
             :disable="
               !useGlobalStore().escrow_selected?.account.allowPartialFill
             "
+            @update:model-value="(data) => calculate_side('sell', data)"
             dense
             class="col text-h6"
             borderless
-            v-model="amount_to_sell"
+            v-model="amount_to_buy"
             label="Amount"
             type="number"
           />
-          <q-avatar size="30px" class="overlapping" color="white">
-            <img :src="token_request_info?.logoURI" />
+          <q-avatar size="30px" color="white">
+            <img :src="token_depostit_info?.logoURI" />
           </q-avatar>
-        </div>
-      </q-card>
-
-      <q-card flat>
-        <q-card-section class="">
-          <div class="row items-center">
-            <q-btn
-              color="primary"
-              class="col"
-              @click="calculate_side('buy')"
-              icon="arrow_downward"
-            ></q-btn>
-            <q-btn class="col" icon="calculate">
-              <q-tooltip>Calculate side</q-tooltip>
-            </q-btn>
-            <q-btn
-              color="primary"
-              class="col"
-              @click="calculate_side('sell')"
-              icon="arrow_upward"
-            ></q-btn>
-          </div>
-        </q-card-section>
-      </q-card>
-
-      <q-card bordered class="q-pa-sm bg-secondary" flat>
-        <div><q-badge outline label="GIVES" color="green" rounded /></div>
-        <div class="col">
-          <div class="row items-center">
-            <q-input
-              :disable="
-                !useGlobalStore().escrow_selected?.account.allowPartialFill
-              "
-              dense
-              class="col text-h6"
-              borderless
-              v-model="amount_to_buy"
-              label="Amount"
-              type="number"
-            />
-            <q-avatar size="30px" color="white">
-              <img :src="token_depostit_info?.logoURI" />
-            </q-avatar>
-          </div>
-
           <q-slider
             class="q-px-sm"
             dense
             v-model="amount_to_buy"
+            @update:model-value="(data) => calculate_side('sell', data)"
             :disable="
               !useGlobalStore().escrow_selected?.account.allowPartialFill
             "
@@ -267,48 +298,49 @@ function calculate_side(side: 'buy' | 'sell') {
             thumb-color="black"
             markers
           />
-          <div class="q-px-sm row">
-            <q-btn
-              :disable="
-                !useGlobalStore().escrow_selected?.account.allowPartialFill
-              "
-              dense
-              flat
-              class="col"
-              label="25%"
-              @click="calc_percent_amount(0.25)"
-            />
-            <q-btn
-              :disable="
-                !useGlobalStore().escrow_selected?.account.allowPartialFill
-              "
-              dense
-              flat
-              class="col"
-              label="50%"
-              @click="calc_percent_amount(0.5)"
-            />
-            <q-btn
-              :disable="
-                !useGlobalStore().escrow_selected?.account.allowPartialFill
-              "
-              dense
-              flat
-              class="col"
-              label="75%"
-              @click="calc_percent_amount(0.75)"
-            />
-            <q-btn
-              :disable="
-                !useGlobalStore().escrow_selected?.account.allowPartialFill
-              "
-              dense
-              flat
-              class="col"
-              label="Max"
-              @click="calc_percent_amount(1)"
-            />
-          </div>
+        </div>
+
+        <div class="q-px-sm row">
+          <q-btn
+            :disable="
+              !useGlobalStore().escrow_selected?.account.allowPartialFill
+            "
+            dense
+            flat
+            class="col"
+            label="25%"
+            @click="calc_percent_amount(0.25)"
+          />
+          <q-btn
+            :disable="
+              !useGlobalStore().escrow_selected?.account.allowPartialFill
+            "
+            dense
+            flat
+            class="col"
+            label="50%"
+            @click="calc_percent_amount(0.5)"
+          />
+          <q-btn
+            :disable="
+              !useGlobalStore().escrow_selected?.account.allowPartialFill
+            "
+            dense
+            flat
+            class="col"
+            label="75%"
+            @click="calc_percent_amount(0.75)"
+          />
+          <q-btn
+            :disable="
+              !useGlobalStore().escrow_selected?.account.allowPartialFill
+            "
+            dense
+            flat
+            class="col"
+            label="Max"
+            @click="calc_percent_amount(1)"
+          />
         </div>
       </q-card>
     </q-card-section>
@@ -317,6 +349,7 @@ function calculate_side(side: 'buy' | 'sell') {
         <q-card-section>
           <div class="text-h6 text-center">Your Wallet-Changes</div>
           <q-separator />
+
           <div class="row items-center text-subtitle2">
             <div class="col">
               {{ token_request_info?.symbol }}

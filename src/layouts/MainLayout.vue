@@ -59,17 +59,21 @@
       <q-separator />
       <q-toolbar>
         <q-toolbar-title class="row items-center">
-          <q-img src="sa-powered_by_the_people.png" width="100px" />
-          <div class="col text-center text-subtitle2">
+          <div class="col-2">
+            <q-img src=" sa-powered_by_the_people.png" width="100px" />
+          </div>
+          <div class="col text-subtitle2 text-center">
             budkxEapRhWjRYXSEurLjyT9jpsd92y1smqMYzSBgTC
           </div>
 
-          <div class="text-right col text-subtitle2">v{{ version }}</div>
-          <q-btn flat class="q-mx-sm" round to="/settings">
-            <q-avatar size="30px">
-              <q-icon name="settings" />
-            </q-avatar>
-          </q-btn>
+          <div class="col text-right text-subtitle2">v{{ version }}</div>
+          <div class="">
+            <q-btn flat class="q-mx-sm" round to="/settings">
+              <q-avatar size="30px">
+                <q-icon name="settings" />
+              </q-avatar>
+            </q-btn>
+          </div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
