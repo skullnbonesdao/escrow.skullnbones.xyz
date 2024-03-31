@@ -120,50 +120,71 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
         >
       </q-icon>
     </q-card-section>
-    <q-card-section class="row q-py-none items-center">
-      <q-badge outline label="Price per Unit" color="yellow" rounded />
+    <q-card-section class="">
+      <q-card flat bordered>
+        <q-card-section class="row items-center bg-secondary">
+          <q-badge outline label="Price per Unit" color="yellow" rounded />
 
-      <div class="col q-gutter-y-xs">
-        <div class="row q-gutter-x-sm">
-          <div class="col text-subtitle1 text-weight-bold text-right">
-            {{ useGlobalStore().escrow_selected?.account.price.toFixed(5) }}
-          </div>
+          <div class="col q-gutter-y-xs">
+            <div class="row q-gutter-x-sm items-center">
+              <div class="col text-subtitle1 text-weight-bold text-right">
+                {{ useGlobalStore().escrow_selected?.account.price.toFixed(5) }}
+              </div>
 
-          <div>
-            <q-avatar size="sm" color="white">
-              <q-img
-                :src="
+              <q-avatar size="sm" color="white">
+                <q-img
+                  :src="
+                    useGlobalStore().token_list.find(
+                      (token) =>
+                        token.address ==
+                        useGlobalStore().escrow_selected?.account.requestToken.toString(),
+                    )?.logoURI ?? 'unknown.png'
+                  "
+                />
+              </q-avatar>
+
+              <div class="text-subtitle2 col-2">
+                {{
                   useGlobalStore().token_list.find(
                     (token) =>
                       token.address ==
                       useGlobalStore().escrow_selected?.account.requestToken.toString(),
-                  )?.logoURI ?? 'unknown.png'
-                "
-              />
-            </q-avatar>
-          </div>
-        </div>
-        <div class="row q-gutter-x-sm">
-          <div class="col text-subtitle1 text-weight-bold text-right">
-            {{
-              (1 / useGlobalStore().escrow_selected?.account.price).toFixed(5)
-            }}
-          </div>
-          <div>
-            <q-avatar size="sm" color="white">
-              <q-img
-                :src="
+                  )?.name
+                }}
+              </div>
+            </div>
+            <div class="row q-gutter-x-sm items-center">
+              <div class="col text-subtitle1 text-weight-bold text-right">
+                {{
+                  (1 / useGlobalStore().escrow_selected?.account.price).toFixed(
+                    5,
+                  )
+                }}
+              </div>
+              <q-avatar size="sm" color="white">
+                <q-img
+                  :src="
+                    useGlobalStore().token_list.find(
+                      (token) =>
+                        token.address ==
+                        useGlobalStore().escrow_selected?.account.depositToken.toString(),
+                    )?.logoURI ?? 'unknown.png'
+                  "
+                />
+              </q-avatar>
+              <div class="text-subtitle2 col-2">
+                {{
                   useGlobalStore().token_list.find(
                     (token) =>
                       token.address ==
                       useGlobalStore().escrow_selected?.account.depositToken.toString(),
-                  )?.logoURI ?? 'unknown.png'
-                "
-              />
-            </q-avatar>
+                  )?.name
+                }}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </q-card-section>
+      </q-card>
     </q-card-section>
     <q-card-section class="q-gutter-y-sm">
       <q-card bordered class="q-pa-sm bg-secondary" flat>
@@ -345,12 +366,11 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
       </q-card>
     </q-card-section>
     <q-card-section class="q-gutter-y-sm">
-      <q-card flat class="bg-secondary">
-        <q-card-section>
+      <q-card flat bordered class="bg-secondary">
+        <q-card-section class="q-gutter-y-sm">
           <div class="text-h6 text-center">Your Wallet-Changes</div>
           <q-separator />
-
-          <div class="row items-center text-subtitle2">
+          <div class="row items-center text-subtitle2 q-gutter-x-sm">
             <div class="col">
               {{ token_request_info?.symbol }}
             </div>
@@ -362,14 +382,20 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
                 ).toFixed(2)
               }}
             </div>
+            <q-avatar size="30px" color="white">
+              <img :src="token_request_info?.logoURI" />
+            </q-avatar>
           </div>
-          <div class="row items-center">
+          <div class="row items-center q-gutter-x-sm">
             <div class="col text-subtitle2">
               {{ token_depostit_info?.symbol }}
             </div>
             <div class="text-subtitle1 text-bold text-green">
               +{{ Math.round(amount_to_buy).toFixed(2) }}
             </div>
+            <q-avatar size="30px" color="white">
+              <img :src="token_depostit_info?.logoURI" />
+            </q-avatar>
           </div>
         </q-card-section>
       </q-card>
