@@ -60,11 +60,17 @@
       <q-separator />
       <q-toolbar>
         <q-toolbar-title class="row items-center">
-          <div class="col-2">
+          <div class="col">
             <q-img src=" sa-powered_by_the_people.png" width="100px" />
           </div>
-          <div class="col text-subtitle2 text-center">
-            budkxEapRhWjRYXSEurLjyT9jpsd92y1smqMYzSBgTC
+          <div
+            class="col text-subtitle2 text-center"
+            style="font-size: 10px"
+            @click="
+              copy_to_clipboard('budkxEapRhWjRYXSEurLjyT9jpsd92y1smqMYzSBgTC')
+            "
+          >
+            {{ format_address('budkxEapRhWjRYXSEurLjyT9jpsd92y1smqMYzSBgTC') }}
           </div>
 
           <div class="col text-right text-subtitle2">v{{ version }}</div>
@@ -91,6 +97,8 @@ import FilterEscrows from 'components/filters/FilterEscrows.vue';
 import DisclaimerDialog from 'components/dialogs/DisclaimerDialog.vue';
 
 import { version } from 'src/../package.json';
+import { copy_to_clipboard } from '../functions/copy_to_clipboard';
+import { format_address } from '../functions/format_address';
 
 const tab = ref();
 </script>
