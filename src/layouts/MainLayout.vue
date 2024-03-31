@@ -43,6 +43,7 @@
     </q-drawer>
     <q-page-container>
       <DisclaimerDialog class="col-1" />
+
       <router-view
         style="
           background: rgb(124, 2, 57);
