@@ -385,7 +385,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
               {{ token_depostit_info?.symbol }}
             </div>
             <div class="text-subtitle1 text-bold text-green">
-              +{{ Math.round(amount_to_buy).toFixed(2) }}
+              +{{ Math.trunc(amount_to_buy).toFixed(2) }}
             </div>
             <q-avatar size="sm" color="white">
               <img :src="token_depostit_info?.logoURI" />
