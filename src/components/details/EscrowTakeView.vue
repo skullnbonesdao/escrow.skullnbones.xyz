@@ -247,24 +247,6 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
           <q-avatar size="sm" class="overlapping" color="white">
             <img :src="token_request_info?.logoURI" />
           </q-avatar>
-          <q-slider
-            class="q-px-sm"
-            dense
-            v-model="amount_to_sell"
-            @update:model-value="(data) => calculate_side('buy', data)"
-            :disable="
-              !useGlobalStore().escrow_selected?.account.allowPartialFill
-            "
-            :min="0"
-            :max="
-              useGlobalStore().escrow_selected?.account.tokensDepositRemaining.toNumber() *
-              useGlobalStore().escrow_selected?.account.price
-            "
-            color="blue"
-            track-size="10px"
-            thumb-color="black"
-            markers
-          />
         </div>
       </q-card>
       <q-card bordered class="q-pa-sm bg-secondary" flat>
