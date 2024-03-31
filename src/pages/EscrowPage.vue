@@ -26,10 +26,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <q-page :class="useQuasar().screen.lt.md ? '' : 'q-pa-sm'" class="row">
+  <q-page :class="useQuasar().screen.lt.md ? '' : 'q-pa-none'" class="row">
     <div class="col">
       <div class="column full-height">
-        <q-scroll-area :thumb-style="thumbStyle" class="col q-px-sm">
+        <q-scroll-area :thumb-style="thumbStyle" class="col">
           <q-card
             flat
             class="full-width q-mb-md"
