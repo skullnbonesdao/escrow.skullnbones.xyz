@@ -143,14 +143,26 @@ function calc_price_or_other() {
       class="row items-center bg-secondary"
       @click="flipped_side = !flipped_side"
     >
-      <div class="col-3 row justify-center">
-        <q-badge outline label="Price per Unit" color="yellow" rounded />
+      <div class="col-2 row justify-center">
+        <q-badge outline label="Price" color="yellow" rounded />
       </div>
 
       <q-separator vertical />
 
       <div class="col">
         <div class="row items-center">
+          <div class="q-mx-sm">1 unit</div>
+          <q-avatar size="sm" outline color="white" class="">
+            <q-img
+              :src="
+                useGlobalStore().token_list?.find(
+                  (token) => token.address == token_requested?.mint.toString(),
+                )?.logoURI ?? 'unknown.png'
+              "
+            />
+          </q-avatar>
+          <div class="q-mx-sm">costs:</div>
+          <q-separator vertical />
           <q-input
             dense
             standout
@@ -160,9 +172,31 @@ function calc_price_or_other() {
             class="col"
             type="number"
           />
+          <q-separator vertical />
+          <q-avatar size="sm" outline color="white" class="q-mx-sm">
+            <q-img
+              :src="
+                useGlobalStore().token_list?.find(
+                  (token) => token.address == token_provided?.mint.toString(),
+                )?.logoURI ?? 'unknown.png'
+              "
+            />
+          </q-avatar>
         </div>
         <q-separator />
         <div class="row items-center">
+          <div class="q-mx-sm">1 unit</div>
+          <q-avatar size="sm" outline color="white" class="">
+            <q-img
+              :src="
+                useGlobalStore().token_list?.find(
+                  (token) => token.address == token_provided?.mint.toString(),
+                )?.logoURI ?? 'unknown.png'
+              "
+            />
+          </q-avatar>
+          <div class="q-mx-sm">costs:</div>
+          <q-separator vertical />
           <q-input
             dense
             standout
@@ -172,29 +206,18 @@ function calc_price_or_other() {
             v-model="price_b_a"
             type="number"
           />
-        </div>
-      </div>
+          <q-separator vertical />
 
-      <q-separator vertical />
-      <div class="col-1 row q-mx-md justify-center q-gutter-y-sm">
-        <q-avatar size="md" outline color="white" class="q-mx-sm">
-          <q-img
-            :src="
-              useGlobalStore().token_list?.find(
-                (token) => token.address == token_provided?.mint.toString(),
-              )?.logoURI ?? 'unknown.png'
-            "
-          />
-        </q-avatar>
-        <q-avatar size="md" outline color="white" class="q-mx-sm">
-          <q-img
-            :src="
-              useGlobalStore().token_list?.find(
-                (token) => token.address == token_requested?.mint.toString(),
-              )?.logoURI ?? 'unknown.png'
-            "
-          />
-        </q-avatar>
+          <q-avatar size="sm" outline color="white" class="q-mx-sm">
+            <q-img
+              :src="
+                useGlobalStore().token_list?.find(
+                  (token) => token.address == token_requested?.mint.toString(),
+                )?.logoURI ?? 'unknown.png'
+              "
+            />
+          </q-avatar>
+        </div>
       </div>
     </q-card>
 
