@@ -23,6 +23,7 @@ initWorkspace();
 useStaratlasAPIStore().update();
 
 useWalletStore();
+useGlobalStore().load_all_escrows();
 
 $q.loading.hide();
 

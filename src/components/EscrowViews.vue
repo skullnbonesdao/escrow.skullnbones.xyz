@@ -3,19 +3,13 @@ import EscrowTable from 'components/tables/EscrowTable.vue';
 import EscrowViewCard from 'components/cards/EscrowViewCard.vue';
 import EscrowTableCards from 'components/tables/EscrowTableCards.vue';
 import { useWallet, WalletMultiButton } from 'solana-wallets-vue';
+import { useGlobalStore } from '../stores/GlobalStore';
 
 const props = defineProps(['type', 'title']);
 </script>
 
 <template>
-  <div v-if="!useWallet().publicKey.value" class="row q-ma-md">
-    <q-space />
-    <WalletMultiButton dark />
-    <q-space />
-  </div>
-  <div v-else>
-    <EscrowTable :escrow_filter="type" :title="title" />
-  </div>
+  <EscrowTable :escrow_filter="type" :title="title" />
 </template>
 
 <style scoped lang="sass"></style>

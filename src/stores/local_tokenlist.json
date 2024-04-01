@@ -2912,7 +2912,7 @@
     },
     {
       "chainId": 101,
-      "name": "POLIS",
+      "name": "ATLAS",
       "symbol": "ATLAS",
       "address": "ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx",
       "decimals": 8,
@@ -2926,7 +2926,7 @@
     },
     {
       "chainId": 101,
-      "name": "Star Atlas DAO",
+      "name": "POLIS",
       "symbol": "POLIS",
       "address": "poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk",
       "decimals": 8,
