@@ -16,11 +16,29 @@ import { ACCOUNT_COST_ESCROW, MAKER_FEE } from 'stores/constants';
 const token_provided = ref();
 const token_requested = ref();
 
-const token_provided_amount = ref(0);
-const token_requested_amount = ref(0);
+const token_provided_amount = ref(2);
+const token_requested_amount = ref(1);
+
+const price_a_b = computed({
+  get() {
+    return token_requested_amount.value / token_provided_amount.value;
+  },
+  // setter
+  set(newValue) {
+    token_provided_amount.value = token_requested_amount.value / newValue;
+  },
+});
+
+const price_b_a = computed({
+  get() {
+    return token_provided_amount.value / token_requested_amount.value;
+  },
+  set(newValue) {
+    token_requested_amount.value = token_provided_amount.value / newValue;
+  },
+});
 
 const timestamp = ref(0);
-
 const only_wallet = ref(false);
 const expire_toggle = ref(false);
 const allow_partial_fill = ref(true);
@@ -30,25 +48,19 @@ const sa_list_enabled = ref(false);
 const flipped_side = ref(false);
 
 const recipient_address = ref<PublicKey>();
+
+function calc_price_or_other() {
+  console.log('hello');
+}
 </script>
 
 <template>
   <q-card flat class="bg-dark q-pa-md q-gutter-y-sm">
     <q-card square class="row items-center bg-secondary">
       <div class="col-2 row justify-center">
-        <q-badge outline label="SELL" color="red" rounded />
+        <q-badge outline label="You give" color="red" rounded />
       </div>
-      <div class="col-1 row q-mx-md justify-center">
-        <q-avatar size="md" outline label="BUY" color="white">
-          <q-img
-            :src="
-              useGlobalStore().token_list?.find(
-                (token) => token.address == token_provided?.mint.toString(),
-              )?.logoURI ?? 'unknown.png'
-            "
-          />
-        </q-avatar>
-      </div>
+
       <q-separator vertical />
       <SelectTokenDropdown
         :label="
@@ -70,24 +82,26 @@ const recipient_address = ref<PublicKey>();
         label="Amount"
         type="number"
       />
-    </q-card>
 
-    <q-card flat square class="row items-center bg-secondary">
-      <div class="col-2 row justify-center">
-        <q-badge outline label="BUY" color="green" rounded />
-      </div>
-
+      <q-separator vertical />
       <div class="col-1 row q-mx-md justify-center">
-        <q-avatar size="md" outline label="BUY" color="white">
+        <q-avatar size="md" outline color="white">
           <q-img
             :src="
               useGlobalStore().token_list?.find(
-                (token) => token.address == token_requested?.mint.toString(),
+                (token) => token.address == token_provided?.mint.toString(),
               )?.logoURI ?? 'unknown.png'
             "
           />
         </q-avatar>
       </div>
+    </q-card>
+
+    <q-card flat square class="row items-center bg-secondary">
+      <div class="col-2 row justify-center">
+        <q-badge outline label="You get" color="green" rounded />
+      </div>
+
       <q-separator vertical />
       <SelectTokenDropdown
         :label="
@@ -109,6 +123,19 @@ const recipient_address = ref<PublicKey>();
         label="Amount"
         type="number"
       />
+
+      <q-separator vertical />
+      <div class="col-1 row q-mx-md justify-center">
+        <q-avatar size="md" outline color="white">
+          <q-img
+            :src="
+              useGlobalStore().token_list?.find(
+                (token) => token.address == token_requested?.mint.toString(),
+              )?.logoURI ?? 'unknown.png'
+            "
+          />
+        </q-avatar>
+      </div>
     </q-card>
 
     <q-card
@@ -116,50 +143,59 @@ const recipient_address = ref<PublicKey>();
       class="row items-center bg-secondary"
       @click="flipped_side = !flipped_side"
     >
-      <div class="col-2 row justify-center">
-        <q-badge outline label="Price" color="yellow" rounded />
-      </div>
-      <div class="row justify-center q-mx-sm">=</div>
-
-      <div class="col row justify-center q-gutter-x-xs">
-        <q-badge
-          outline
-          :label="flipped_side ? 'SELL' : 'BUY'"
-          :color="flipped_side ? 'red' : 'green'"
-          rounded
-        />
-
-        <div>/</div>
-
-        <q-badge
-          outline
-          :label="flipped_side ? 'BUY' : 'SELL'"
-          :color="flipped_side ? 'green' : 'red'"
-          rounded
-        />
+      <div class="col-3 row justify-center">
+        <q-badge outline label="Price per Unit" color="yellow" rounded />
       </div>
 
-      <div class="col text-center"></div>
-      <q-btn
-        flat
-        stretch
-        class=""
-        :icon="flipped_side ? 'switch_left' : 'switch_right'"
-      />
       <q-separator vertical />
 
-      <q-input
-        disable
-        standout
-        square
-        class="col-3"
-        :label="
-          flipped_side
-            ? token_provided_amount / token_requested_amount
-            : token_requested_amount / token_provided_amount
-        "
-        type="number"
-      />
+      <div class="col">
+        <div class="row items-center">
+          <q-input
+            dense
+            standout
+            square
+            input-class="text-right"
+            v-model="price_a_b"
+            class="col"
+            type="number"
+          />
+        </div>
+        <q-separator />
+        <div class="row items-center">
+          <q-input
+            dense
+            standout
+            square
+            class="col"
+            input-class="text-right"
+            v-model="price_b_a"
+            type="number"
+          />
+        </div>
+      </div>
+
+      <q-separator vertical />
+      <div class="col-1 row q-mx-md justify-center q-gutter-y-sm">
+        <q-avatar size="md" outline color="white" class="q-mx-sm">
+          <q-img
+            :src="
+              useGlobalStore().token_list?.find(
+                (token) => token.address == token_provided?.mint.toString(),
+              )?.logoURI ?? 'unknown.png'
+            "
+          />
+        </q-avatar>
+        <q-avatar size="md" outline color="white" class="q-mx-sm">
+          <q-img
+            :src="
+              useGlobalStore().token_list?.find(
+                (token) => token.address == token_requested?.mint.toString(),
+              )?.logoURI ?? 'unknown.png'
+            "
+          />
+        </q-avatar>
+      </div>
     </q-card>
 
     <div>
