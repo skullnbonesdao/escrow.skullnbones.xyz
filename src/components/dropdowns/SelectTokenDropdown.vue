@@ -96,7 +96,7 @@ function filterFn(val: any, update: any, abort: any) {
     <template v-slot:option="scope">
       <q-item v-bind="scope.itemProps">
         <q-item-section avatar>
-          <q-avatar>
+          <q-avatar color="white">
             <q-img v-if="scope.opt.image" :src="scope.opt.image" />
             <q-img v-else src="unknown.png" />
           </q-avatar>
