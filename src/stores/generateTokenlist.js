@@ -72,7 +72,7 @@ const load_data = async () => {
   const polis = solfare_tokens.find(
     (token) => token.address == 'poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk',
   );
-  atlas.name = 'POLIS';
+  polis.name = 'POLIS';
 
   const puri = solfare_tokens.find(
     (token) => token.address == 'CzLWmvjtj5bp9YEWkzzBnuWovVtogeuchFu5GeFh68hB',
