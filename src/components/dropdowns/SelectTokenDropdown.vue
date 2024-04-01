@@ -55,12 +55,16 @@ function filterFn(val: any, update: any, abort: any) {
           options.value = options_pre_filtered.value;
         } else {
           const needle = val.toLowerCase();
-          options.value = options_pre_filtered.value.filter(
-            (v) =>
-              v.symbol.toLowerCase().indexOf(needle) > -1 ||
-              v.name.toLowerCase().indexOf(needle) > -1 ||
-              v.mint.toLowerCase().indexOf(needle) > -1,
-          );
+          options.value = options_pre_filtered.value
+            .filter(
+              (v) =>
+                v.symbol.toLowerCase().indexOf(needle) > -1 ||
+                v.name.toLowerCase().indexOf(needle) > -1 ||
+                v.mint.toLowerCase().indexOf(needle) > -1,
+            )
+            .sort(function (a, b) {
+              return ('' + a.mint).localeCompare(b.mint);
+            });
         }
       },
       (ref: any) => {
