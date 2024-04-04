@@ -134,7 +134,9 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
           <div class="col q-gutter-y-xs">
             <div class="row q-gutter-x-sm items-center">
               <div class="col text-subtitle1 text-weight-bold text-right">
-                {{ useGlobalStore().escrow_selected?.account.price.toFixed(5) }}
+                {{
+                  useGlobalStore().escrow_selected?.account.price.toFixed(10)
+                }}
               </div>
 
               <q-avatar size="xs" color="white">
@@ -149,7 +151,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
                 />
               </q-avatar>
 
-              <div class="text-subtitle2 col">
+              <div class="text-subtitle2 col-2">
                 {{
                   useGlobalStore().token_list.find(
                     (token) =>
@@ -163,7 +165,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
               <div class="col text-subtitle1 text-weight-bold text-right">
                 {{
                   (1 / useGlobalStore().escrow_selected?.account.price).toFixed(
-                    5,
+                    10,
                   )
                 }}
               </div>
@@ -178,7 +180,7 @@ function calculate_side(side: 'buy' | 'sell', other: number) {
                   "
                 />
               </q-avatar>
-              <div class="text-subtitle2 col">
+              <div class="text-subtitle2 col-2">
                 {{
                   useGlobalStore().token_list.find(
                     (token) =>
