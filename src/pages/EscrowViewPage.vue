@@ -58,6 +58,7 @@ watchDeep(
     </q-card>
 
     <div
+      v-if="useGlobalStore().escrow_selected"
       class="q-px-sm q-gutter-x-sm"
       :class="useQuasar().screen.lt.md ? 'col' : 'row'"
     >
@@ -74,6 +75,11 @@ watchDeep(
       </div>
       <q-space />
     </div>
+    <q-card flat v-else>
+      <q-card-section>
+        <div class="col text-center text-h2">Offer does not exist anymore!</div>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
