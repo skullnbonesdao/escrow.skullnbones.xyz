@@ -44,12 +44,7 @@ watchDeep(
               useGlobalStore().escrow_selected?.publicKey.toString() ?? '',
             )
           "
-        >
-          {{
-            useGlobalStore().escrow_selected?.publicKey.toString() ??
-            'not-found'
-          }}
-        </p>
+        ></p>
         <q-space />
 
         <CopyEscrowLinkButton />
