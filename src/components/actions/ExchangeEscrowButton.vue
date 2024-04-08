@@ -16,6 +16,7 @@ import { FEE_ACCOUNT, WHITELIST_PROGRAM_ID } from 'stores/constants';
 import { ui2amount } from 'src/helper/tokenDecimalConversion';
 import { amount } from '@metaplex-foundation/js';
 import { useWalletStore } from 'stores/WalletStore';
+import { check_and_make_ata, make_ata } from 'src/functions/check_and_make_ata';
 
 const props = defineProps(['escrow_address', 'exchange_amount']);
 
@@ -74,6 +75,18 @@ async function build_tx() {
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
 
+    if (
+      !(await check_and_make_ata(
+        new PublicKey(escrow_account.depositToken),
+        useWallet().publicKey.value!,
+      ))
+    ) {
+      await make_ata(
+        taker_request_ata,
+        new PublicKey(escrow_account.depositToken),
+      );
+    }
+
     const taker_deposit_ata = getAssociatedTokenAddressSync(
       new PublicKey(escrow_account.requestToken),
       useWallet().publicKey.value as PublicKey,
@@ -81,6 +94,18 @@ async function build_tx() {
       TOKEN_PROGRAM_ID,
       ASSOCIATED_TOKEN_PROGRAM_ID,
     );
+
+    if (
+      !(await check_and_make_ata(
+        new PublicKey(escrow_account.requestToken),
+        useWallet().publicKey.value!,
+      ))
+    ) {
+      await make_ata(
+        taker_deposit_ata,
+        new PublicKey(escrow_account.requestToken),
+      );
+    }
 
     const exchange_amount = await ui2amount(
       escrow_account.depositToken,
