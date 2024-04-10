@@ -109,21 +109,20 @@ const pagination = ref({
 });
 
 const columns = ref([
-  { name: 'sides', label: '' },
-  { name: 'amounts', label: 'Amounts' },
-  { name: 'icons', label: 'Tokens', align: 'center', style: 'width: 50px' },
+  { name: 'icons', label: 'Tokens', align: 'center', style: '200px' },
+  { name: 'amounts', label: 'Size', align: 'right' },
 
   {
     name: 'price',
     label: 'Price per Unit',
-    align: 'center',
+    align: 'right',
   },
-
-  { name: 'balance', label: '', style: 'width: 20px' },
-  { name: 'expire', label: '', style: 'width: 20px' },
-  { name: 'creator', label: '', style: 'width: 20px' },
-  { name: 'state', label: '', style: 'width: 20px' },
-  { name: 'take', label: '', style: 'width: 20px' },
+  { name: 'space', label: '' },
+  { name: 'balance', label: '', style: 'width:10px' },
+  { name: 'expire', label: '', style: 'width:10px' },
+  { name: 'creator', label: '', style: 'width:10px' },
+  { name: 'state', label: '', style: 'width:10px' },
+  { name: 'take', label: '', style: 'width:10px' },
 ]);
 
 const options = ref([
@@ -156,114 +155,13 @@ const token_selected = ref();
 
     <template v-slot:body="props">
       <q-tr :props="props" @click="handle_action(props.row)">
-        <q-td key="sides" :props="props">
-          <div class="col items-center">
-            <div class="row">
-              <q-space />
-              <q-badge outline label="TAKES" color="red" rounded />
-              <q-space />
-            </div>
-            <div class="q-my-md" />
-            <div class="row">
-              <q-space />
-              <q-badge outline label="GIVES" color="green" rounded />
-              <q-space />
-            </div>
-          </div>
-        </q-td>
-
-        <q-td key="amounts" :props="props">
-          <div class="col">
-            <div class="text-right text-h6">
-              {{
-                (
-                  props.row.account.tokensDepositRemaining *
-                  10 **
-                    -useGlobalStore().token_list.find(
-                      (token) =>
-                        token.address ==
-                        props.row.account.depositToken.toString(),
-                    )?.decimals *
-                  props.row.account.price
-                ).toFixed(3)
-              }}
-            </div>
-
-            <q-separator class="q-my-sm" />
-
-            <div class="col text-right text-h6">
-              {{
-                (
-                  props.row.account.tokensDepositRemaining *
-                  Math.pow(
-                    10,
-                    -useGlobalStore().token_list.find(
-                      (token) =>
-                        token.address ==
-                        props.row.account.depositToken.toString(),
-                    )?.decimals,
-                  )
-                ).toFixed(3)
-              }}
-            </div>
-          </div>
-        </q-td>
-
         <q-td key="icons" :props="props">
-          <div class="col items-center q-gutter-x-sm">
-            <q-avatar size="md" color="white">
-              <q-img
-                :src="
-                  useGlobalStore().token_list.find(
-                    (token) =>
-                      token.address ==
-                      props.row.account.requestToken.toString(),
-                  )?.logoURI ?? 'unknown.png'
-                "
-              />
-            </q-avatar>
-            <p style="font-size: 10px">
-              {{
-                useGlobalStore().token_list.find(
-                  (token) =>
-                    token.address == props.row.account.requestToken.toString(),
-                ).symbol
-              }}
-            </p>
-          </div>
-
-          <div class="col items-center q-gutter-x-sm">
-            <q-avatar size="md" color="white">
-              <q-img
-                :src="
-                  useGlobalStore().token_list.find(
-                    (token) =>
-                      token.address ==
-                      props.row.account.depositToken.toString(),
-                  )?.logoURI ?? 'unknown.png'
-                "
-              />
-            </q-avatar>
-
-            <div style="font-size: 10px">
-              {{
-                useGlobalStore().token_list.find(
-                  (token) =>
-                    token.address == props.row.account.depositToken.toString(),
-                )?.symbol
-              }}
+          <div class="row items-center">
+            <div class="col">
+              <q-badge outline label="TAKES" color="red" rounded />
             </div>
-          </div>
-        </q-td>
-
-        <q-td key="price" :props="props" class="col q-gutter-x-sm">
-          <div class="row q-gutter-x-sm">
-            <div class="col text-subtitle1 text-weight-bold text-right">
-              {{ props.row.account.price.toFixed(8) }}
-            </div>
-
-            <div class="col-1">
-              <q-avatar size="sm" color="white">
+            <div class="col">
+              <q-avatar size="lg" color="white">
                 <q-img
                   :src="
                     useGlobalStore().token_list.find(
@@ -275,13 +173,24 @@ const token_selected = ref();
                 />
               </q-avatar>
             </div>
+            <p class="col text-bold text-subtitle2">
+              {{
+                useGlobalStore().token_list.find(
+                  (token) =>
+                    token.address == props.row.account.requestToken.toString(),
+                ).symbol
+              }}
+            </p>
           </div>
-          <div class="row q-gutter-x-sm">
-            <div class="col text-subtitle1 text-weight-bold text-right">
-              {{ (1 / props.row.account.price).toFixed(8) }}
+
+          <q-separator class="q-my-sm" color="" />
+
+          <div class="row items-center">
+            <div class="col">
+              <q-badge outline label="GIVES" color="green" rounded />
             </div>
-            <div class="col-1">
-              <q-avatar size="sm" color="white">
+            <div class="col">
+              <q-avatar size="lg" color="white">
                 <q-img
                   :src="
                     useGlobalStore().token_list.find(
@@ -293,9 +202,103 @@ const token_selected = ref();
                 />
               </q-avatar>
             </div>
+            <div class="col text-bold text-subtitle2">
+              {{
+                useGlobalStore().token_list.find(
+                  (token) =>
+                    token.address == props.row.account.depositToken.toString(),
+                )?.symbol
+              }}
+            </div>
           </div>
         </q-td>
 
+        <q-td key="amounts" :props="props">
+          <div class="col">
+            <div class="row items-center">
+              <div class="col text-right text-subtitle1">
+                {{
+                  (
+                    props.row.account.tokensDepositRemaining *
+                    10 **
+                      -useGlobalStore().token_list.find(
+                        (token) =>
+                          token.address ==
+                          props.row.account.depositToken.toString(),
+                      )?.decimals *
+                    props.row.account.price
+                  ).toFixed(3)
+                }}
+              </div>
+            </div>
+
+            <q-separator class="q-my-sm" />
+
+            <div class="row items-center">
+              <div class="col text-right text-subtitle1">
+                {{
+                  (
+                    props.row.account.tokensDepositRemaining *
+                    Math.pow(
+                      10,
+                      -useGlobalStore().token_list.find(
+                        (token) =>
+                          token.address ==
+                          props.row.account.depositToken.toString(),
+                      )?.decimals,
+                    )
+                  ).toFixed(3)
+                }}
+              </div>
+            </div>
+          </div>
+        </q-td>
+
+        <q-td key="price" :props="props" class="col q-gutter-x-sm">
+          <div class="col">
+            <div class="row q-gutter-x-sm items-center">
+              <div class="col text-subtitle1 text-weight-bold text-right">
+                {{ props.row.account.price.toFixed(8) }}
+              </div>
+
+              <div class="col-1">
+                <q-avatar size="xs" color="white">
+                  <q-img
+                    :src="
+                      useGlobalStore().token_list.find(
+                        (token) =>
+                          token.address ==
+                          props.row.account.requestToken.toString(),
+                      )?.logoURI ?? 'unknown.png'
+                    "
+                  />
+                </q-avatar>
+              </div>
+            </div>
+
+            <q-separator class="q-my-sm" />
+
+            <div class="row q-gutter-x-sm items-center">
+              <div class="col text-subtitle1 text-weight-bold text-right">
+                {{ (1 / props.row.account.price).toFixed(8) }}
+              </div>
+              <div class="col-1">
+                <q-avatar size="xs" color="white">
+                  <q-img
+                    :src="
+                      useGlobalStore().token_list.find(
+                        (token) =>
+                          token.address ==
+                          props.row.account.depositToken.toString(),
+                      )?.logoURI ?? 'unknown.png'
+                    "
+                  />
+                </q-avatar>
+              </div>
+            </div>
+          </div>
+        </q-td>
+        <q-td key="space" :props="props"> </q-td>
         <q-td key="balance" :props="props">
           <q-icon
             size="sm"
@@ -349,7 +352,7 @@ const token_selected = ref();
         </q-td>
 
         <q-td key="state" :props="props">
-          <EscrowStateElement :escrow="props.row" />
+          <EscrowStateElement size="sm" :escrow="props.row" />
         </q-td>
 
         <q-td v-if="!show_close_button" key="take" :props="props">

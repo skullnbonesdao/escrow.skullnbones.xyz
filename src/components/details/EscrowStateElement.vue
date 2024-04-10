@@ -3,7 +3,7 @@ import { useGlobalStore } from 'stores/GlobalStore';
 import { computed } from 'vue';
 import { useWallet } from 'solana-wallets-vue';
 
-const props = defineProps(['escrow']);
+const props = defineProps(['escrow', 'size']);
 
 const remaining_percentage = computed(() => {
   return (
@@ -25,7 +25,7 @@ const remaining_percentage = computed(() => {
   <q-circular-progress
     v-if="remaining_percentage != 0"
     :value="remaining_percentage"
-    size="30px"
+    :size="size ?? '30px'"
     :thickness="1"
     track-color="black"
     color="green"
