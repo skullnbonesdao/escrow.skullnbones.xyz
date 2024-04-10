@@ -154,7 +154,11 @@ const token_selected = ref();
     <template v-slot:top> </template>
 
     <template v-slot:body="props">
-      <q-tr :props="props" @click="handle_action(props.row)">
+      <q-tr
+        :class="props.rowIndex % 2 ? '' : 'bg-secondary'"
+        :props="props"
+        @click="handle_action(props.row)"
+      >
         <q-td key="icons" :props="props">
           <div class="row items-center">
             <div class="col">
