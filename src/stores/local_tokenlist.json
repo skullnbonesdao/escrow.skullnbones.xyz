@@ -12,6 +12,70 @@
   "tokens": [
     {
       "chainId": 0,
+      "name": "Tokes",
+      "symbol": "TKS",
+      "address": "TKSgqcF37rb7xjMpeGWHhzESHRXtQBQ7fKBcZ5m2bJC",
+      "decimals": 0,
+      "logoURI": "tokens/webp/TKSgqcF37rb7xjMpeGWHhzESHRXtQBQ7fKBcZ5m2bJC.webp",
+      "tags": [],
+      "verified": true,
+      "holders": null
+    },
+    {
+      "chainId": 101,
+      "name": "USDC",
+      "symbol": "USDC",
+      "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "decimals": 6,
+      "logoURI": "https://assets.coingecko.com/coins/images/6319/large/usdc.png?1696506694",
+      "tags": [],
+      "verified": true,
+      "holders": 100000,
+      "extensions": {
+        "coingeckoId": "usd-coin"
+      }
+    },
+    {
+      "chainId": 101,
+      "name": "ATLAS",
+      "symbol": "ATLAS",
+      "address": "ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx",
+      "decimals": 8,
+      "logoURI": "https://assets.coingecko.com/coins/images/17659/large/Icon_Reverse.png?1696517190",
+      "tags": [],
+      "verified": true,
+      "holders": 232276,
+      "extensions": {
+        "coingeckoId": "star-atlas"
+      }
+    },
+    {
+      "chainId": 101,
+      "name": "POLIS",
+      "symbol": "POLIS",
+      "address": "poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk",
+      "decimals": 8,
+      "logoURI": "https://assets.coingecko.com/coins/images/17789/large/POLIS.jpg?1696517312",
+      "tags": [],
+      "verified": true,
+      "holders": 116127,
+      "extensions": {
+        "coingeckoId": "star-atlas-dao"
+      }
+    },
+    {
+      "chainId": 101,
+      "name": "Puri",
+      "symbol": "PURI",
+      "address": "CzLWmvjtj5bp9YEWkzzBnuWovVtogeuchFu5GeFh68hB",
+      "decimals": 9,
+      "logoURI": "https://gateway.irys.xyz/ILXdxJTexpeuGPKMjPtP4wBmvg4x3GlI3nc0n4V9RIU",
+      "tags": ["community", "jupiter"],
+      "verified": true,
+      "holders": null
+    },
+    {
+      "chainId": 0,
       "name": "The Assassination of Paizul",
       "symbol": "MRDR",
       "address": "7dr7jVyXf1KUnYq5FTpV2vCZjKRR4MV94jzerb8Fi16Q",
@@ -2988,70 +3052,6 @@
       "decimals": 0,
       "logoURI": "tokens/webp/RNGRjeGyFeyFT4k5aTJXKZukVx3GbG215fcSQJxg64G.webp",
       "tags": [],
-      "verified": true,
-      "holders": null
-    },
-    {
-      "chainId": 0,
-      "name": "Tokes",
-      "symbol": "TKS",
-      "address": "TKSgqcF37rb7xjMpeGWHhzESHRXtQBQ7fKBcZ5m2bJC",
-      "decimals": 0,
-      "logoURI": "tokens/webp/TKSgqcF37rb7xjMpeGWHhzESHRXtQBQ7fKBcZ5m2bJC.webp",
-      "tags": [],
-      "verified": true,
-      "holders": null
-    },
-    {
-      "chainId": 101,
-      "name": "USDC",
-      "symbol": "USDC",
-      "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-      "decimals": 6,
-      "logoURI": "https://assets.coingecko.com/coins/images/6319/large/usdc.png?1696506694",
-      "tags": [],
-      "verified": true,
-      "holders": 100000,
-      "extensions": {
-        "coingeckoId": "usd-coin"
-      }
-    },
-    {
-      "chainId": 101,
-      "name": "ATLAS",
-      "symbol": "ATLAS",
-      "address": "ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx",
-      "decimals": 8,
-      "logoURI": "https://assets.coingecko.com/coins/images/17659/large/Icon_Reverse.png?1696517190",
-      "tags": [],
-      "verified": true,
-      "holders": 232276,
-      "extensions": {
-        "coingeckoId": "star-atlas"
-      }
-    },
-    {
-      "chainId": 101,
-      "name": "POLIS",
-      "symbol": "POLIS",
-      "address": "poLisWXnNRwC6oBu1vHiuKQzFjGL4XDSu4g9qjz9qVk",
-      "decimals": 8,
-      "logoURI": "https://assets.coingecko.com/coins/images/17789/large/POLIS.jpg?1696517312",
-      "tags": [],
-      "verified": true,
-      "holders": 116127,
-      "extensions": {
-        "coingeckoId": "star-atlas-dao"
-      }
-    },
-    {
-      "chainId": 101,
-      "name": "Puri",
-      "symbol": "PURI",
-      "address": "CzLWmvjtj5bp9YEWkzzBnuWovVtogeuchFu5GeFh68hB",
-      "decimals": 9,
-      "logoURI": "https://gateway.irys.xyz/ILXdxJTexpeuGPKMjPtP4wBmvg4x3GlI3nc0n4V9RIU",
-      "tags": ["community", "jupiter"],
       "verified": true,
       "holders": null
     }
