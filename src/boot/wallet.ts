@@ -17,7 +17,7 @@ export default boot(({ app }) => {
       new PhantomWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
       new SolflareWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
     ],
-    autoConnect: true,
+    autoConnect: false,
   };
 
   app.use(SolanaWallets, walletOptions);
