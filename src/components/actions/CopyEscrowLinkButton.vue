@@ -9,7 +9,7 @@ import { useGlobalStore } from 'stores/GlobalStore';
     name="share"
     @click="
       copy_to_clipboard(
-        'https://escrow.skullnbones.xyz/#/view/' +
+        'https://escrow1.skullnbones.xyz/#/view/' +
           useGlobalStore().escrow_selected?.publicKey.toString(),
       )
     "
